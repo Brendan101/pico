@@ -15,14 +15,14 @@ import java.util.List;
  * Created by wordNumber on 4/27/17.
  */
 
-public class AlarmArrayAdaptor extends ArrayAdapter<Alarm> {
+public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
 
     private static final int ROW_LAYOUT_ID = R.layout.listview_item_row;
 
     Context context;
     List<Alarm> alarmList;
 
-    public AlarmArrayAdaptor(Context context, List<Alarm> alarmList) {
+    public AlarmArrayAdapter(Context context, List<Alarm> alarmList) {
         super(context, ROW_LAYOUT_ID, alarmList);
         this.context = context;
         this.alarmList = alarmList;
@@ -31,6 +31,8 @@ public class AlarmArrayAdaptor extends ArrayAdapter<Alarm> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
+        //row.setLongClickable(true);
+
         AlarmHolder alarmholder = null;
 
         LayoutInflater inflater = ((Activity) context).getLayoutInflater();

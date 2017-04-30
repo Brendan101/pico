@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void createTestAlarm() {
         Alarm alarm = new Alarm();
-        alarm.setEventName("Test Event");
+        alarm.setEventName("Test");
         alarm.setRepeat(true);
         alarm.setPrepTime("10:20");
         alarm.setArrivalTime("05/10/2017 11:40");

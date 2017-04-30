@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Rachel on 4/29/17.
@@ -37,8 +36,8 @@ public class AlarmDBOperationsClass {
         db.close();
     }
 
-    public List<Alarm> getAllAlarms() {
-        List<Alarm> alarmList = new ArrayList<Alarm>();
+    public ArrayList<Alarm> getAllAlarms() {
+        ArrayList<Alarm> alarmList = new ArrayList<Alarm>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + dbHelper.TABLE_NAME;
 
@@ -49,7 +48,7 @@ public class AlarmDBOperationsClass {
         if (cursor.moveToFirst()) {
             do {
                 Alarm alarm = new Alarm();
-                alarm.setId(Integer.parseInt(cursor.getString(0)));
+                alarm.setID(Integer.parseInt(cursor.getString(0)));
                 alarm.setEventName(cursor.getString(1));
                 alarm.setRepeat(cursor.getInt(2));
                 alarm.setPrepTime(cursor.getString(3));
@@ -65,5 +64,12 @@ public class AlarmDBOperationsClass {
         }
 
         return alarmList;
+    }
+
+    public void deleteAlarm(Alarm alarm) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete(dbHelper.TABLE_NAME, dbHelper.ID + " = ?",
+                new String[] { String.valueOf(alarm.getID()) });
+        db.close();
     }
 }

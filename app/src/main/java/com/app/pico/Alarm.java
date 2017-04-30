@@ -6,17 +6,16 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Alarm {
-    int id;
-    String eventName;
-    boolean repeat;
-    Calendar prepTime;
-    Calendar arrivalTime;
-    float startLat, startLon, endLat, endLon;
+    private int ID;
+    private String eventName;
+    private boolean repeat;
+    private Calendar prepTime, arrivalTime;
+    private float startLat, startLon, endLat, endLon;
 
-    public Alarm(int id, String eventName, boolean repeat, Calendar prepTime, Calendar arrivalTime, float startLat, float startLon,
+    public Alarm(int ID, String eventName, boolean repeat, Calendar prepTime, Calendar arrivalTime, float startLat, float startLon,
                  float endLat, float endLon)
     {
-        this.id = id;
+        this.ID = ID;
         this.eventName = eventName;
         this.repeat = repeat;
         this.prepTime = prepTime;
@@ -29,7 +28,7 @@ public class Alarm {
 
     public Alarm() {}
 
-    public int getId() { return id; }
+    public int getID() { return ID; }
 
     public String getEventName() {
         return eventName;
@@ -64,8 +63,8 @@ public class Alarm {
 
     public float getEndLon() { return endLon; }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public void setEventName(String eventName) {
