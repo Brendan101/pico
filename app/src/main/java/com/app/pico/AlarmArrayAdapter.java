@@ -31,7 +31,6 @@ public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
-        //row.setLongClickable(true);
 
         AlarmHolder alarmholder = null;
 

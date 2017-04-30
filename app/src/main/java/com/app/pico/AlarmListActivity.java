@@ -4,7 +4,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -27,6 +29,13 @@ public class AlarmListActivity extends AppCompatActivity implements AdapterView.
 
         adapter = new AlarmArrayAdapter(AlarmListActivity.this, alarms);
         ListView alarmListView = (ListView)findViewById(R.id.list_alarms);
+
+        // Add "Add Alarm" footer to the list view
+        LayoutInflater inflater = getLayoutInflater();
+        ViewGroup footer = (ViewGroup) inflater.inflate(R.layout.listview_footer, alarmListView,
+                false);
+        alarmListView.addFooterView(footer, null, false);
+
         alarmListView.setAdapter(adapter);
 
         alarmListView.setOnItemLongClickListener(this);
