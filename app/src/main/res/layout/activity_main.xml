@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -10,49 +9,66 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.app.pico.MainActivity">
+    tools:context="com.app.pico.MainActivity"
+    android:background="@drawable/background_color">
 
-    <Button
-        android:text="Settings"
+    <com.app.pico.StyledTextHeader
+        android:text="@string/app_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btnSettings"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_marginTop="50dp"
-        android:layout_alignTop="@+id/btnPlanner"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:text="Pico"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="133dp"
         android:id="@+id/txtLogo"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textAppearance="@android:style/TextAppearance.Material.Display1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
         android:textAlignment="center"
-        android:textSize="72sp" />
-
-    <ImageView
-        android:layout_width="150px"
-        app:srcCompat="@android:drawable/ic_menu_myplaces"
-        android:layout_marginTop="34dp"
-        android:id="@+id/imageView"
-        android:layout_height="150px"
-        android:layout_below="@+id/txtLogo"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:text="Planner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnPlanner"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_marginTop="67dp"
-        android:layout_below="@+id/imageView"
+        android:textSize="150sp"
+        android:textColor="@color/primaryWhite"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtLogo"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <com.app.pico.StyledButton
+            android:text="@string/btn_alarms"
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:id="@+id/btnAlarm"
+            android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionMode.Title"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:background="@drawable/rounded_button"
+            android:textColor="@color/elementGrey"
+            android:textSize="18sp" />
+
+        <com.app.pico.StyledButton
+            android:text="@string/btn_locations"
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/btnLocations"
+            android:background="@drawable/rounded_button"
+            android:textColor="@color/elementGrey"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:textSize="18sp" />
+
+        <com.app.pico.StyledButton
+            android:text="@string/btn_settings"
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:id="@+id/btnSettings"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_marginTop="20dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
+            android:background="@drawable/rounded_button"
+            android:textColor="@color/elementGrey"
+            android:textSize="18sp" />
+
+    </LinearLayout>
 
 </RelativeLayout>
