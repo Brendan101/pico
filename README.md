@@ -9,7 +9,10 @@
 5. Click the "Clone" button
 6. When prompted to open the project, hit "Yes"
 
-**NOTE:** You may receive errors at this stage -- this is normal. If the error message is due to the "*.iml" files, choose the option to remove all, then rebuild. If you receive any SDK errors, follow the prompts from Android Studio to resolve them. If you receive any other errors, good luck.
+**NOTE:** You may receive errors at this stage -- this is normal. If the error message is due to the "*.iml" files, choose the option to remove all, then rebuild. 
+If you receive any SDK errors, follow the prompts from Android Studio to resolve them. 
+If you receive errors on any UI element, try rebuilding the application first, then if that doesn't work, follow the Android Studio prompts.
+If you receive any other errors, good luck. 
 
 Once this is finished, the project should have been successfully imported.
 
