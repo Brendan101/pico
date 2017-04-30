@@ -17,4 +17,4 @@ Once this is finished, the project should have been successfully imported.
 
 Since there's a bunch of us working on the same thing, make sure to create your own branch and commit all your changes there to avoid us accidentally creating conflicts. When you're finished, create a pull request and we can resolve any potential merge conflicts there.
 
-#### Make sure to reference the following link when creating any UI elements: #### https://www.luminpdf.com/viewer/RCHKHq4EHJcj3Rvdp/share?sk=945fe795-bfd4-47d5-81e8-3fd3ab4ad039
+### Make sure to reference the following link when creating any UI elements: https://www.luminpdf.com/viewer/RCHKHq4EHJcj3Rvdp/share?sk=945fe795-bfd4-47d5-81e8-3fd3ab4ad039 ###
