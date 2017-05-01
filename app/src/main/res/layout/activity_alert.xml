@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_alert"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.app.pico.AlertActivity"
+    android:background="@color/primaryBlue">
+
+    <com.app.pico.StyledTextHeader
+        android:text="Wake Up!"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
+        android:id="@+id/wakeupTxt"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:textAlignment="center"
+        android:textSize="50sp"
+        android:textColor="@color/primaryWhite"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="256dp"
+        android:layout_below="@id/wakeupTxt"
+        android:layout_marginBottom="48dp"
+        android:id="@+id/logoImage"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logoImage"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <com.app.pico.StyledButton
+            android:text="Snooze"
+            android:layout_width="128dp"
+            android:layout_height="40dp"
+            android:id="@+id/btnSnooze"
+            android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionMode.Title"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:background="@drawable/rounded_button"
+            android:textColor="@color/elementGrey"
+            android:textSize="18sp" />
+
+        <com.app.pico.StyledButton
+            android:text="Turn Off"
+            android:layout_width="128dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="22dp"
+            android:id="@+id/btnOff"
+            android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionMode.Title"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:background="@drawable/rounded_button"
+            android:textColor="@color/elementGrey"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

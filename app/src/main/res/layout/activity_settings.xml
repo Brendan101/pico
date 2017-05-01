@@ -28,10 +28,10 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/settingsTxt"
+        android:layout_above="@+id/logoImage"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:background="@color/primaryWhite" >
@@ -232,5 +232,13 @@
         </RelativeLayout>
 
     </LinearLayout>
+
+    <ImageView
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="48dp"
+        android:id="@+id/logoImage"/>
 
 </RelativeLayout>
