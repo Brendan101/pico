@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+g
         btnAlarms = (StyledButton) findViewById(R.id.btnAlarm);
         btnLocations = (StyledButton) findViewById(R.id.btnLocations);
         btnSettings = (StyledButton) findViewById(R.id.btnSettings);
