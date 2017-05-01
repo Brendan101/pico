@@ -87,7 +87,7 @@ public class AlarmListActivity extends AppCompatActivity implements AdapterView.
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Alarm alarm = alarms.get(i);
         Intent alarmInt = new Intent(AlarmListActivity.this, AlarmActivity.class);
-        alarmInt.putExtra("alarmID", alarm.getID());
+        alarmInt.putExtra("alarm", alarm);
         startActivity(alarmInt);
     }
 }

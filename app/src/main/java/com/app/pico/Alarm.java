@@ -1,11 +1,12 @@
 package com.app.pico;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Alarm {
+public class Alarm implements Serializable{
     // prepTime is in minutes
     private int ID, prepTime;
     private String eventName;

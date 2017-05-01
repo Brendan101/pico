@@ -23,9 +23,8 @@ public class AlarmActivity extends AppCompatActivity {
 
         // Todo: do this in a handler?
         if(intentData != null) {
-            int alarmID = intentData.getInt("alarmID");
-            //Alarm alarm =
-            alarmHeader.setText("Alarm ID: " + alarmID);
+            Alarm alarm = (Alarm) intentData.getSerializable("alarm");
+            alarmHeader.setText(alarm.getEventName());
         }
         else {
             alarmHeader.setText("New Alarm");
