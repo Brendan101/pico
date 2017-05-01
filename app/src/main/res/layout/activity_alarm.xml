@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.widget.FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,6 +12,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="25dp"
         android:text="New Alarm"
+        android:layout_gravity="center"
         android:textAlignment="center"
         android:textColor="@color/primaryWhite"
         android:textSize="36sp" />
@@ -19,7 +20,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="100dp"
         android:layout_marginTop="80dp"
         android:background="@color/primaryWhite"
         android:orientation="vertical"
@@ -171,5 +172,16 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/alarmBottomLogo"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="15dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/pico_symbols_bird" />
 
-</android.widget.FrameLayout>
+
+</RelativeLayout>

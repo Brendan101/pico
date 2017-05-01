@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.widget.FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primaryBlue">
+    android:background="@color/primaryBlue"
+    android:orientation="vertical"
+    android:weightSum="1">
 
 
     <com.app.pico.StyledTextHeader
@@ -13,6 +15,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="25dp"
         android:text="Alarms"
+        android:layout_gravity="center"
         android:textAlignment="center"
         android:textColor="@color/primaryWhite"
         android:textSize="36sp" />
@@ -20,18 +23,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:layout_marginBottom="80dp">
+        android:layout_marginBottom="100dp"
+        android:layout_marginTop="80dp">
 
         <ListView
             android:id="@+id/list_alarms"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="10dp"
             android:background="@color/primaryWhite"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="8dp" />
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/listBottomLogo"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="15dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/pico_symbols_bird" />
 
-</android.widget.FrameLayout>
+</RelativeLayout>
