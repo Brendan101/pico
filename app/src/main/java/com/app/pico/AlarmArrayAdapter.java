@@ -21,11 +21,13 @@ public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
 
     Context context;
     List<Alarm> alarmList;
+    AlarmDBOperationsClass db;
 
     public AlarmArrayAdapter(Context context, List<Alarm> alarmList) {
         super(context, ROW_LAYOUT_ID, alarmList);
         this.context = context;
         this.alarmList = alarmList;
+        this.db = new AlarmDBOperationsClass(context);
     }
 
     @Override
@@ -40,6 +42,21 @@ public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
         alarmholder = new AlarmHolder();
         alarmholder.alarm = alarmList.get(position);
         alarmholder.active = (Switch)row.findViewById(R.id.activeSwitch);
+        alarmholder.active.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Update the Alarm in the database to be active
+                AlarmHolder holder = (AlarmHolder) view.getTag();
+                Alarm alarm = holder.alarm;
+                if(alarm.isActive()) {
+                    alarm.setActive(false);
+                }
+                else {
+                    alarm.setActive(true);
+                }
+                db.updateAlarm(alarm);
+            }
+        });
         alarmholder.active.setTag(alarmholder);
 
         alarmholder.name = (TextView)row.findViewById(R.id.eventNameView);

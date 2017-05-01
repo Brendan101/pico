@@ -20,6 +20,7 @@ public class AlarmListActivity extends AppCompatActivity implements AdapterView.
     ArrayList<Alarm> alarms;
     AlarmDBOperationsClass db;
     AlarmArrayAdapter adapter;
+    ListView alarmListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +30,7 @@ public class AlarmListActivity extends AppCompatActivity implements AdapterView.
         db = new AlarmDBOperationsClass(this);
         alarms = db.getAllAlarms();
 
-        adapter = new AlarmArrayAdapter(AlarmListActivity.this, alarms);
-        ListView alarmListView = (ListView)findViewById(R.id.list_alarms);
+        alarmListView = (ListView)findViewById(R.id.list_alarms);
 
         // Add "Add Alarm" footer to the list view
         LayoutInflater inflater = getLayoutInflater();
@@ -46,10 +46,23 @@ public class AlarmListActivity extends AppCompatActivity implements AdapterView.
             }
         });
 
-        alarmListView.setAdapter(adapter);
-
         alarmListView.setOnItemClickListener(this);
         alarmListView.setOnItemLongClickListener(this);
+
+        populateAlarmList();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Update the list
+        populateAlarmList();
+    }
+
+    private void populateAlarmList() {
+        alarms = db.getAllAlarms();
+        adapter = new AlarmArrayAdapter(AlarmListActivity.this, alarms);
+        alarmListView.setAdapter(adapter);
     }
 
     @Override

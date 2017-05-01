@@ -31,32 +31,60 @@
             android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="42dp"
+            android:layout_weight="0.09"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/alarmPrepTimeView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="27dp"
                 android:layout_marginStart="27dp"
                 android:layout_weight="0.06"
                 android:text="Preparation Time"
                 android:textSize="18sp" />
 
+            <EditText
+                android:id="@+id/setPrepTimeView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/textView"
+                android:layout_toStartOf="@+id/textView"
+                android:layout_weight="0.18"
+                android:inputType="number"
+                android:text="30" />
+
             <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/setPrepTimeView"
+                android:layout_alignBottom="@+id/setPrepTimeView"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="62dp"
+                android:layout_marginRight="62dp"
+                android:text="min"
+                android:textSize="18sp" />
+
+            <!--<TextView
                 android:id="@+id/prepTimePicker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginEnd="44dp"
-                android:layout_marginRight="44dp"
+                android:layout_marginEnd="67dp"
+                android:layout_marginRight="67dp"
                 android:layout_weight="0.18"
-                android:text="TimePickerThing" />
+                android:text="30 min"
+                android:layout_alignBottom="@+id/alarmPrepTimeView"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@+id/alarmPrepTimeView" />-->
         </RelativeLayout>
 
         <RelativeLayout
@@ -67,14 +95,15 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/linearLayout"
             android:layout_marginTop="30dp"
+            android:layout_weight="0.11"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/alarmLocationView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/button"
-                android:layout_alignBottom="@+id/button"
+                android:layout_alignBaseline="@+id/setLocationView"
+                android:layout_alignBottom="@+id/setLocationView"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginLeft="60dp"
@@ -83,24 +112,25 @@
                 android:text="Location"
                 android:textSize="18sp" />
 
-            <Button
-                android:id="@+id/button"
+            <TextView
+                android:id="@+id/setLocationView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="53dp"
-                android:layout_marginRight="53dp"
-                android:layout_weight="0.63"
-                android:text="Button"
-                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="34dp"
+                android:layout_marginRight="34dp"
+                android:layout_weight="0.63"
+                android:text="Default Location"
+                android:textSize="18sp" />
 
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/relativeLayout3"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="53dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/linearLayout"
@@ -111,26 +141,28 @@
                 android:id="@+id/alarmArrivalTimeView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Arrival Time"
-                android:textSize="18sp"
-                android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="50dp"
-                android:layout_marginStart="50dp" />
+                android:layout_marginStart="50dp"
+                android:layout_weight="1"
+                android:text="Arrival Time"
+                android:textSize="18sp" />
 
-            <Button
-                android:id="@+id/alarmArrivalTimePicker"
+            <TextView
+                android:id="@+id/setArrivalTimeView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.63"
-                android:text="Pick Date and Time"
-                android:layout_marginRight="29dp"
-                android:layout_marginEnd="29dp"
-                android:layout_alignParentTop="true"
+                android:layout_alignBaseline="@+id/alarmArrivalTimeView"
+                android:layout_alignBottom="@+id/alarmArrivalTimeView"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_marginEnd="66dp"
+                android:layout_marginRight="66dp"
+                android:layout_weight="0.63"
+                android:text="8:00 AM"
+                android:textSize="18sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -141,8 +173,8 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/linearLayout"
             android:layout_marginTop="30dp"
-            android:orientation="horizontal"
-            android:layout_weight="0.03">
+            android:layout_weight="0.03"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/alarmNameView"
@@ -158,7 +190,7 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/editAlarmName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/alarmNameView"
@@ -169,6 +201,20 @@
                 android:inputType="textPersonName"
                 android:text="Alarm" />
         </RelativeLayout>
+
+        <com.app.pico.StyledButton
+            android:id="@+id/saveAlarm"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.09"
+            android:layout_marginTop="75dp"
+            android:background="@drawable/save_rounded_button"
+            android:text="Save"
+            android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionMode.Title"
+            android:textColor="@color/elementGrey"
+            android:textSize="18sp"
+            android:layout_gravity="center"/>
 
     </LinearLayout>
 

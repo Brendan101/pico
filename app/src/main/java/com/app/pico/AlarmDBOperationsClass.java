@@ -74,4 +74,23 @@ public class AlarmDBOperationsClass {
                 new String[] { String.valueOf(alarm.getID()) });
         db.close();
     }
+
+    public void updateAlarm(Alarm alarm) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(dbHelper.EVENT_NAME, alarm.getEventName());
+        values.put(dbHelper.ACTIVE, alarm.isActive());
+        values.put(dbHelper.REPEATABLE, alarm.isRepeatable());
+        values.put(dbHelper.PREP_TIME, alarm.getPrepTime());
+        values.put(dbHelper.ARRIVAL_TIME, alarm.getArrivalTimeAsString());
+        values.put(dbHelper.START_LAT, alarm.getStartLat());
+        values.put(dbHelper.START_LON, alarm.getStartLon());
+        values.put(dbHelper.END_LAT, alarm.getEndLat());
+        values.put(dbHelper.END_LON, alarm.getEndLon());
+
+        // Update Alarm
+        db.update(dbHelper.TABLE_NAME, values, dbHelper.ID + "=" + alarm.getID(), null);
+        db.close();
+    }
 }
