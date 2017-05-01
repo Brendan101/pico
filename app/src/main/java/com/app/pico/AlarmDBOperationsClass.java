@@ -68,6 +68,11 @@ public class AlarmDBOperationsClass {
         return alarmList;
     }
 
+    public void getAlarm(int ID) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+    }
+
     public void deleteAlarm(Alarm alarm) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         db.delete(dbHelper.TABLE_NAME, dbHelper.ID + " = ?",

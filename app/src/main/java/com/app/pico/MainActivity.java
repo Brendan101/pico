@@ -39,8 +39,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnAlarm:
-                Intent mapInt = new Intent(MainActivity.this, AlarmListActivity.class);
-                startActivity(mapInt);
+                Intent alarmListInt = new Intent(MainActivity.this, AlarmListActivity.class);
+                startActivity(alarmListInt);
         }
     }
 

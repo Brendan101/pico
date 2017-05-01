@@ -2,18 +2,20 @@ package com.app.pico;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class AlarmListActivity extends AppCompatActivity implements AdapterView.OnItemLongClickListener {
+public class AlarmListActivity extends AppCompatActivity implements AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener {
 
     ArrayList<Alarm> alarms;
     AlarmDBOperationsClass db;
@@ -35,8 +37,18 @@ public class AlarmListActivity extends AppCompatActivity implements AdapterView.
         ViewGroup footer = (ViewGroup) inflater.inflate(R.layout.listview_footer, alarmListView, false);
         alarmListView.addFooterView(footer, null, true);
 
+        ImageButton newAlarmBtn = (ImageButton) footer.findViewById(R.id.addAlarmBtn);
+        newAlarmBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Route to the new alarm page
+                Intent alarmInt = new Intent(AlarmListActivity.this, AlarmActivity.class);
+                startActivity(alarmInt);
+            }
+        });
+
         alarmListView.setAdapter(adapter);
 
+        alarmListView.setOnItemClickListener(this);
         alarmListView.setOnItemLongClickListener(this);
     }
 
@@ -69,5 +81,13 @@ public class AlarmListActivity extends AppCompatActivity implements AdapterView.
         alert.show();
 
         return true;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Alarm alarm = alarms.get(i);
+        Intent alarmInt = new Intent(AlarmListActivity.this, AlarmActivity.class);
+        alarmInt.putExtra("alarmID", alarm.getID());
+        startActivity(alarmInt);
     }
 }
