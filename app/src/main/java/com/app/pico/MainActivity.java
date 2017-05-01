@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        logo = (StyledTextHeader) findViewById(R.id.txtLogo);
         btnAlarms = (StyledButton) findViewById(R.id.btnAlarm);
         btnLocations = (StyledButton) findViewById(R.id.btnLocations);
         btnSettings = (StyledButton) findViewById(R.id.btnSettings);

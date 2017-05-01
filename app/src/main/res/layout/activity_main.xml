@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -12,28 +13,20 @@
     tools:context="com.app.pico.MainActivity"
     android:background="@drawable/background_color">
 
-    <com.app.pico.StyledTextHeader
-        android:text="@string/app_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="133dp"
-        android:id="@+id/txtLogo"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-        android:textAlignment="center"
-        android:textSize="150sp"
-        android:textColor="@color/primaryWhite"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
     <LinearLayout
         android:orientation="vertical"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtLogo"
+        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
+
+        <ImageView
+            app:srcCompat="@drawable/pico_symbols_bird_text_800x414"
+            android:id="@+id/imageView"
+            android:layout_width="300dp"
+            android:layout_height="210dp" />
 
         <com.app.pico.StyledButton
             android:text="@string/btn_alarms"
