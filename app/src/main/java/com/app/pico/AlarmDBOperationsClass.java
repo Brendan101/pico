@@ -23,8 +23,9 @@ public class AlarmDBOperationsClass {
 
         ContentValues values = new ContentValues();
         values.put(dbHelper.EVENT_NAME, alarm.getEventName());
-        values.put(dbHelper.REPEAT, alarm.getRepeat());
-        values.put(dbHelper.PREP_TIME, alarm.getPrepTimeAsString());
+        values.put(dbHelper.ACTIVE, alarm.isActive());
+        values.put(dbHelper.REPEATABLE, alarm.isRepeatable());
+        values.put(dbHelper.PREP_TIME, alarm.getPrepTime());
         values.put(dbHelper.ARRIVAL_TIME, alarm.getArrivalTimeAsString());
         values.put(dbHelper.START_LAT, alarm.getStartLat());
         values.put(dbHelper.START_LON, alarm.getStartLon());
@@ -50,13 +51,14 @@ public class AlarmDBOperationsClass {
                 Alarm alarm = new Alarm();
                 alarm.setID(Integer.parseInt(cursor.getString(0)));
                 alarm.setEventName(cursor.getString(1));
-                alarm.setRepeat(cursor.getInt(2));
-                alarm.setPrepTime(cursor.getString(3));
-                alarm.setArrivalTime(cursor.getString(4));
-                alarm.setStartLat(cursor.getFloat(5));
-                alarm.setStartLon(cursor.getFloat(6));
-                alarm.setEndLat(cursor.getFloat(7));
-                alarm.setEndLon(cursor.getFloat(8));
+                alarm.setActive(cursor.getInt(2));
+                alarm.setRepeatable(cursor.getInt(3));
+                alarm.setPrepTime(cursor.getInt(4));
+                alarm.setArrivalTime(cursor.getString(5));
+                alarm.setStartLat(cursor.getFloat(6));
+                alarm.setStartLon(cursor.getFloat(7));
+                alarm.setEndLat(cursor.getFloat(8));
+                alarm.setEndLon(cursor.getFloat(9));
 
                 // Add Alarm to list
                 alarmList.add(alarm);

@@ -39,11 +39,11 @@ public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
 
         alarmholder = new AlarmHolder();
         alarmholder.alarm = alarmList.get(position);
-        alarmholder.repeatable =  (Switch)row.findViewById(R.id.repeatSwitch);
-        alarmholder.repeatable.setTag(alarmholder);
+        alarmholder.active = (Switch)row.findViewById(R.id.activeSwitch);
+        alarmholder.active.setTag(alarmholder);
 
-        alarmholder.name=(TextView)row.findViewById(R.id.eventNameView);
-        alarmholder.readyTime=(TextView)row.findViewById(R.id.timeReadyView);
+        alarmholder.name = (TextView)row.findViewById(R.id.eventNameView);
+        alarmholder.readyTime = (TextView)row.findViewById(R.id.timeReadyView);
 
         row.setTag(alarmholder);
 
@@ -54,8 +54,8 @@ public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
     private void setupItem(AlarmHolder alarmHolder)
     {
         alarmHolder.name.setText(alarmHolder.alarm.getEventName());
-        alarmHolder.readyTime.setText(alarmHolder.alarm.getPrepTime().toString());
-        alarmHolder.repeatable.setChecked(alarmHolder.alarm.getRepeat());
+        alarmHolder.readyTime.setText(alarmHolder.alarm.getPrepTimeForDisplay());
+        alarmHolder.active.setChecked(alarmHolder.alarm.isActive());
     }
 
     public static class AlarmHolder
@@ -63,7 +63,7 @@ public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
         Alarm alarm;
         TextView name;
         TextView readyTime;
-        Switch repeatable;
+        Switch active;
     }
 }
 

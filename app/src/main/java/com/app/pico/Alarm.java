@@ -6,18 +6,20 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Alarm {
-    private int ID;
+    // prepTime is in minutes
+    private int ID, prepTime;
     private String eventName;
-    private boolean repeat;
-    private Calendar prepTime, arrivalTime;
+    private boolean active, repeatable;
+    private Calendar arrivalTime;
     private float startLat, startLon, endLat, endLon;
 
-    public Alarm(int ID, String eventName, boolean repeat, Calendar prepTime, Calendar arrivalTime, float startLat, float startLon,
+    public Alarm(int ID, String eventName, boolean active, boolean repeatable, int prepTime, Calendar arrivalTime, float startLat, float startLon,
                  float endLat, float endLon)
     {
         this.ID = ID;
         this.eventName = eventName;
-        this.repeat = repeat;
+        this.active = active;
+        this.repeatable = repeatable;
         this.prepTime = prepTime;
         this.arrivalTime = arrivalTime;
         this.startLat = startLat;
@@ -34,18 +36,29 @@ public class Alarm {
         return eventName;
     }
 
-    public boolean getRepeat()
-    {
-        return repeat;
+    public boolean isActive() { return active; }
+
+    public boolean isRepeatable() {
+        return repeatable;
     }
 
-    public Calendar getPrepTime() {
+    public int getPrepTime() {
         return prepTime;
     }
 
-    public String getPrepTimeAsString() {
-        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm");
-        return formatter.format(prepTime.getTime());
+    public String getPrepTimeForDisplay() {
+        int min = prepTime % 60;
+        int hours = prepTime/60;
+        String prepTimeString;
+
+        if(hours == 0) {
+            prepTimeString = min + " min";
+        }
+        else {
+            prepTimeString = hours + " hours " + min + " min";
+        }
+
+        return prepTimeString;
     }
 
     public Calendar getArrivalTime() { return arrivalTime; }
@@ -71,34 +84,34 @@ public class Alarm {
         this.eventName = eventName;
     }
 
-    public void setRepeat(boolean repeat) {
-        this.repeat = repeat;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
-    public void setRepeat(int repeat) {
-        if(repeat == 0) {
-            this.repeat = false;
+    public void setActive(int active) {
+        if(active == 0) {
+            this.active = false;
         }
         else {
-            this.repeat = true;
+            this.active = true;
         }
     }
 
-    public void setPrepTime(Calendar prepTime) {
+    public void setRepeatable(boolean repeatable) {
+        this.repeatable = repeatable;
+    }
+
+    public void setRepeatable(int repeatable) {
+        if(repeatable == 0) {
+            this.repeatable = false;
+        }
+        else {
+            this.repeatable = true;
+        }
+    }
+
+    public void setPrepTime(int prepTime) {
         this.prepTime = prepTime;
-    }
-
-    public void setPrepTime(String prepTime) {
-        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm");
-        Date date = null;
-        try {
-            date = formatter.parse(prepTime);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        this.prepTime = cal;
     }
 
     public void setArrivalTime(Calendar arrivalTime) {

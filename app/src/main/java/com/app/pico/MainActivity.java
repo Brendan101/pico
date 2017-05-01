@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         db = new AlarmDBOperationsClass(this);
+        //this.deleteDatabase(AlarmDBHelperClass.DB_NAME);
         //createTestAlarm();
 
         logo = (StyledTextHeader) findViewById(R.id.txtLogo);
@@ -45,9 +46,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void createTestAlarm() {
         Alarm alarm = new Alarm();
-        alarm.setEventName("Test");
-        alarm.setRepeat(true);
-        alarm.setPrepTime("10:20");
+        alarm.setEventName("Another One");
+        alarm.setActive(false);
+        alarm.setRepeatable(false);
+        alarm.setPrepTime(10);
         alarm.setArrivalTime("05/10/2017 11:40");
         alarm.setStartLat(10.34f);
         alarm.setStartLon(12.34f);

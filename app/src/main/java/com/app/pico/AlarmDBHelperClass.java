@@ -9,15 +9,16 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 
 public class AlarmDBHelperClass extends SQLiteOpenHelper{
-    private static final String DB_NAME = "pico";
-    private static final int DB_VERSION = 1;
+    static final String DB_NAME = "pico";
+    static final int DB_VERSION = 1;
 
     static final String TABLE_NAME = "alarms";
 
     // Column names
     static final String ID = "id";
     static final String EVENT_NAME = "event_name";
-    static final String REPEAT = "repeat";
+    static final String ACTIVE = "active";
+    static final String REPEATABLE = "repeatable";
     static final String PREP_TIME = "prep_time";
     static final String ARRIVAL_TIME = "arrival_time";
     static final String START_LAT = "start_lat";
@@ -32,8 +33,8 @@ public class AlarmDBHelperClass extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String create_table_string = "CREATE TABLE " + TABLE_NAME + "("
-                + ID + " INTEGER PRIMARY KEY," + EVENT_NAME + " TEXT,"
-                + REPEAT + " INTEGER," + PREP_TIME + "  TEXT," + ARRIVAL_TIME + " TEXT,"
+                + ID + " INTEGER PRIMARY KEY," + EVENT_NAME + " TEXT," + ACTIVE + " INTEGER,"
+                + REPEATABLE + " INTEGER," + PREP_TIME + "  INTEGER," + ARRIVAL_TIME + " TEXT,"
                 + START_LAT + " REAL," + START_LON + " REAL," + END_LAT + " REAL,"
                 + END_LON + " REAL" + ")";
         sqLiteDatabase.execSQL(create_table_string);

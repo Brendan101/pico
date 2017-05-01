@@ -32,9 +32,8 @@ public class AlarmListActivity extends AppCompatActivity implements AdapterView.
 
         // Add "Add Alarm" footer to the list view
         LayoutInflater inflater = getLayoutInflater();
-        ViewGroup footer = (ViewGroup) inflater.inflate(R.layout.listview_footer, alarmListView,
-                false);
-        alarmListView.addFooterView(footer, null, false);
+        ViewGroup footer = (ViewGroup) inflater.inflate(R.layout.listview_footer, alarmListView, false);
+        alarmListView.addFooterView(footer, null, true);
 
         alarmListView.setAdapter(adapter);
 
