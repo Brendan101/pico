@@ -28,6 +28,7 @@
     <Switch
         android:id="@+id/activeSwitch"
         android:layout_width="124dp"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent"
+        android:layout_marginRight="50dp"/>
 
 </LinearLayout>
