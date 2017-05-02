@@ -19,6 +19,7 @@ import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.model.LatLng;
 
 
 public class PlacesActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
@@ -26,6 +27,11 @@ public class PlacesActivity extends AppCompatActivity implements GoogleApiClient
     private AutoCompleteTextView placesSelect;
     private GoogleApiClient mGoogleApiClient;
     private PlaceAutocompleteAdapter mAdapter;
+    private DBOperationsClass db;
+    private Location currSelectedLoc;
+    private Location savedLoc;
+    private StyledButton btnSave;
+    private Place place;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +45,26 @@ public class PlacesActivity extends AppCompatActivity implements GoogleApiClient
 
         placesSelect = (AutoCompleteTextView) findViewById(R.id.editPlacesSelect);
         placesSelect.setThreshold(3);
-
         placesSelect.setOnItemClickListener(mAutocompleteClickListener);
+        place = null;
+        currSelectedLoc = new Location();
 
         mAdapter = new PlaceAutocompleteAdapter(this, mGoogleApiClient, null,
                 null);
         placesSelect.setAdapter(mAdapter);
+
+        btnSave = (StyledButton) findViewById(R.id.btnSubmitDestination);
+
+        db = new DBOperationsClass(this);
+        Bundle intentData = getIntent().getExtras();
+
+        if(intentData != null) {
+            savedLoc = (Location) intentData.getSerializable("location");
+            // Update values in the layout to the actual Alarm values
+            //alarmHeader.setText("Edit Alarm");
+            //locID = currSelectedLoc.getID();
+        }
+        btnSave.setOnClickListener(new SaveListener(savedLoc, currSelectedLoc));
 
     }
 
@@ -76,7 +96,13 @@ public class PlacesActivity extends AppCompatActivity implements GoogleApiClient
                 return;
             }
             // Get the Place object from the buffer.
-            final Place place = places.get(0);
+            place = places.get(0);
+
+
+            LatLng latLng = place.getLatLng();
+            currSelectedLoc.setLatitude((float) latLng.latitude);
+            currSelectedLoc.setLongitude((float) latLng.longitude);
+            currSelectedLoc.setLocationName(place.getName().toString());
 
             // TODO this is the selected place
 
@@ -91,5 +117,32 @@ public class PlacesActivity extends AppCompatActivity implements GoogleApiClient
         Toast.makeText(this,
                 "Could not connect to Google API Client: Error " + connectionResult.getErrorCode(),
                 Toast.LENGTH_SHORT).show();
+    }
+
+    private class SaveListener implements View.OnClickListener{
+        private Location _currLocation;
+        private Location _prevLocation;
+
+        public SaveListener(Location prevLoc, Location currLoc){
+            this._prevLocation = prevLoc;
+            this._currLocation = currLoc;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (this._currLocation.getLocationName() == null){
+                Toast.makeText(getApplicationContext(), "You must enter a location, or hit back to cancel!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (this._prevLocation != null){
+                db.updateLocation(this._prevLocation);
+                finish();
+            } else {
+                db.addLocation(this._currLocation);
+                finish();
+            }
+
+        }
     }
 }
