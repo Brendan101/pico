@@ -8,6 +8,11 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDKHuPuNc-8XI4GoJ0K-Y41tAWUm8oU-v8"/>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -15,10 +20,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".SettingsActivity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".AlertActivity"></activity>
+        <activity android:name=".PlacesActivity"></activity>
+
     </application>
+
+
 
 </manifest>
