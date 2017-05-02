@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:orientation="horizontal"
+    android:background="@color/primaryWhite">
+
+
+    <TextView
+        android:id="@+id/newLocationView"
+        android:layout_width="0sp"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.34"
+        android:gravity="center_vertical"
+        android:text="New Location"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="18sp" />
+
+    <ImageButton
+        android:id="@+id/addLocationBtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="50dp"
+        android:background="@color/primaryWhite"
+        android:scaleType="fitCenter"
+        android:src="@drawable/pico_symbols_add" />
+
+</LinearLayout>

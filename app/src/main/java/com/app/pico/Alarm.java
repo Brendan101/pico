@@ -9,13 +9,12 @@ import java.util.Date;
 public class Alarm implements Serializable{
     // prepTime is in minutes
     private int ID, prepTime;
-    private String eventName;
+    private String eventName, startLocation, endLocation;
     private boolean active, repeatable;
     private Calendar arrivalTime;
-    private float startLat, startLon, endLat, endLon;
 
-    public Alarm(int ID, String eventName, boolean active, boolean repeatable, int prepTime, Calendar arrivalTime, float startLat, float startLon,
-                 float endLat, float endLon)
+    public Alarm(int ID, String eventName, boolean active, boolean repeatable, int prepTime, Calendar arrivalTime,
+                 String startLocation, String endLocation)
     {
         this.ID = ID;
         this.eventName = eventName;
@@ -23,10 +22,8 @@ public class Alarm implements Serializable{
         this.repeatable = repeatable;
         this.prepTime = prepTime;
         this.arrivalTime = arrivalTime;
-        this.startLat = startLat;
-        this.startLon = startLon;
-        this.endLat = endLat;
-        this.endLon = endLon;
+        this.startLocation = startLocation;
+        this.endLocation = endLocation;
     }
 
     public Alarm() {}
@@ -69,13 +66,9 @@ public class Alarm implements Serializable{
         return formatter.format(arrivalTime.getTime());
     }
 
-    public float getStartLat() { return startLat; }
+    public String getStartLocation() { return startLocation; }
 
-    public float getStartLon() { return startLon; }
-
-    public float getEndLat() { return endLat; }
-
-    public float getEndLon() { return endLon; }
+    public String getEndLocation() { return endLocation; }
 
     public void setID(int ID) {
         this.ID = ID;
@@ -132,19 +125,11 @@ public class Alarm implements Serializable{
         this.arrivalTime = cal;
     }
 
-    public void setStartLat(float startLat) {
-        this.startLat = startLat;
+    public void setStartLocation(String startLocation) {
+        this.startLocation = startLocation;
     }
 
-    public void setStartLon(float startLon) {
-        this.startLon = startLon;
-    }
-
-    public void setEndLat(float endLat) {
-        this.endLat = endLat;
-    }
-
-    public void setEndLon(float endLon) {
-        this.endLon = endLon;
+    public void setEndLocation(String endLocation) {
+        this.endLocation = endLocation;
     }
 }
