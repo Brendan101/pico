@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/DateTimePicker"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:baselineAligned="true"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/min_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/leftArrow"
+            android:layout_width="40dp"
+            android:layout_height="28dp"
+            android:background="@drawable/pico_symbols_left_arrow" />
+
+        <NumberPicker
+            android:id="@+id/hourDisplay"
+            android:layout_width="45dp"
+            android:layout_height="35dp"
+            android:gravity="center"
+            android:inputType="number"
+            android:textColor="#C0C0C0"></NumberPicker>
+
+        <TextView
+            android:id="@+id/colon"
+            android:layout_width="31dp"
+            android:layout_height="35dp"
+            android:gravity="center"
+            android:inputType="number"
+            android:text=":" />
+
+        <NumberPicker
+            android:id="@+id/minDisplay"
+            android:layout_width="45dp"
+            android:layout_height="35dp"
+            android:gravity="center"
+            android:inputType="number" />
+
+        <Button
+            android:id="@+id/rightArrow"
+            android:layout_width="40dp"
+            android:layout_height="28dp"
+            android:background="@drawable/pico_symbols_right_arrow" />
+    </LinearLayout>
+</LinearLayout>
