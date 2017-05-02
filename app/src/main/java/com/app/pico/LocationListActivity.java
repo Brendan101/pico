@@ -1,10 +1,12 @@
 package com.app.pico;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +50,7 @@ public class LocationListActivity extends AppCompatActivity implements AdapterVi
         locationListView.setOnItemClickListener(this);
         locationListView.setOnItemLongClickListener(this);
 
+
         populateLocationList();
     }
 
@@ -67,9 +70,19 @@ public class LocationListActivity extends AppCompatActivity implements AdapterVi
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Location location = locations.get(i);
-        Intent placesInt = new Intent(LocationListActivity.this, PlacesActivity.class);
-        placesInt.putExtra("location", location);
-        startActivity(placesInt);
+        Intent parentInt = this.getIntent();
+        if (parentInt.getExtras().getString("parent").equals("alarm")){
+            Log.e("parent", "alarm");
+            Intent retInt = new Intent();
+            retInt.putExtra("location", location.getLocationName());
+            setResult(Activity.RESULT_OK, retInt);
+            finish();
+        } else {
+            Log.e("parent", "not alarm");
+            Intent placesInt = new Intent(LocationListActivity.this, PlacesActivity.class);
+            placesInt.putExtra("location", location);
+            startActivity(placesInt);
+        }
     }
 
     @Override
