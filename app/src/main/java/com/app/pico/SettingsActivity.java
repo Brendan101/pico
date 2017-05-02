@@ -1,11 +1,9 @@
 package com.app.pico;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -16,31 +14,36 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.ToggleButton;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class SettingsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+    // snooze time increments in minutes
+    private final int snoozeTimeIncrement = 5;
+    private final int onColor = Color.parseColor("#FDBE69");
+    private final int offColor = Color.parseColor("#95999a");
 
-    boolean suRep, moRep, tuRep, weRep, thRep, frRep, saRep;
-    //List<String> daysSelected;
+
     boolean[] daysSelected;
     String[] daysOrdered;
 
-    Integer snoozeTime;
+    int snoozeTime;
+
     String sound;
 
     // Repeat day picker
     RelativeLayout repeatRow;
+    LinearLayout repeatPicker;
     int currRepeatVis;
-    ToggleButton suTog, moTog, tuTog, weTog, thTog, frTog, saTog;
-    ToggleButton[] togArray;
+    StyledToggleButton suTog, moTog, tuTog, weTog, thTog, frTog, saTog;
+    StyledToggleButton[] togArray;
     StyledTextView txtRepeatDays;
 
     // Snooze time picker
+    RelativeLayout snoozeRow;
     LinearLayout snoozePicker;
-    Button btnLeftTimeInc;
+    int currSnoozeVis;
+    Button btnLeftTimeDec;
     Button btnRightTimeInc;
     StyledTextView txtSnoozeTime;
+    StyledTextView txtSnoozeTimePicker;
 
     Spinner soundSpinner;
 
@@ -61,17 +64,27 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         sound = "";
 
         repeatRow = (RelativeLayout) findViewById(R.id.repeat_row);
-        snoozePicker = (LinearLayout) findViewById(R.id.repeatPicker);
+        repeatPicker = (LinearLayout) findViewById(R.id.repeatPicker);
         txtRepeatDays = (StyledTextView) findViewById(R.id.txtRepeatDays);
-        suTog = (ToggleButton) findViewById(R.id.sundayToggle);
-        moTog = (ToggleButton) findViewById(R.id.mondayToggle);
-        tuTog = (ToggleButton) findViewById(R.id.tuesdayToggle);
-        weTog = (ToggleButton) findViewById(R.id.wednesdayToggle);
-        thTog = (ToggleButton) findViewById(R.id.thursdayToggle);
-        frTog = (ToggleButton) findViewById(R.id.fridayToggle);
-        saTog = (ToggleButton) findViewById(R.id.saturdayToggle);
 
-        togArray = new ToggleButton[]{suTog, moTog, tuTog, weTog, thTog, frTog, saTog};
+        snoozeRow = (RelativeLayout) findViewById(R.id.snooze_row);
+        snoozePicker = (LinearLayout) findViewById(R.id.snoozePicker);
+        txtSnoozeTime = (StyledTextView) findViewById(R.id.txtSnoozeTime);
+        txtSnoozeTimePicker = (StyledTextView) findViewById(R.id.txtSnoozeTimePicker);
+        btnLeftTimeDec = (Button) findViewById(R.id.btnLeftTime);
+        btnRightTimeInc = (Button) findViewById(R.id.btnRightTime);
+
+        suTog = (StyledToggleButton) findViewById(R.id.sundayToggle);
+        moTog = (StyledToggleButton) findViewById(R.id.mondayToggle);
+        tuTog = (StyledToggleButton) findViewById(R.id.tuesdayToggle);
+        weTog = (StyledToggleButton) findViewById(R.id.wednesdayToggle);
+        thTog = (StyledToggleButton) findViewById(R.id.thursdayToggle);
+        frTog = (StyledToggleButton) findViewById(R.id.fridayToggle);
+        saTog = (StyledToggleButton) findViewById(R.id.saturdayToggle);
+
+        togArray = new StyledToggleButton[]{suTog, moTog, tuTog, weTog, thTog, frTog, saTog};
+
+        myHandler.post(new VisibilityRunnable(View.GONE, repeatPicker));
         myHandler.post(new VisibilityRunnable(View.GONE, snoozePicker));
 
         // make repeat row toggle the repeat picker
@@ -80,13 +93,49 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
             @Override
             public void onClick(View v) {
                 if (currRepeatVis == View.GONE) {
-                    myHandler.post(new VisibilityRunnable(View.VISIBLE, snoozePicker));
+                    myHandler.post(new VisibilityRunnable(View.VISIBLE, repeatPicker));
                     currRepeatVis = View.VISIBLE;
                 } else {
-                    myHandler.post(new VisibilityRunnable(View.GONE, snoozePicker));
+                    myHandler.post(new VisibilityRunnable(View.GONE, repeatPicker));
                     currRepeatVis = View.GONE;
                 }
 
+            }
+        });
+
+        // snooze row toggles the snooze picker and on hide displays newly picked snooze time
+        currSnoozeVis = View.GONE;
+        snoozeRow.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                if (currSnoozeVis == View.GONE) {
+                    myHandler.post(new VisibilityRunnable(View.VISIBLE, snoozePicker));
+                    currSnoozeVis = View.VISIBLE;
+                } else {
+                    myHandler.post(new VisibilityRunnable(View.GONE, snoozePicker));
+                    currSnoozeVis = View.GONE;
+                    myHandler.post(new SnoozeTextRunnable(snoozeTime));
+                }
+
+            }
+        });
+
+        btnLeftTimeDec.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if (snoozeTime >= snoozeTimeIncrement) {
+                    snoozeTime -= snoozeTimeIncrement;
+                    myHandler.post(new SnoozePickerRunnable(snoozeTime));
+                }
+            }
+        });
+
+        btnRightTimeInc.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                snoozeTime += snoozeTimeIncrement;
+                myHandler.post(new SnoozePickerRunnable(snoozeTime));
             }
         });
 
@@ -94,18 +143,23 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         // TODO possibly need lock
         for (int i = 0; i < togArray.length; i++){
             final int index = i;
+            final StyledToggleButton tog = togArray[i];
             togArray[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
                         daysSelected[index] = true;
+                        myHandler.post(new RepeatColorRunnable(onColor, tog));
                     } else {
                         daysSelected[index] = false;
+                        myHandler.post(new RepeatColorRunnable(offColor, tog));
                     }
                     myHandler.post(new RepeatRunnable(daysSelected));
                 }
             });
         }
+
+
 
     }
 
@@ -169,6 +223,54 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
 
             // set textview
             txtRepeatDays.setText(resultString);
+        }
+    }
+
+    private class RepeatColorRunnable implements Runnable{
+        private int _color;
+        private StyledToggleButton _tog;
+
+        public RepeatColorRunnable(int color, StyledToggleButton tog){
+            this._color = color;
+            this._tog = tog;
+        }
+
+        @Override
+        public void run() {
+            this._tog.setTextColor(this._color);
+        }
+    }
+
+    private class SnoozePickerRunnable implements Runnable{
+        private int _snoozeTime;
+
+        public SnoozePickerRunnable(int snoozeTime){
+            this._snoozeTime = snoozeTime;
+        }
+
+        @Override
+        public void run() {
+            String hours = String.valueOf(this._snoozeTime / 60);
+            String minutes = String.valueOf(this._snoozeTime % 60);
+
+            if (minutes.length() < 2){
+                minutes = "0" + minutes;
+            }
+
+            txtSnoozeTimePicker.setText(hours+":"+minutes);
+        }
+    }
+
+    private class SnoozeTextRunnable implements Runnable{
+        private int _snoozeTime;
+
+        public SnoozeTextRunnable(int snoozeTime){
+            this._snoozeTime = snoozeTime;
+        }
+
+        @Override
+        public void run() {
+            txtSnoozeTime.setText(String.valueOf(this._snoozeTime) + " min");
         }
     }
 }

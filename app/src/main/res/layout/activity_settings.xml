@@ -44,7 +44,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:id="@+id/txtRepeatDays" />
+                android:id="@+id/txtRepeatDays"
+                android:textSize="18sp" />
 
         </RelativeLayout>
         <RelativeLayout
@@ -89,7 +90,7 @@
                 android:paddingRight="5dp"
                 android:id="@+id/repeatPicker">
 
-                <ToggleButton
+                <com.app.pico.StyledToggleButton
                     android:background="@android:color/transparent"
                     android:layout_height="wrap_content"
                     android:id="@+id/sundayToggle"
@@ -100,8 +101,10 @@
                     android:layout_marginLeft="7dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_width="20dp" />
-                <ToggleButton
+                    android:textSize="24sp"
+                    android:layout_width="39dp"
+                    android:textColor="@color/elementGrey" />
+                <com.app.pico.StyledToggleButton
                     android:background="@android:color/transparent"
                     android:layout_height="wrap_content"
                     android:id="@+id/mondayToggle"
@@ -110,8 +113,10 @@
                     android:textOn="M"
                     android:layout_marginRight="10dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_width="20dp" />
-                <ToggleButton
+                    android:layout_width="39dp"
+                    android:textSize="24sp"
+                    android:textColor="@color/elementGrey" />
+                <com.app.pico.StyledToggleButton
                     android:background="@android:color/transparent"
                     android:layout_height="wrap_content"
                     android:id="@+id/tuesdayToggle"
@@ -120,8 +125,10 @@
                     android:textOn="T"
                     android:layout_marginRight="10dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_width="20dp" />
-                <ToggleButton
+                    android:layout_width="39dp"
+                    android:textSize="24sp"
+                    android:textColor="@color/elementGrey" />
+                <com.app.pico.StyledToggleButton
                     android:background="@android:color/transparent"
                     android:layout_height="wrap_content"
                     android:id="@+id/wednesdayToggle"
@@ -130,8 +137,10 @@
                     android:textOn="W"
                     android:layout_marginRight="10dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_width="20dp" />
-                <ToggleButton
+                    android:layout_width="39dp"
+                    android:textSize="24sp"
+                    android:textColor="@color/elementGrey" />
+                <com.app.pico.StyledToggleButton
                     android:background="@android:color/transparent"
                     android:layout_height="wrap_content"
                     android:id="@+id/thursdayToggle"
@@ -140,8 +149,10 @@
                     android:textOn="T"
                     android:layout_marginRight="10dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_width="20dp" />
-                <ToggleButton
+                    android:layout_width="39dp"
+                    android:textSize="24sp"
+                    android:textColor="@color/elementGrey" />
+                <com.app.pico.StyledToggleButton
                     android:background="@android:color/transparent"
                     android:layout_height="wrap_content"
                     android:id="@+id/fridayToggle"
@@ -150,8 +161,10 @@
                     android:textOn="F"
                     android:layout_marginRight="10dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_width="20dp" />
-                <ToggleButton
+                    android:layout_width="39dp"
+                    android:textSize="24sp"
+                    android:textColor="@color/elementGrey" />
+                <com.app.pico.StyledToggleButton
                     android:background="@android:color/transparent"
                     android:layout_height="wrap_content"
                     android:id="@+id/saturdayToggle"
@@ -160,7 +173,9 @@
                     android:textOn="S"
                     android:layout_marginRight="10dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_width="20dp" />
+                    android:layout_width="39dp"
+                    android:textSize="24sp"
+                    android:textColor="@color/elementGrey" />
             </LinearLayout>
 
         </RelativeLayout>
@@ -203,34 +218,35 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:background="@drawable/picker"
-                android:padding="10dp" >
+                android:padding="10dp"
+                android:id="@+id/snoozePicker">
 
                 <Button
-                    android:layout_width="10dp"
-                    android:layout_height="18dp"
+                    android:layout_width="22dp"
                     android:id="@+id/btnLeftTime"
-                    android:background="@drawable/pico_symbols_left_arrow_10x18"
+                    android:background="@drawable/pico_symbols_left_arrow"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_marginRight="15dp"
                     android:layout_marginEnd="15dp"
-                    android:layout_marginTop="-3dp"/>
+                    android:layout_marginTop="-3dp"
+                    android:layout_height="39dp" />
 
                 <com.app.pico.StyledTextView
-                    android:text="0:30"
+                    android:text="0:05"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/txtSnoozeTimePicker"
-                    android:textSize="18sp" />
+                    android:textSize="24sp" />
 
                 <Button
-                    android:layout_width="10dp"
-                    android:layout_height="18dp"
                     android:id="@+id/btnRightTime"
-                    android:background="@drawable/pico_symbols_right_arrow_10x18"
+                    android:background="@drawable/pico_symbols_right_arrow"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_marginLeft="15dp"
                     android:layout_marginStart="15dp"
-                    android:layout_marginTop="-3dp"/>
+                    android:layout_marginTop="-3dp"
+                    android:layout_width="22dp"
+                    android:layout_height="39dp" />
 
             </LinearLayout>
 
