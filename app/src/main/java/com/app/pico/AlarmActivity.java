@@ -112,17 +112,18 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
                     // Route back to Alarm List Activity
                     this.finish();
                 }
-
+                break;
             case R.id.startLocRow:
                 Intent startIntent = new Intent(AlarmActivity.this, LocationListActivity.class);
                 startIntent.putExtra("parent", "alarm");
                 startActivityForResult(startIntent, START_LOCATION_REQUEST_CODE);
                 Log.e("onclick", "start");
-
+                break;
             case R.id.endLocRow:
                 Intent endIntent = new Intent(AlarmActivity.this, LocationListActivity.class);
                 endIntent.putExtra("parent", "alarm");
                 startActivityForResult(endIntent, END_LOCATION_REQUEST_CODE);
+                break;
         }
     }
 
