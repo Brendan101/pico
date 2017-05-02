@@ -20,7 +20,7 @@ import java.util.Calendar;
 
 public class AlarmActivity extends AppCompatActivity implements View.OnClickListener {
 
-    AlarmDBOperationsClass db;
+    DBOperationsClass db;
 
     TextView alarmHeader, setPrepTimeView, setArrivalTimeView;
     EditText editAlarmName;
@@ -33,7 +33,7 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
 
-        db = new AlarmDBOperationsClass(this);
+        db = new DBOperationsClass(this);
 
         alarmHeader = (TextView) findViewById(R.id.singleAlarmHeader);
         setPrepTimeView = (TextView) findViewById(R.id.setPrepTimeView);
@@ -96,10 +96,8 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
                     alarm.setRepeatable(false);
                     alarm.setPrepTime(prepTime);
                     alarm.setArrivalTime(arrivalTime);
-                    alarm.setStartLat(0);
-                    alarm.setStartLon(0);
-                    alarm.setEndLat(0);
-                    alarm.setEndLon(0);
+                    alarm.setStartLocation("Current Location");
+                    alarm.setEndLocation("Default Location");
                     db.addAlarm(alarm);
                     // Route back to Alarm List Activity
                     this.finish();

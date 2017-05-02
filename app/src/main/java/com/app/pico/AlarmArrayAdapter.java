@@ -21,13 +21,13 @@ public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
 
     Context context;
     List<Alarm> alarmList;
-    AlarmDBOperationsClass db;
+    DBOperationsClass db;
 
     public AlarmArrayAdapter(Context context, List<Alarm> alarmList) {
         super(context, ROW_LAYOUT_ID, alarmList);
         this.context = context;
         this.alarmList = alarmList;
-        this.db = new AlarmDBOperationsClass(context);
+        this.db = new DBOperationsClass(context);
     }
 
     @Override
