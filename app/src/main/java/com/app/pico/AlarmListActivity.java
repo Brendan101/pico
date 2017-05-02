@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class AlarmListActivity extends AppCompatActivity implements AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener {
 
     ArrayList<Alarm> alarms;
-    AlarmDBOperationsClass db;
+    DBOperationsClass db;
     AlarmArrayAdapter adapter;
     ListView alarmListView;
 
@@ -27,7 +27,7 @@ public class AlarmListActivity extends AppCompatActivity implements AdapterView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_list);
 
-        db = new AlarmDBOperationsClass(this);
+        db = new DBOperationsClass(this);
         alarms = db.getAllAlarms();
 
         alarmListView = (ListView)findViewById(R.id.list_alarms);
@@ -78,7 +78,6 @@ public class AlarmListActivity extends AppCompatActivity implements AdapterView.
                 db.deleteAlarm(alarm);
                 adapter.remove(alarm);
                 adapter.notifyDataSetChanged();
-                Toast.makeText(AlarmListActivity.this, "Deleted " + alarm.getEventName(), Toast.LENGTH_LONG).show();
                 dialog.dismiss();
 
             }
