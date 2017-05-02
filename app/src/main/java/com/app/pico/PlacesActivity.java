@@ -136,6 +136,9 @@ public class PlacesActivity extends AppCompatActivity implements GoogleApiClient
             }
 
             if (this._prevLocation != null){
+                this._prevLocation.setLongitude(this._currLocation.getLongitude());
+                this._prevLocation.setLatitude(this._currLocation.getLatitude());
+                this._prevLocation.setLocationName(this._currLocation.getLocationName());
                 db.updateLocation(this._prevLocation);
                 finish();
             } else {
