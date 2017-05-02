@@ -87,7 +87,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/relativeLayout5"
+            android:id="@+id/startLocRow"
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:layout_alignParentLeft="true"
@@ -112,21 +112,23 @@
 
             <TextView
                 android:id="@+id/setStartLocationView"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="25dp"
                 android:layout_marginRight="25dp"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:layout_weight="0.63"
                 android:text="Current Location"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:layout_width="125dp" />
 
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/relativeLayout2"
+            android:id="@+id/endLocRow"
             android:layout_width="match_parent"
             android:layout_height="38dp"
             android:layout_alignParentLeft="true"
@@ -150,7 +152,6 @@
 
             <TextView
                 android:id="@+id/setEndLocationView"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
@@ -159,7 +160,10 @@
                 android:layout_marginRight="25dp"
                 android:layout_weight="0.63"
                 android:text="Default Location"
-                android:textSize="18sp" />
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="18sp"
+                android:layout_width="125dp" />
 
         </RelativeLayout>
 

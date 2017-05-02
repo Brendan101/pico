@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.btnLocations:
                 Intent locationListInt = new Intent(MainActivity.this, LocationListActivity.class);
+                locationListInt.putExtra("parent", "main");
                 startActivity(locationListInt);
                 break;
 
