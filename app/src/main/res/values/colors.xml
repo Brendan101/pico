@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="primaryWhite">#ffffff</color>
-    <color name="primaryBlue">#a4dad9</color>
+    <color name="primaryBlue">#9CEAE2</color>
     <color name="accentOrange">#FDBE69</color>
     <color name="elementGrey">#95999a</color>
     <color name="elementFadedGrey">#F4F4F4</color>
