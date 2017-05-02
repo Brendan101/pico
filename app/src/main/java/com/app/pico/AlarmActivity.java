@@ -15,6 +15,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class AlarmActivity extends AppCompatActivity implements View.OnClickListener {
 
     AlarmDBOperationsClass db;
@@ -56,6 +59,12 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
         else {
             alarm = null;
             alarmHeader.setText("New Alarm");
+            // Set default Alarm date to current date/time + a day
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+            Calendar currentDate = Calendar.getInstance();
+            currentDate.add(Calendar.DATE, 1);
+            String defaultArrivalTime = formatter.format(currentDate.getTime());
+            setArrivalTimeView.setText(defaultArrivalTime);
         }
     }
 
@@ -63,16 +72,35 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch(view.getId()) {
             case R.id.saveAlarm:
-                Toast.makeText(this, "Saved!", Toast.LENGTH_LONG).show();
+                String eventName = editAlarmName.getText().toString();
+                int prepTime = Integer.valueOf(setPrepTimeView.getText().toString());
+                String arrivalTime = setArrivalTimeView.getText().toString();
+
                 if(alarm != null) {
                     // Update Alarm values and store to db
                     // TODO: there is no repeatable field in the view
                     // TODO: Location things
-                    alarm.setEventName(editAlarmName.getText().toString());
-                    alarm.setPrepTime(Integer.valueOf(setPrepTimeView.getText().toString()));
-                    alarm.setArrivalTime(setArrivalTimeView.getText().toString());
+                    alarm.setEventName(eventName);
+                    alarm.setPrepTime(prepTime);
+                    alarm.setArrivalTime(arrivalTime);
                     db.updateAlarm(alarm);
-                    Log.e("blah", db.getAllAlarms().get(1).getPrepTimeForDisplay());
+                    // Route back to Alarm List Activity
+                    this.finish();
+                }
+                else {
+                    // Create a new alarm and store to db
+                    // TODO: fix default values
+                    alarm = new Alarm();
+                    alarm.setEventName(eventName);
+                    alarm.setActive(true);
+                    alarm.setRepeatable(false);
+                    alarm.setPrepTime(prepTime);
+                    alarm.setArrivalTime(arrivalTime);
+                    alarm.setStartLat(0);
+                    alarm.setStartLon(0);
+                    alarm.setEndLat(0);
+                    alarm.setEndLon(0);
+                    db.addAlarm(alarm);
                     // Route back to Alarm List Activity
                     this.finish();
                 }

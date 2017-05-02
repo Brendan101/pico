@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         alarm.setActive(false);
         alarm.setRepeatable(false);
         alarm.setPrepTime(10);
-        alarm.setArrivalTime("05/10/2017 11:40");
+        alarm.setArrivalTime("05/10/2017 11:40 AM");
         alarm.setStartLat(10.34f);
         alarm.setStartLon(12.34f);
         alarm.setEndLat(5.35f);
