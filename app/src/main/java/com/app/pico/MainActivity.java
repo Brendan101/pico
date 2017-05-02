@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private StyledTextHeader logo;
@@ -27,11 +25,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //this.deleteDatabase(AlarmDBHelperClass.DB_NAME);
         //createTestAlarm();
 
-        logo = (StyledTextHeader) findViewById(R.id.txtLogo);
         btnAlarms = (StyledButton) findViewById(R.id.btnAlarm);
         btnLocations = (StyledButton) findViewById(R.id.btnLocations);
         btnSettings = (StyledButton) findViewById(R.id.btnSettings);
-        btnSettings.setOnClickListener(this);
 
     }
 
@@ -60,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.btnLocations:
+                Intent locationListInt = new Intent(MainActivity.this, LocationListActivity.class);
+                startActivity(locationListInt);
                 break;
 
             case R.id.btnSettings:
