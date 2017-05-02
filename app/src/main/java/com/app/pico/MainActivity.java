@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //this.deleteDatabase(AlarmDBHelperClass.DB_NAME);
         //createTestAlarm();
 
-        logo = (StyledTextHeader) findViewById(R.id.txtLogo);
         btnAlarms = (StyledButton) findViewById(R.id.btnAlarm);
         btnLocations = (StyledButton) findViewById(R.id.btnLocations);
         btnSettings = (StyledButton) findViewById(R.id.btnSettings);
