@@ -42,7 +42,7 @@
         android:layout_alignLeft="@+id/editPlacesSelect"
         android:layout_marginLeft="10dp"/>
 
-    <Button
+    <com.app.pico.StyledButton
         android:text="@string/btn_places_submit"
         android:layout_width="wrap_content"
         android:layout_below="@+id/editPlacesSelect"

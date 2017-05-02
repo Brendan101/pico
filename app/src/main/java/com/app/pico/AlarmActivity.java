@@ -1,32 +1,36 @@
 package com.app.pico;
 
-import android.app.Dialog;
-import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.NumberPicker;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class AlarmActivity extends AppCompatActivity implements View.OnClickListener {
+    private final int START_LOCATION_REQUEST_CODE = 20;
+    private final int END_LOCATION_REQUEST_CODE = 21;
 
     DBOperationsClass db;
 
-    TextView alarmHeader, setPrepTimeView, setArrivalTimeView;
+    TextView alarmHeader, setPrepTimeView, setArrivalTimeView, setStartLocView, setEndLocView;
     EditText editAlarmName;
     Button saveBtn;
 
+    RelativeLayout startLocRow;
+    RelativeLayout endLocRow;
+
     Alarm alarm;
+
+    Handler myHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +44,14 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
         setArrivalTimeView = (TextView) findViewById(R.id.setArrivalTimeView);
         editAlarmName = (EditText) findViewById(R.id.editAlarmName);
         saveBtn = (Button) findViewById(R.id.saveAlarm);
+        startLocRow = (RelativeLayout) findViewById(R.id.startLocRow);
+        endLocRow = (RelativeLayout) findViewById(R.id.endLocRow);
+        setStartLocView = (TextView) findViewById(R.id.setStartLocationView);
+        setEndLocView = (TextView) findViewById(R.id.setEndLocationView);
 
         saveBtn.setOnClickListener(this);
+        startLocRow.setOnClickListener(this);
+        endLocRow.setOnClickListener(this);
 
         //prepTimePicker.setOnClickListener(this);
 
@@ -102,6 +112,49 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
                     // Route back to Alarm List Activity
                     this.finish();
                 }
+                break;
+            case R.id.startLocRow:
+                Intent startIntent = new Intent(AlarmActivity.this, LocationListActivity.class);
+                startIntent.putExtra("parent", "alarm");
+                startActivityForResult(startIntent, START_LOCATION_REQUEST_CODE);
+                Log.e("onclick", "start");
+                break;
+            case R.id.endLocRow:
+                Intent endIntent = new Intent(AlarmActivity.this, LocationListActivity.class);
+                endIntent.putExtra("parent", "alarm");
+                startActivityForResult(endIntent, END_LOCATION_REQUEST_CODE);
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == START_LOCATION_REQUEST_CODE){
+            if (resultCode == RESULT_OK){
+                String newLoc = data.getStringExtra("location");
+                myHandler.post(new UpdateLocationRunnable(newLoc, setStartLocView));
+            }
+        } else if(requestCode == END_LOCATION_REQUEST_CODE){
+            if (resultCode == RESULT_OK){
+                String newLoc = data.getStringExtra("location");
+                myHandler.post(new UpdateLocationRunnable(newLoc, setEndLocView));
+            }
+        }
+    }
+
+    private class UpdateLocationRunnable implements Runnable{
+        private String _newLoc;
+        private TextView _view;
+        
+        public UpdateLocationRunnable(String newLoc, TextView view){
+            this._newLoc = newLoc;
+            this._view = view;
+        }
+
+        @Override
+        public void run() {
+            this._view.setText(this._newLoc);
         }
     }
 
