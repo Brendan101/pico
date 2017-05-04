@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primaryBlue">
@@ -10,254 +9,485 @@
         android:id="@+id/singleAlarmHeader"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_gravity="center"
         android:layout_marginTop="25dp"
         android:text="New Alarm"
-        android:layout_gravity="center"
         android:textAlignment="center"
         android:textColor="@color/primaryWhite"
         android:textSize="36sp" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="100dp"
-        android:layout_marginTop="80dp"
-        android:background="@color/primaryWhite"
-        android:orientation="vertical"
-        android:weightSum="1">
+        android:layout_marginTop="80dp">
 
-
-        <RelativeLayout
-            android:id="@+id/relativeLayout"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:background="@color/primaryWhite"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/alarmPrepTimeView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <RelativeLayout
+                android:id="@+id/relativeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@drawable/list_bottom_border"
+                android:orientation="horizontal"
+                android:paddingEnd="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingStart="20dp">
+
+                <com.app.pico.StyledTextView
+                    android:id="@+id/alarmPrepTimeView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:text="Preparation Time"
+                    android:textSize="18sp" />
+
+                <com.app.pico.StyledTextView
+                    android:id="@+id/setPrepTimeView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="5 min"
+                    android:textSize="18sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/startLocRow"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@drawable/list_bottom_border"
+                android:paddingEnd="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingStart="20dp">
+
+                <com.app.pico.StyledTextView
+                    android:id="@+id/alarmStartLocationView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:text="Start Location"
+                    android:textSize="18sp" />
+
+                <com.app.pico.StyledTextView
+                    android:id="@+id/setStartLocationView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:ellipsize="end"
+                    android:text="Current Location"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:id="@+id/prepTimePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/picker"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <Button
+                        android:id="@+id/btnLeftPrepTime"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="22dp"
+                        android:layout_height="39dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="-3dp"
+                        android:background="@drawable/pico_symbols_left_arrow" />
+
+                    <com.app.pico.StyledTextView
+                        android:id="@+id/txtPrepTimePicker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0:05"
+                        android:textSize="24sp" />
+
+                    <Button
+                        android:id="@+id/btnRightPrepTime"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="22dp"
+                        android:layout_height="39dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="-3dp"
+                        android:background="@drawable/pico_symbols_right_arrow" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/endLocRow"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="25dp"
-                android:layout_marginStart="25dp"
-                android:layout_weight="0.06"
-                android:text="Preparation Time"
+                android:background="@drawable/list_bottom_border"
+                android:paddingEnd="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingStart="20dp">
+
+                <com.app.pico.StyledTextView
+                    android:id="@+id/alarmEndLocationView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:text="End Location"
+                    android:textSize="18sp" />
+
+                <com.app.pico.StyledTextView
+                    android:id="@+id/setEndLocationView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:ellipsize="end"
+                    android:text="Default Location"
+                    android:textSize="18sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@drawable/list_bottom_border"
+                android:paddingEnd="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingStart="20dp">
+
+                <com.app.pico.StyledTextView
+                    android:id="@+id/alarmArrivalTimeView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:text="Arrival Time"
+                    android:textSize="18sp" />
+
+                <com.app.pico.StyledTextView
+                    android:id="@+id/setArrivalTimeView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="05/09/2017 8:00 AM"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@drawable/list_bottom_border"
+                android:paddingEnd="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingStart="20dp">
+
+                <com.app.pico.StyledTextView
+                    android:id="@+id/alarmNameView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:text="Alarm Name"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/editAlarmName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="#00000000"
+                    android:hint="Custom Alarm"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/repeat_row"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@drawable/list_bottom_border"
+                android:paddingEnd="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingStart="20dp">
+
+                <com.app.pico.StyledTextView
+                    android:id="@+id/txtRepeatPrompt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:text="Repeat"
+                    android:textSize="18sp" />
+
+                <com.app.pico.StyledTextView
+                    android:id="@+id/txtRepeatDays"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="No Repeat"
+                    android:textSize="18sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/snooze_row"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@drawable/list_bottom_border"
+                android:paddingEnd="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingStart="20dp">
+
+                <com.app.pico.StyledTextView
+                    android:id="@+id/txtSnoozePrompt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:text="Snooze"
+                    android:textSize="18sp" />
+
+                <com.app.pico.StyledTextView
+                    android:id="@+id/txtSnoozeTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="5 min"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:id="@+id/repeatPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/picker"
+                    android:orientation="horizontal"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp">
+
+                    <com.app.pico.StyledToggleButton
+                        android:id="@+id/sundayToggle"
+                        android:layout_width="39dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginLeft="7dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginStart="7dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/elementGrey"
+                        android:textOff="S"
+                        android:textOn="S"
+                        android:textSize="24sp" />
+
+                    <com.app.pico.StyledToggleButton
+                        android:id="@+id/mondayToggle"
+                        android:layout_width="39dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/elementGrey"
+                        android:textOff="M"
+                        android:textOn="M"
+                        android:textSize="24sp" />
+
+                    <com.app.pico.StyledToggleButton
+                        android:id="@+id/tuesdayToggle"
+                        android:layout_width="39dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/elementGrey"
+                        android:textOff="T"
+                        android:textOn="T"
+                        android:textSize="24sp" />
+
+                    <com.app.pico.StyledToggleButton
+                        android:id="@+id/wednesdayToggle"
+                        android:layout_width="39dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/elementGrey"
+                        android:textOff="W"
+                        android:textOn="W"
+                        android:textSize="24sp" />
+
+                    <com.app.pico.StyledToggleButton
+                        android:id="@+id/thursdayToggle"
+                        android:layout_width="39dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/elementGrey"
+                        android:textOff="T"
+                        android:textOn="T"
+                        android:textSize="24sp" />
+
+                    <com.app.pico.StyledToggleButton
+                        android:id="@+id/fridayToggle"
+                        android:layout_width="39dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/elementGrey"
+                        android:textOff="F"
+                        android:textOn="F"
+                        android:textSize="24sp" />
+
+                    <com.app.pico.StyledToggleButton
+                        android:id="@+id/saturdayToggle"
+                        android:layout_width="39dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/elementGrey"
+                        android:textOff="S"
+                        android:textOn="S"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/sound_row"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@drawable/list_bottom_border"
+                android:paddingEnd="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingStart="20dp">
+
+                <com.app.pico.StyledTextView
+                    android:id="@+id/txtSoundPrompt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:text="Sound"
+                    android:textSize="18sp" />
+
+                <com.app.pico.StyledTextView
+                    android:id="@+id/txtSoundName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="Morning Sun"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:id="@+id/snoozePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/picker"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <Button
+                        android:id="@+id/btnLeftTime"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="22dp"
+                        android:layout_height="39dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="-3dp"
+                        android:background="@drawable/pico_symbols_left_arrow" />
+
+                    <com.app.pico.StyledTextView
+                        android:id="@+id/txtSnoozeTimePicker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0:05"
+                        android:textSize="24sp" />
+
+                    <Button
+                        android:id="@+id/btnRightTime"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="22dp"
+                        android:layout_height="39dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="-3dp"
+                        android:background="@drawable/pico_symbols_right_arrow" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <com.app.pico.StyledButton
+                android:id="@+id/saveAlarm"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/pico_symbols_submit"
+                android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionMode.Title"
+                android:textColor="@color/primaryWhite"
                 android:textSize="18sp" />
 
-            <EditText
-                android:id="@+id/setPrepTimeView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@+id/textView"
-                android:layout_toStartOf="@+id/textView"
-                android:layout_weight="0.18"
-                android:inputType="number"
-                android:text="30" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/setPrepTimeView"
-                android:layout_alignBottom="@+id/setPrepTimeView"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginEnd="25dp"
-                android:layout_marginRight="25dp"
-                android:text="min"
-                android:textSize="18sp" />
-
-            <!--<TextView
-                android:id="@+id/prepTimePicker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="67dp"
-                android:layout_marginRight="67dp"
-                android:layout_weight="0.18"
-                android:text="30 min"
-                android:layout_alignBottom="@+id/alarmPrepTimeView"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignTop="@+id/alarmPrepTimeView" />-->
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/startLocRow"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/linearLayout"
-            android:layout_marginTop="30dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/alarmStartLocationView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginStart="25dp"
-                android:layout_weight="1"
-                android:text="Start Location"
-                android:textSize="18sp"
-                android:layout_alignBaseline="@+id/setStartLocationView"
-                android:layout_alignBottom="@+id/setStartLocationView"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <TextView
-                android:id="@+id/setStartLocationView"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="25dp"
-                android:layout_marginRight="25dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:layout_weight="0.63"
-                android:text="Current Location"
-                android:textSize="18sp"
-                android:layout_width="125dp" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/endLocRow"
-            android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/linearLayout"
-            android:layout_marginTop="30dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/alarmEndLocationView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginStart="25dp"
-                android:layout_weight="1"
-                android:text="End Location"
-                android:textSize="18sp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <TextView
-                android:id="@+id/setEndLocationView"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="25dp"
-                android:layout_marginRight="25dp"
-                android:layout_weight="0.63"
-                android:text="Default Location"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textSize="18sp"
-                android:layout_width="125dp" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/relativeLayout3"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/linearLayout"
-            android:layout_marginTop="30dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/alarmArrivalTimeView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="25dp"
-                android:layout_marginStart="25dp"
-                android:layout_weight="1"
-                android:text="Arrival Time"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/setArrivalTimeView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="25dp"
-                android:layout_marginRight="25dp"
-                android:layout_weight="0.63"
-                android:text="05/09/2017 8:00 AM"
-                android:textSize="18sp"
-                android:layout_alignBaseline="@+id/alarmArrivalTimeView"
-                android:layout_alignBottom="@+id/alarmArrivalTimeView"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/relativeLayout4"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/linearLayout"
-            android:layout_marginTop="30dp"
-            android:orientation="horizontal"
-            android:layout_weight="0.02">
-
-            <TextView
-                android:id="@+id/alarmNameView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="25dp"
-                android:layout_marginStart="25dp"
-                android:layout_weight="1"
-                android:text="Alarm Name"
-                android:textSize="18sp" />
-
-            <EditText
-                android:id="@+id/editAlarmName"
-                android:layout_width="175dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Alarm"
-                android:layout_alignBaseline="@+id/alarmNameView"
-                android:layout_alignBottom="@+id/alarmNameView"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginRight="25dp"
-                android:layout_marginEnd="25dp" />
-        </RelativeLayout>
-
-        <com.app.pico.StyledButton
-            android:id="@+id/saveAlarm"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="100dp"
-            android:layout_height="27dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/save_rounded_button"
-            android:text="Save"
-            android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionMode.Title"
-            android:textColor="@color/primaryWhite"
-            android:textSize="18sp"
-            android:layout_gravity="center"/>
-
-    </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
     <ImageView
         android:id="@+id/alarmBottomLogo"
