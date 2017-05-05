@@ -1,33 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="10dp"
-    android:orientation="horizontal"
-    android:descendantFocusability="blocksDescendants">
+    android:layout_height="80dp"
+    android:padding="20dp"
+    android:orientation="horizontal">
 
 
-    <TextView
+    <com.app.pico.StyledTextView
         android:id="@+id/eventNameView"
-        android:layout_width="0sp"
+        android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_weight="1.05"
         android:gravity="center_vertical"
-        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:textSize="18sp" />
 
-    <TextView
+    <com.app.pico.StyledTextView
         android:id="@+id/timeReadyView"
-        android:layout_width="0sp"
+        android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_weight="0.84"
-        android:gravity="center"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:gravity="center_vertical"
+        android:layout_toLeftOf="@+id/activeSwitch"
+        android:layout_toStartOf="@+id/activeSwitch"
+        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
+        android:textSize="18sp"/>
 
-    <Switch
+    <com.app.pico.StyledSwitch
         android:id="@+id/activeSwitch"
-        android:layout_width="124dp"
-        android:layout_height="fill_parent"
-        android:layout_marginRight="50dp" />
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content" />
 
-</LinearLayout>
+</RelativeLayout>
