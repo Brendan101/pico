@@ -15,7 +15,7 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:layout_marginTop="25dp"
-        android:text="Locations"
+        android:text="@string/page_location_header"
         android:textAlignment="center"
         android:textColor="@color/primaryWhite"
         android:textSize="36sp" />

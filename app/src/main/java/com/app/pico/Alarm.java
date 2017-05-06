@@ -8,13 +8,13 @@ import java.util.Date;
 
 public class Alarm implements Serializable{
     // prepTime is in minutes
-    private int ID, prepTime;
-    private String eventName, startLocation, endLocation;
+    private int ID, prepTime, startLocationID, endLocationID;
+    private String eventName;
     private boolean active, repeatable;
     private Calendar arrivalTime;
 
     public Alarm(int ID, String eventName, boolean active, boolean repeatable, int prepTime, Calendar arrivalTime,
-                 String startLocation, String endLocation)
+                 int startLocationID, int endLocationID)
     {
         this.ID = ID;
         this.eventName = eventName;
@@ -22,8 +22,8 @@ public class Alarm implements Serializable{
         this.repeatable = repeatable;
         this.prepTime = prepTime;
         this.arrivalTime = arrivalTime;
-        this.startLocation = startLocation;
-        this.endLocation = endLocation;
+        this.startLocationID = startLocationID;
+        this.endLocationID = endLocationID;
     }
 
     public Alarm() {}
@@ -66,9 +66,9 @@ public class Alarm implements Serializable{
         return formatter.format(arrivalTime.getTime());
     }
 
-    public String getStartLocation() { return startLocation; }
+    public int getStartLocationID() { return startLocationID; }
 
-    public String getEndLocation() { return endLocation; }
+    public int getEndLocationID() { return endLocationID; }
 
     public void setID(int ID) {
         this.ID = ID;
@@ -125,11 +125,11 @@ public class Alarm implements Serializable{
         this.arrivalTime = cal;
     }
 
-    public void setStartLocation(String startLocation) {
-        this.startLocation = startLocation;
+    public void setStartLocationID(int startLocationID) {
+        this.startLocationID = startLocationID;
     }
 
-    public void setEndLocation(String endLocation) {
-        this.endLocation = endLocation;
+    public void setEndLocationID(int endLocationID) {
+        this.endLocationID = endLocationID;
     }
 }

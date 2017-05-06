@@ -39,7 +39,7 @@ public class DBHelperClass extends SQLiteOpenHelper{
         String create_alarm_table_string = "CREATE TABLE " + ALARM_TABLE_NAME + "("
                 + ALARM_ID + " INTEGER PRIMARY KEY," + ALARM_EVENT_NAME + " TEXT," + ALARM_ACTIVE + " INTEGER,"
                 + ALARM_REPEATABLE + " INTEGER," + ALARM_PREP_TIME + "  INTEGER," + ALARM_ARRIVAL_TIME + " TEXT,"
-                + ALARM_START_LOCATION + " TEXT," + ALARM_END_LOCATION + " TEXT" + ")";
+                + ALARM_START_LOCATION + " INTEGER," + ALARM_END_LOCATION + " INTEGER" + ")";
 
         String create_location_table_string = "CREATE TABLE " + LOCATION_TABLE_NAME + "("
                 + LOCATION_ID + " INTEGER PRIMARY KEY," + LOCATION_NAME + " TEXT,"

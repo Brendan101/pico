@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -27,8 +28,8 @@ public class DBOperationsClass {
         values.put(dbHelper.ALARM_REPEATABLE, alarm.isRepeatable());
         values.put(dbHelper.ALARM_PREP_TIME, alarm.getPrepTime());
         values.put(dbHelper.ALARM_ARRIVAL_TIME, alarm.getArrivalTimeAsString());
-        values.put(dbHelper.ALARM_START_LOCATION, alarm.getStartLocation());
-        values.put(dbHelper.ALARM_END_LOCATION, alarm.getEndLocation());
+        values.put(dbHelper.ALARM_START_LOCATION, alarm.getStartLocationID());
+        values.put(dbHelper.ALARM_END_LOCATION, alarm.getEndLocationID());
 
         // Insert Alarm
         db.insert(dbHelper.ALARM_TABLE_NAME, null, values);
@@ -53,8 +54,8 @@ public class DBOperationsClass {
                 alarm.setRepeatable(cursor.getInt(3));
                 alarm.setPrepTime(cursor.getInt(4));
                 alarm.setArrivalTime(cursor.getString(5));
-                alarm.setStartLocation(cursor.getString(6));
-                alarm.setEndLocation(cursor.getString(7));
+                alarm.setStartLocationID(cursor.getInt(6));
+                alarm.setEndLocationID(cursor.getInt(7));
 
                 // Add Alarm to list
                 alarmList.add(alarm);
@@ -80,8 +81,8 @@ public class DBOperationsClass {
         values.put(dbHelper.ALARM_REPEATABLE, alarm.isRepeatable());
         values.put(dbHelper.ALARM_PREP_TIME, alarm.getPrepTime());
         values.put(dbHelper.ALARM_ARRIVAL_TIME, alarm.getArrivalTimeAsString());
-        values.put(dbHelper.ALARM_START_LOCATION, alarm.getStartLocation());
-        values.put(dbHelper.ALARM_END_LOCATION, alarm.getEndLocation());
+        values.put(dbHelper.ALARM_START_LOCATION, alarm.getStartLocationID());
+        values.put(dbHelper.ALARM_END_LOCATION, alarm.getEndLocationID());
 
         // Update Alarm
         db.update(dbHelper.ALARM_TABLE_NAME, values, dbHelper.ALARM_ID + "=" + alarm.getID(), null);
@@ -126,6 +127,26 @@ public class DBOperationsClass {
         }
 
         return locationList;
+    }
+
+    public Location getLocationByID(int id){
+        String selectSingleLoc = "SELECT * FROM " + dbHelper.LOCATION_TABLE_NAME + " WHERE " +
+                dbHelper.LOCATION_ID + " = " + String.valueOf(id);
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectSingleLoc, null);
+        Location location = new Location();
+
+        if(cursor.moveToFirst()){
+            location.setID(Integer.parseInt(cursor.getString(0)));
+            location.setLocationName(cursor.getString(1));
+            location.setLatitude(cursor.getFloat(2));
+            location.setLongitude(cursor.getFloat(3));
+        } else {
+            // no location by that ID found
+        }
+
+        return location;
     }
 
     public void deleteLocation(Location location) {
