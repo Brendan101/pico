@@ -76,8 +76,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         alarm.setRepeatable(false);
         alarm.setPrepTime(10);
         alarm.setArrivalTime("05/10/2017 11:40 AM");
-        alarm.setStartLocation("Current Location");
-        alarm.setEndLocation("Default Location");
+        //alarm.setStartLocation("Current Location");
+        //alarm.setEndLocation("Default Location");
         db.addAlarm(alarm);
     }
 
