@@ -41,7 +41,7 @@ public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
 
         alarmholder = new AlarmHolder();
         alarmholder.alarm = alarmList.get(position);
-        alarmholder.active = (Switch)row.findViewById(R.id.activeSwitch);
+        alarmholder.active = (StyledSwitch) row.findViewById(R.id.activeSwitch);
         alarmholder.active.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,7 +80,7 @@ public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
         Alarm alarm;
         TextView name;
         TextView readyTime;
-        Switch active;
+        StyledSwitch active;
     }
 }
 

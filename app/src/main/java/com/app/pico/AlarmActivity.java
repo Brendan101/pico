@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -18,6 +19,11 @@ import java.util.Calendar;
 public class AlarmActivity extends AppCompatActivity implements View.OnClickListener {
     private final int START_LOCATION_REQUEST_CODE = 20;
     private final int END_LOCATION_REQUEST_CODE = 21;
+
+    // TODO decide how to handle default start location
+    // default end location should be loaded from global settings?
+    private final int USE_CURRENT_LOC = -1;
+    private final int USE_DEFAULT_LOC = -2;
 
     DBOperationsClass db;
 
@@ -29,6 +35,8 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
     RelativeLayout endLocRow;
 
     Alarm alarm;
+    Location startLoc;
+    Location endLoc;
 
     Handler myHandler = new Handler();
 
@@ -65,6 +73,14 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
             setPrepTimeView.setText(String.valueOf(alarm.getPrepTime()));
             setArrivalTimeView.setText(alarm.getArrivalTimeAsString());
             editAlarmName.setText(alarm.getEventName());
+            if (alarm.getStartLocationID() > 0){
+                startLoc = db.getLocationByID(alarm.getStartLocationID());
+                myHandler.post(new UpdateLocationRunnable(startLoc.getLocationName(), setStartLocView));
+            }
+            if (alarm.getEndLocationID() > 0){
+                endLoc = db.getLocationByID(alarm.getEndLocationID());
+                myHandler.post(new UpdateLocationRunnable(endLoc.getLocationName(), setEndLocView));
+            }
         }
         else {
             alarm = null;
@@ -86,6 +102,7 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
                 int prepTime = Integer.valueOf(setPrepTimeView.getText().toString());
                 String arrivalTime = setArrivalTimeView.getText().toString();
 
+
                 if(alarm != null) {
                     // Update Alarm values and store to db
                     // TODO: there is no repeatable field in the view
@@ -93,6 +110,17 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
                     alarm.setEventName(eventName);
                     alarm.setPrepTime(prepTime);
                     alarm.setArrivalTime(arrivalTime);
+
+                    if (startLoc != null) {
+                        alarm.setStartLocationID(startLoc.getID());
+                    } else{
+                        alarm.setStartLocationID(USE_CURRENT_LOC);
+                    }
+                    if (endLoc != null) {
+                        alarm.setEndLocationID(endLoc.getID());
+                    } else {
+                        alarm.setEndLocationID(USE_DEFAULT_LOC);
+                    }
                     db.updateAlarm(alarm);
                     // Route back to Alarm List Activity
                     this.finish();
@@ -106,8 +134,16 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
                     alarm.setRepeatable(false);
                     alarm.setPrepTime(prepTime);
                     alarm.setArrivalTime(arrivalTime);
-                    alarm.setStartLocation("Current Location");
-                    alarm.setEndLocation("Default Location");
+                    if (startLoc != null) {
+                        alarm.setStartLocationID(startLoc.getID());
+                    } else{
+                        alarm.setStartLocationID(USE_CURRENT_LOC);
+                    }
+                    if (endLoc != null) {
+                        alarm.setEndLocationID(endLoc.getID());
+                    } else {
+                        alarm.setEndLocationID(USE_DEFAULT_LOC);
+                    }
                     db.addAlarm(alarm);
                     // Route back to Alarm List Activity
                     this.finish();
@@ -116,12 +152,13 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
             case R.id.startLocRow:
                 Intent startIntent = new Intent(AlarmActivity.this, LocationListActivity.class);
                 startIntent.putExtra("parent", "alarm");
+                startIntent.putExtra("type", "start");
                 startActivityForResult(startIntent, START_LOCATION_REQUEST_CODE);
-                Log.e("onclick", "start");
                 break;
             case R.id.endLocRow:
                 Intent endIntent = new Intent(AlarmActivity.this, LocationListActivity.class);
                 endIntent.putExtra("parent", "alarm");
+                endIntent.putExtra("type", "end");
                 startActivityForResult(endIntent, END_LOCATION_REQUEST_CODE);
                 break;
         }
@@ -132,13 +169,20 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == START_LOCATION_REQUEST_CODE){
             if (resultCode == RESULT_OK){
-                String newLoc = data.getStringExtra("location");
-                myHandler.post(new UpdateLocationRunnable(newLoc, setStartLocView));
+                Bundle locData = data.getExtras();
+                if(locData != null) {
+                    startLoc = (Location) locData.getSerializable("location");
+                    myHandler.post(new UpdateLocationRunnable(startLoc.getLocationName(), setStartLocView));
+                }
             }
         } else if(requestCode == END_LOCATION_REQUEST_CODE){
             if (resultCode == RESULT_OK){
-                String newLoc = data.getStringExtra("location");
-                myHandler.post(new UpdateLocationRunnable(newLoc, setEndLocView));
+                Bundle locData = data.getExtras();
+                if(locData != null) {
+                    endLoc = (Location) locData.getSerializable("location");
+                    myHandler.post(new UpdateLocationRunnable(endLoc.getLocationName(), setEndLocView));
+                }
+
             }
         }
     }

@@ -6,10 +6,10 @@
         <item name="colorPrimary">@color/primaryBlue</item>
         <item name="colorAccent">@color/accentOrange</item>
         <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/elementGrey</item>
         <!--
         <item name="colorText">@color/elementGrey</item>
         <item name="colorFaded">@color/elementFadedGrey</item>
         -->
     </style>
-
 </resources>
