@@ -10,7 +10,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDKHuPuNc-8XI4GoJ0K-Y41tAWUm8oU-v8"/>
+            android:value="AIzaSyDKHuPuNc-8XI4GoJ0K-Y41tAWUm8oU-v8" />
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -22,13 +22,12 @@
         <activity
             android:name=".SettingsActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".AlertActivity"></activity>
-        <activity android:name=".PlacesActivity"></activity>
+        <activity android:name=".AlertActivity" />
+        <activity android:name=".PlacesActivity" />
         <activity android:name=".AlarmListActivity" />
-        <activity android:name=".AlarmActivity"></activity>
-        <activity android:name=".LocationListActivity"></activity>
+        <activity android:name=".AlarmActivity" />
+        <activity android:name=".LocationListActivity" />
+        <activity android:name=".ArrivalActivity"></activity>
     </application>
-
-
 
 </manifest>

@@ -168,7 +168,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/relativeLayout3"
+            android:id="@+id/arrivalTimeRow"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_alignParentLeft="true"
@@ -194,15 +194,17 @@
                 android:id="@+id/setArrivalTimeView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/alarmArrivalTimeView"
+                android:layout_alignBottom="@+id/alarmArrivalTimeView"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_marginEnd="25dp"
                 android:layout_marginRight="25dp"
                 android:layout_weight="0.63"
                 android:text="05/09/2017 8:00 AM"
-                android:textSize="18sp"
-                android:layout_alignBaseline="@+id/alarmArrivalTimeView"
-                android:layout_alignBottom="@+id/alarmArrivalTimeView"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:textSize="18sp" />
+
+
         </RelativeLayout>
 
         <RelativeLayout
@@ -242,6 +244,46 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="25dp"
                 android:layout_marginEnd="25dp" />
+
+            <LinearLayout
+                android:id="@+id/arrivePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/picker"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <Button
+                    android:id="@+id/btnLeftTime"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="22dp"
+                    android:layout_height="39dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="-3dp"
+                    android:background="@drawable/pico_symbols_left_arrow" />
+
+                <com.app.pico.StyledTextView
+                    android:id="@+id/txtArrivalTimePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="12:00"
+                    android:textSize="24sp" />
+
+                <Button
+                    android:id="@+id/btnRightTime"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="22dp"
+                    android:layout_height="39dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="-3dp"
+                    android:background="@drawable/pico_symbols_right_arrow" />
+
+            </LinearLayout>
         </RelativeLayout>
 
         <com.app.pico.StyledButton

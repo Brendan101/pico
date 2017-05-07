@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,13 +21,20 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
     private final int END_LOCATION_REQUEST_CODE = 21;
 
     DBOperationsClass db;
-
-    TextView alarmHeader, setPrepTimeView, setArrivalTimeView, setStartLocView, setEndLocView;
+    String ampm[] = new String[]{"AM","PM"};
+    int bm = Calendar.AM;
+    int arrivalHour, arrivalMinute;
+    TextView alarmHeader, setPrepTimeView, setArrivalTimeView, setStartLocView, setEndLocView, txtArrivalTimePicker;
     EditText editAlarmName;
     Button saveBtn;
 
-    RelativeLayout startLocRow;
+    RelativeLayout startLocRow, arrivalTimeRow;
     RelativeLayout endLocRow;
+    LinearLayout arrivePicker;
+    int currArrivalVis;
+    Button btnLeftTimeDec, btnRightTimeInc;
+    Calendar currentDate;
+
 
     Alarm alarm;
 
@@ -36,25 +44,31 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
-
         db = new DBOperationsClass(this);
 
         alarmHeader = (TextView) findViewById(R.id.singleAlarmHeader);
         setPrepTimeView = (TextView) findViewById(R.id.setPrepTimeView);
         setArrivalTimeView = (TextView) findViewById(R.id.setArrivalTimeView);
+        txtArrivalTimePicker = (StyledTextView) findViewById(R.id.txtArrivalTimePicker);
+
         editAlarmName = (EditText) findViewById(R.id.editAlarmName);
         saveBtn = (Button) findViewById(R.id.saveAlarm);
         startLocRow = (RelativeLayout) findViewById(R.id.startLocRow);
         endLocRow = (RelativeLayout) findViewById(R.id.endLocRow);
         setStartLocView = (TextView) findViewById(R.id.setStartLocationView);
         setEndLocView = (TextView) findViewById(R.id.setEndLocationView);
+        btnLeftTimeDec = (Button) findViewById(R.id.btnLeftTime);
+        btnRightTimeInc = (Button) findViewById(R.id.btnRightTime);
+        arrivalTimeRow = (RelativeLayout) findViewById(R.id.arrivalTimeRow);
 
+        arrivePicker = (LinearLayout) findViewById(R.id.arrivePicker);
         saveBtn.setOnClickListener(this);
         startLocRow.setOnClickListener(this);
         endLocRow.setOnClickListener(this);
+        arrivalTimeRow.setOnClickListener(this);
 
-        //prepTimePicker.setOnClickListener(this);
-
+        myHandler.post(new AlarmActivity.VisibilityRunnable(View.GONE, arrivePicker));
+        currArrivalVis = View.GONE;
         Bundle intentData = getIntent().getExtras();
 
         // Todo: do this in a handler?
@@ -63,20 +77,86 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
             // Update values in the layout to the actual Alarm values
             alarmHeader.setText("Edit Alarm");
             setPrepTimeView.setText(String.valueOf(alarm.getPrepTime()));
-            setArrivalTimeView.setText(alarm.getArrivalTimeAsString());
+            currentDate = alarm.getArrivalTime();
+            SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a");
+
+            String defaultArrivalTime = formatter.format(currentDate.getTime());
+            setArrivalTimeView.setText(defaultArrivalTime);
             editAlarmName.setText(alarm.getEventName());
+            currentDate = alarm.getArrivalTime();
         }
         else {
             alarm = null;
             alarmHeader.setText("New Alarm");
             // Set default Alarm date to current date/time + a day
-            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
-            Calendar currentDate = Calendar.getInstance();
+            SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a");
+            currentDate = Calendar.getInstance();
             currentDate.add(Calendar.DATE, 1);
             String defaultArrivalTime = formatter.format(currentDate.getTime());
             setArrivalTimeView.setText(defaultArrivalTime);
+
         }
+        String arrivalTime = setArrivalTimeView.getText().toString();
+
+        arrivalHour = currentDate.get(Calendar.HOUR);
+        arrivalMinute = currentDate.get(Calendar.MINUTE);
+        bm = currentDate.get(Calendar.AM_PM);
+
+        arrivalTimeRow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currArrivalVis == View.GONE) {
+                    myHandler.post(new VisibilityRunnable(View.VISIBLE, arrivePicker));
+                    currArrivalVis = View.VISIBLE;
+                } else {
+                    myHandler.post(new VisibilityRunnable(View.GONE, arrivePicker));
+                    currArrivalVis = View.GONE;
+                    myHandler.post(new ArrivalTextRunnable(arrivalHour, arrivalMinute));
+                }
+
+            }
+        });
+
+        btnLeftTimeDec.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if (arrivalMinute > 0) {
+                    arrivalMinute -= 1;
+                    }
+                else {
+                    if(arrivalHour > 0){arrivalHour -= 1;}
+                    else {
+                        arrivalHour = 11;
+                        if (bm == Calendar.AM){bm = Calendar.PM;}
+                        else {bm = Calendar.AM;}
+                        }
+                    arrivalMinute = 59;
+                }
+                myHandler.post(new ArrivalPickerRunnable(arrivalHour, arrivalMinute));
+
+            }
+        });
+
+        btnRightTimeInc.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if (arrivalMinute < 59) {
+                    arrivalMinute += 1;
+                }
+                else {
+                    if(arrivalHour < 11){arrivalHour += 1;}
+                    else {arrivalHour = 0;
+                        if (bm == Calendar.AM){bm = Calendar.PM;}
+                        else {bm = Calendar.AM;}
+                    }
+                    arrivalMinute = 0;
+                }
+                myHandler.post(new ArrivalPickerRunnable( arrivalHour, arrivalMinute));
+
+            }
+        });
     }
+
 
     @Override
     public void onClick(View view) {
@@ -84,7 +164,11 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
             case R.id.saveAlarm:
                 String eventName = editAlarmName.getText().toString();
                 int prepTime = Integer.valueOf(setPrepTimeView.getText().toString());
-                String arrivalTime = setArrivalTimeView.getText().toString();
+                currentDate.set(Calendar.HOUR, arrivalHour);
+                currentDate.set(Calendar.MINUTE, arrivalMinute);
+                currentDate.set(Calendar.AM_PM, bm);
+                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+                String arrivalTime = formatter.format(currentDate.getTime());
 
                 if(alarm != null) {
                     // Update Alarm values and store to db
@@ -124,6 +208,12 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
                 endIntent.putExtra("parent", "alarm");
                 startActivityForResult(endIntent, END_LOCATION_REQUEST_CODE);
                 break;
+            /*case R.id.arrivalTimeRow:
+                Intent timeIntent = new Intent(AlarmActivity.this, ArrivalActivity.class);
+                timeIntent.putExtra("parent", alarm.getArrivalTime().getTimeInMillis());
+                startActivityForResult(timeIntent, ARRIVAL_TIME_REQUEST_CODE);
+                break;*/
+
         }
     }
 
@@ -142,6 +232,20 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
             }
         }
     }
+    private class VisibilityRunnable implements Runnable {
+        private int _visibility;
+        private View _view;
+
+        public VisibilityRunnable(int visibility, View view){
+            this._visibility = visibility;
+            this._view = view;
+        }
+
+        @Override
+        public void run() {
+            this._view.setVisibility(this._visibility);
+        }
+    }
 
     private class UpdateLocationRunnable implements Runnable{
         private String _newLoc;
@@ -158,6 +262,54 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+
+    private class ArrivalPickerRunnable implements Runnable{
+        private int _arrivalHour;
+        private int _arrivalMinute;
+
+        public ArrivalPickerRunnable(int arrivalHour, int arrivalMinute){
+
+            this._arrivalHour = arrivalHour;
+            this._arrivalMinute = arrivalMinute;
+            if(this._arrivalHour == 0){this._arrivalHour  = 12;}
+        }
+
+        @Override
+        public void run() {
+            String hours = String.valueOf(this._arrivalHour );
+            String minutes = String.valueOf(this._arrivalMinute );
+
+            if (minutes.length() < 2){
+                minutes = "0" + minutes;
+            }
+
+            txtArrivalTimePicker.setText(hours + " : "+ minutes +" "+ ampm[bm]);
+        }
+    }
+
+    private class ArrivalTextRunnable implements Runnable{
+        private int _arrivalHour;
+        private int _arrivalMinute;
+
+
+        public ArrivalTextRunnable(int arrivalHour, int arrivalMinute){
+            this._arrivalHour = arrivalHour;
+            this._arrivalMinute = arrivalMinute;
+            if(this._arrivalHour == 0){this._arrivalHour  = 12;}
+
+        }
+
+        @Override
+        public void run() {
+            String hours = String.valueOf(this._arrivalHour );
+            String minutes = String.valueOf(this._arrivalMinute );
+
+            if (minutes.length() < 2){
+                minutes = "0" + minutes;
+            }
+
+            setArrivalTimeView.setText(hours + " : "+ minutes +" "+ ampm[bm]);}
+    }
     /*@Override
     public void onClick(View view) {
         String currentPrepTime = prepTimePicker.getText().toString();
