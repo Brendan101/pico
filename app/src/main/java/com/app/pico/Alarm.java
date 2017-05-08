@@ -7,23 +7,25 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Alarm implements Serializable{
-    // prepTime is in minutes
-    private int ID, prepTime;
-    private String eventName, startLocation, endLocation;
-    private boolean active, repeatable;
+    // prepTime and snoozeTime are in minutes
+    private int ID, prepTime, snoozeTime;
+    private String eventName, startLocation, endLocation, repeat, sound;
+    private boolean active;
     private Calendar arrivalTime;
 
-    public Alarm(int ID, String eventName, boolean active, boolean repeatable, int prepTime, Calendar arrivalTime,
-                 String startLocation, String endLocation)
+    public Alarm(int ID, String eventName, boolean active, int prepTime, Calendar arrivalTime,
+                 String startLocation, String endLocation, String repeat, int snoozeTime, String sound)
     {
         this.ID = ID;
         this.eventName = eventName;
         this.active = active;
-        this.repeatable = repeatable;
         this.prepTime = prepTime;
         this.arrivalTime = arrivalTime;
         this.startLocation = startLocation;
         this.endLocation = endLocation;
+        this.repeat = repeat;
+        this.snoozeTime = snoozeTime;
+        this.sound = sound;
     }
 
     public Alarm() {}
@@ -35,10 +37,6 @@ public class Alarm implements Serializable{
     }
 
     public boolean isActive() { return active; }
-
-    public boolean isRepeatable() {
-        return repeatable;
-    }
 
     public int getPrepTime() {
         return prepTime;
@@ -91,19 +89,6 @@ public class Alarm implements Serializable{
         }
     }
 
-    public void setRepeatable(boolean repeatable) {
-        this.repeatable = repeatable;
-    }
-
-    public void setRepeatable(int repeatable) {
-        if(repeatable == 0) {
-            this.repeatable = false;
-        }
-        else {
-            this.repeatable = true;
-        }
-    }
-
     public void setPrepTime(int prepTime) {
         this.prepTime = prepTime;
     }
@@ -131,5 +116,29 @@ public class Alarm implements Serializable{
 
     public void setEndLocation(String endLocation) {
         this.endLocation = endLocation;
+    }
+
+    public int getSnoozeTime() {
+        return snoozeTime;
+    }
+
+    public void setSnoozeTime(int snoozeTime) {
+        this.snoozeTime = snoozeTime;
+    }
+
+    public String getRepeat() {
+        return repeat;
+    }
+
+    public void setRepeat(String repeat) {
+        this.repeat = repeat;
+    }
+
+    public String getSound() {
+        return sound;
+    }
+
+    public void setSound(String sound) {
+        this.sound = sound;
     }
 }

@@ -24,11 +24,13 @@ public class DBOperationsClass {
         ContentValues values = new ContentValues();
         values.put(dbHelper.ALARM_EVENT_NAME, alarm.getEventName());
         values.put(dbHelper.ALARM_ACTIVE, alarm.isActive());
-        values.put(dbHelper.ALARM_REPEATABLE, alarm.isRepeatable());
         values.put(dbHelper.ALARM_PREP_TIME, alarm.getPrepTime());
         values.put(dbHelper.ALARM_ARRIVAL_TIME, alarm.getArrivalTimeAsString());
         values.put(dbHelper.ALARM_START_LOCATION, alarm.getStartLocation());
         values.put(dbHelper.ALARM_END_LOCATION, alarm.getEndLocation());
+        values.put(dbHelper.ALARM_REPEAT, alarm.getRepeat());
+        values.put(dbHelper.ALARM_SNOOZE_TIME, alarm.getSnoozeTime());
+        values.put(dbHelper.ALARM_SOUND, alarm.getSound());
 
         // Insert Alarm
         db.insert(dbHelper.ALARM_TABLE_NAME, null, values);
@@ -50,11 +52,13 @@ public class DBOperationsClass {
                 alarm.setID(Integer.parseInt(cursor.getString(0)));
                 alarm.setEventName(cursor.getString(1));
                 alarm.setActive(cursor.getInt(2));
-                alarm.setRepeatable(cursor.getInt(3));
-                alarm.setPrepTime(cursor.getInt(4));
-                alarm.setArrivalTime(cursor.getString(5));
-                alarm.setStartLocation(cursor.getString(6));
-                alarm.setEndLocation(cursor.getString(7));
+                alarm.setPrepTime(cursor.getInt(3));
+                alarm.setArrivalTime(cursor.getString(4));
+                alarm.setStartLocation(cursor.getString(5));
+                alarm.setEndLocation(cursor.getString(6));
+                alarm.setRepeat(cursor.getString(7));
+                alarm.setSnoozeTime(cursor.getInt(8));
+                alarm.setSound(cursor.getString(9));
 
                 // Add Alarm to list
                 alarmList.add(alarm);
@@ -77,11 +81,13 @@ public class DBOperationsClass {
         ContentValues values = new ContentValues();
         values.put(dbHelper.ALARM_EVENT_NAME, alarm.getEventName());
         values.put(dbHelper.ALARM_ACTIVE, alarm.isActive());
-        values.put(dbHelper.ALARM_REPEATABLE, alarm.isRepeatable());
         values.put(dbHelper.ALARM_PREP_TIME, alarm.getPrepTime());
         values.put(dbHelper.ALARM_ARRIVAL_TIME, alarm.getArrivalTimeAsString());
         values.put(dbHelper.ALARM_START_LOCATION, alarm.getStartLocation());
         values.put(dbHelper.ALARM_END_LOCATION, alarm.getEndLocation());
+        values.put(dbHelper.ALARM_REPEAT, alarm.getRepeat());
+        values.put(dbHelper.ALARM_SNOOZE_TIME, alarm.getSnoozeTime());
+        values.put(dbHelper.ALARM_SOUND, alarm.getSound());
 
         // Update Alarm
         db.update(dbHelper.ALARM_TABLE_NAME, values, dbHelper.ALARM_ID + "=" + alarm.getID(), null);

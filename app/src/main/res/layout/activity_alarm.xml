@@ -26,10 +26,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/primaryWhite"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:focusableInTouchMode="true">
 
             <RelativeLayout
-                android:id="@+id/relativeLayout"
+                android:id="@+id/prepTimeRow"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:background="@drawable/list_bottom_border"
@@ -169,7 +170,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/relativeLayout3"
+                android:id="@+id/arrivalTimeRow"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:background="@drawable/list_bottom_border"
@@ -195,12 +196,12 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:text="05/09/2017 8:00 AM"
+                    android:text="8:00 AM"
                     android:textSize="18sp" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/relativeLayout4"
+                android:id="@+id/nameRow"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:background="@drawable/list_bottom_border"
@@ -232,7 +233,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/repeat_row"
+                android:id="@+id/repeatRow"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:background="@drawable/list_bottom_border"
@@ -264,7 +265,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/snooze_row"
+                android:id="@+id/snoozeRow"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:background="@drawable/list_bottom_border"
@@ -443,7 +444,7 @@
                     android:padding="10dp">
 
                     <Button
-                        android:id="@+id/btnLeftTime"
+                        android:id="@+id/btnLeftSnoozeTime"
                         style="@style/Widget.AppCompat.Button.Borderless"
                         android:layout_width="22dp"
                         android:layout_height="39dp"
@@ -460,7 +461,7 @@
                         android:textSize="24sp" />
 
                     <Button
-                        android:id="@+id/btnRightTime"
+                        android:id="@+id/btnRightSnoozeTime"
                         style="@style/Widget.AppCompat.Button.Borderless"
                         android:layout_width="22dp"
                         android:layout_height="39dp"
