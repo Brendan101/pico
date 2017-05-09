@@ -21,9 +21,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         db = new DBOperationsClass(this);
-        this.deleteDatabase(DBHelperClass.DB_NAME);
-        //createTestLocation();
-        //createTestAlarm();
+        //this.deleteDatabase(DBHelperClass.DB_NAME);
 
         btnAlarms = (StyledButton) findViewById(R.id.btnAlarm);
         btnLocations = (StyledButton) findViewById(R.id.btnLocations);
@@ -67,25 +65,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
         }
-    }
-
-    private void createTestAlarm() {
-        Alarm alarm = new Alarm();
-        alarm.setEventName("Another One");
-        alarm.setActive(false);
-        alarm.setRepeatable(false);
-        alarm.setPrepTime(10);
-        alarm.setArrivalTime("05/10/2017 11:40 AM");
-        //alarm.setStartLocation("Current Location");
-        //alarm.setEndLocation("Default Location");
-        db.addAlarm(alarm);
-    }
-
-    private void createTestLocation() {
-        Location location = new Location();
-        location.setLocationName("Chicago");
-        location.setLatitude(0);
-        location.setLongitude(0);
-        db.addLocation(location);
     }
 }
