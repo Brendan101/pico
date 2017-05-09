@@ -33,7 +33,8 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
 
     DBOperationsClass db;
 
-    TextView alarmHeader, setArrivalTimeView, setStartLocView, setEndLocView;
+    StyledTextHeader alarmHeader;
+    StyledTextView setArrivalTimeView, setStartLocView, setEndLocView;
     EditText editAlarmName;
     Button saveBtn, btnLeftPrepTime, btnRightPrepTime, btnLeftSnoozeTime, btnRightSnoozeTime;
     StyledTextView setPrepTimeView, txtPrepTimePicker, txtRepeatDays, txtSnoozeTime, txtSnoozeTimePicker, txtSoundName;
@@ -60,14 +61,14 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
 
         db = new DBOperationsClass(this);
 
-        alarmHeader = (TextView) findViewById(R.id.singleAlarmHeader);
-        setArrivalTimeView = (TextView) findViewById(R.id.setArrivalTimeView);
+        alarmHeader = (StyledTextHeader) findViewById(R.id.singleAlarmHeader);
+        setArrivalTimeView = (StyledTextView) findViewById(R.id.setArrivalTimeView);
         editAlarmName = (EditText) findViewById(R.id.editAlarmName);
         saveBtn = (Button) findViewById(R.id.saveAlarm);
         startLocRow = (RelativeLayout) findViewById(R.id.startLocRow);
         endLocRow = (RelativeLayout) findViewById(R.id.endLocRow);
-        setStartLocView = (TextView) findViewById(R.id.setStartLocationView);
-        setEndLocView = (TextView) findViewById(R.id.setEndLocationView);
+        setStartLocView = (StyledTextView) findViewById(R.id.setStartLocationView);
+        setEndLocView = (StyledTextView) findViewById(R.id.setEndLocationView);
         txtSoundName = (StyledTextView) findViewById(R.id.txtSoundName);
 
         // Prep Time Row and picker
