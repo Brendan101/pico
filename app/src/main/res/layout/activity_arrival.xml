@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_settings"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.app.pico.ArrivalActivity"
+    android:background="@color/primaryBlue">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="100dp"
+        android:layout_marginTop="80dp"
+        android:background="@color/primaryWhite"
+        android:orientation="vertical"
+        android:id="@+id/main_content">
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/month_row"
+            android:background="@drawable/list_bottom_border"
+            android:paddingStart="20dp"
+            android:paddingLeft="20dp"
+            android:paddingEnd="20dp"
+            android:paddingRight="20dp">
+
+            <com.app.pico.StyledTextView
+                android:text="Month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/txtMonthPrompt"
+                android:textSize="18sp" />
+
+            <com.app.pico.StyledTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/txtMonth"
+                android:text="5 min"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/day_row"
+            android:background="@drawable/list_bottom_border"
+            android:paddingStart="20dp"
+            android:paddingLeft="20dp"
+            android:paddingEnd="20dp"
+            android:paddingRight="20dp">
+
+        <com.app.pico.StyledTextView
+            android:text="Day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/txtDayPrompt"
+            android:textSize="18sp" />
+
+        <com.app.pico.StyledTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/txtDay"
+            android:text="5 min"
+            android:textSize="18sp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/picker"
+                android:padding="10dp"
+                android:id="@+id/monthPicker">
+
+            <Button
+                android:layout_width="22dp"
+                android:id="@+id/btnLeftMonth"
+                android:background="@drawable/pico_symbols_left_arrow"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_marginRight="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="-3dp"
+                android:layout_height="39dp" />
+
+                <com.app.pico.StyledTextView
+                    android:id="@+id/txtMonthPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/btnRightMonth"
+                android:background="@drawable/pico_symbols_right_arrow"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="-3dp"
+                android:layout_width="22dp"
+                android:layout_height="39dp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/arrival_row"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/list_bottom_border"
+            android:paddingEnd="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingStart="20dp">
+
+            <com.app.pico.StyledTextView
+                android:id="@+id/txtArrivalTimePrompt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="Time"
+                android:textSize="18sp" />
+
+            <com.app.pico.StyledTextView
+                android:id="@+id/txtTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="5 min"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:id="@+id/DayPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/picker"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <Button
+                    android:id="@+id/btnLeftDay"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="22dp"
+                    android:layout_height="39dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="-3dp"
+                    android:background="@drawable/pico_symbols_left_arrow" />
+
+                <com.app.pico.StyledTextView
+                    android:id="@+id/txtDayPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="24sp" />
+
+                <Button
+                    android:id="@+id/btnRightDay"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="22dp"
+                    android:layout_height="39dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="-3dp"
+                    android:background="@drawable/pico_symbols_right_arrow" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/ampm_row"
+            android:background="@drawable/list_bottom_border"
+            android:paddingStart="20dp"
+            android:paddingLeft="20dp"
+            android:paddingEnd="20dp"
+            android:paddingRight="20dp">
+
+            <com.app.pico.StyledTextView
+                android:text="AM/PM"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/txtAMPMPrompt"
+                android:textSize="18sp" />
+
+            <com.app.pico.StyledTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/txtAMPM"
+                android:text="AM"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/picker"
+                android:padding="10dp"
+                android:id="@+id/TimePicker">
+
+                <Button
+                    android:layout_width="22dp"
+                    android:id="@+id/btnLeftTime"
+                    android:background="@drawable/pico_symbols_left_arrow"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginTop="-3dp"
+                    android:layout_height="39dp" />
+
+                <com.app.pico.StyledTextView
+                    android:id="@+id/txtTimePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="12:00"
+                    android:textSize="24sp" />
+
+                <Button
+                    android:id="@+id/btnRightTime"
+                    android:background="@drawable/pico_symbols_right_arrow"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="-3dp"
+                    android:layout_width="22dp"
+                    android:layout_height="39dp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/end_row"
+            android:paddingStart="20dp"
+            android:paddingLeft="20dp"
+            android:paddingEnd="20dp"
+            android:paddingRight="20dp">
+
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/picker"
+                android:padding="10dp"
+                android:id="@+id/AMPMPicker">
+
+                <Button
+                    android:layout_width="22dp"
+                    android:id="@+id/btnLeftAMPM"
+                    android:background="@drawable/pico_symbols_left_arrow"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginTop="-3dp"
+                    android:layout_height="39dp" />
+
+                <com.app.pico.StyledTextView
+                    android:id="@+id/txtAMPMPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="AM"
+                    android:textSize="24sp" />
+
+                <Button
+                    android:id="@+id/btnRightAMPM"
+                    android:background="@drawable/pico_symbols_right_arrow"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="-3dp"
+                    android:layout_width="22dp"
+                    android:layout_height="39dp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/layoutBottomLogo"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="15dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/pico_symbols_bird" />
+
+    <com.app.pico.StyledTextHeader
+        android:text="Arrival Time"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="25dp"
+        android:id="@+id/settingsTxt"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:textAlignment="center"
+        android:textSize="36sp"
+        android:textColor="@color/primaryWhite"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

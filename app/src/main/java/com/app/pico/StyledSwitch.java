@@ -7,6 +7,7 @@ import android.os.Build;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import java.lang.reflect.Field;
 
@@ -39,7 +40,8 @@ public class StyledSwitch extends SwitchCompat {
             Field switchWidth = SwitchCompat.class.getDeclaredField("mSwitchWidth");
             switchWidth.setAccessible(true);
 
-            switchWidth.setInt(this, 40+150);
+            int currWidth = (int) switchWidth.get(this);
+            switchWidth.setInt(this, (int)(0.8f*currWidth));
 
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
@@ -70,6 +72,8 @@ public class StyledSwitch extends SwitchCompat {
             catch (NullPointerException e) {
                 e.printStackTrace();
             }
+        } else {
+            Log.e("VERSION", "android version too low");
         }
     }
 }

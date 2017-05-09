@@ -7,23 +7,25 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Alarm implements Serializable{
-    // prepTime is in minutes
-    private int ID, prepTime, startLocationID, endLocationID;
-    private String eventName;
-    private boolean active, repeatable;
+    // prepTime and snoozeTime are in minutes
+    private int ID, prepTime, snoozeTime, startLocationID, endLocationID;
+    private String eventName, repeat, sound;
+    private boolean active;
     private Calendar arrivalTime;
 
-    public Alarm(int ID, String eventName, boolean active, boolean repeatable, int prepTime, Calendar arrivalTime,
-                 int startLocationID, int endLocationID)
+    public Alarm(int ID, String eventName, boolean active, int prepTime, Calendar arrivalTime,
+                 int startLocationID, int endLocationID, String repeat, int snoozeTime, String sound)
     {
         this.ID = ID;
         this.eventName = eventName;
         this.active = active;
-        this.repeatable = repeatable;
         this.prepTime = prepTime;
         this.arrivalTime = arrivalTime;
         this.startLocationID = startLocationID;
         this.endLocationID = endLocationID;
+        this.repeat = repeat;
+        this.snoozeTime = snoozeTime;
+        this.sound = sound;
     }
 
     public Alarm() {}
@@ -35,10 +37,6 @@ public class Alarm implements Serializable{
     }
 
     public boolean isActive() { return active; }
-
-    public boolean isRepeatable() {
-        return repeatable;
-    }
 
     public int getPrepTime() {
         return prepTime;
@@ -59,10 +57,8 @@ public class Alarm implements Serializable{
         return prepTimeString;
     }
 
-    public Calendar getArrivalTime() { return arrivalTime; }
-
     public String getArrivalTimeAsString() {
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a");
         return formatter.format(arrivalTime.getTime());
     }
 
@@ -91,29 +87,12 @@ public class Alarm implements Serializable{
         }
     }
 
-    public void setRepeatable(boolean repeatable) {
-        this.repeatable = repeatable;
-    }
-
-    public void setRepeatable(int repeatable) {
-        if(repeatable == 0) {
-            this.repeatable = false;
-        }
-        else {
-            this.repeatable = true;
-        }
-    }
-
     public void setPrepTime(int prepTime) {
         this.prepTime = prepTime;
     }
 
-    public void setArrivalTime(Calendar arrivalTime) {
-        this.arrivalTime = arrivalTime;
-    }
-
     public void setArrivalTime(String arrivalTime) {
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a");
         Date date = null;
         try {
             date = formatter.parse(arrivalTime);
@@ -131,5 +110,29 @@ public class Alarm implements Serializable{
 
     public void setEndLocationID(int endLocationID) {
         this.endLocationID = endLocationID;
+    }
+
+    public int getSnoozeTime() {
+        return snoozeTime;
+    }
+
+    public void setSnoozeTime(int snoozeTime) {
+        this.snoozeTime = snoozeTime;
+    }
+
+    public String getRepeat() {
+        return repeat;
+    }
+
+    public void setRepeat(String repeat) {
+        this.repeat = repeat;
+    }
+
+    public String getSound() {
+        return sound;
+    }
+
+    public void setSound(String sound) {
+        this.sound = sound;
     }
 }
