@@ -22,7 +22,7 @@
         android:layout_marginBottom="100dp"
         android:layout_marginTop="80dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/primaryWhite"
@@ -67,6 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:background="@drawable/list_bottom_border"
+                android:layout_below="@id/prepTimeRow"
                 android:paddingEnd="20dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
@@ -93,53 +94,57 @@
                     android:text="Current Location"
                     android:textSize="18sp" />
 
-                <LinearLayout
-                    android:id="@+id/prepTimePicker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:background="@drawable/picker"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
 
-                    <Button
-                        android:id="@+id/btnLeftPrepTime"
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="22dp"
-                        android:layout_height="39dp"
-                        android:layout_marginEnd="15dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginTop="-3dp"
-                        android:background="@drawable/pico_symbols_left_arrow" />
-
-                    <com.app.pico.StyledTextView
-                        android:id="@+id/txtPrepTimePicker"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0:05"
-                        android:textSize="24sp" />
-
-                    <Button
-                        android:id="@+id/btnRightPrepTime"
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="22dp"
-                        android:layout_height="39dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="-3dp"
-                        android:background="@drawable/pico_symbols_right_arrow" />
-
-                </LinearLayout>
 
             </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/prepTimePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/picker"
+                android:layout_below="@id/prepTimeRow"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:clickable="true">
+
+                <Button
+                    android:id="@+id/btnLeftPrepTime"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="22dp"
+                    android:layout_height="39dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="-3dp"
+                    android:background="@drawable/pico_symbols_left_arrow" />
+
+                <com.app.pico.StyledTextView
+                    android:id="@+id/txtPrepTimePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0:05"
+                    android:textSize="24sp" />
+
+                <Button
+                    android:id="@+id/btnRightPrepTime"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="22dp"
+                    android:layout_height="39dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="-3dp"
+                    android:background="@drawable/pico_symbols_right_arrow" />
+
+            </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/endLocRow"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:layout_alignParentLeft="true"
+                android:layout_below="@id/startLocRow"
                 android:background="@drawable/list_bottom_border"
                 android:paddingEnd="20dp"
                 android:paddingLeft="20dp"
@@ -174,6 +179,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:background="@drawable/list_bottom_border"
+                android:layout_below="@id/endLocRow"
                 android:paddingEnd="20dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
@@ -205,6 +211,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:background="@drawable/list_bottom_border"
+                android:layout_below="@id/arrivalTimeRow"
                 android:paddingEnd="20dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
@@ -232,11 +239,54 @@
                     android:textSize="18sp" />
             </RelativeLayout>
 
+            <LinearLayout
+                android:id="@+id/arrivePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/arrivalTimeRow"
+                android:background="@drawable/picker"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:clickable="true">
+
+                <Button
+                    android:id="@+id/btnLeftTime"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="22dp"
+                    android:layout_height="39dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="-3dp"
+                    android:background="@drawable/pico_symbols_left_arrow" />
+
+                <com.app.pico.StyledTextView
+                    android:id="@+id/txtArrivalTimePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="12:00 AM"
+                    android:textSize="24sp"
+                    android:clickable="false" />
+
+                <Button
+                    android:id="@+id/btnRightTime"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="22dp"
+                    android:layout_height="39dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="-3dp"
+                    android:background="@drawable/pico_symbols_right_arrow" />
+
+            </LinearLayout>
+
             <RelativeLayout
                 android:id="@+id/repeatRow"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:background="@drawable/list_bottom_border"
+                android:layout_below="@id/nameRow"
                 android:paddingEnd="20dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
@@ -269,6 +319,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:background="@drawable/list_bottom_border"
+                android:layout_below="@id/repeatRow"
                 android:paddingEnd="20dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
@@ -293,120 +344,122 @@
                     android:layout_centerVertical="true"
                     android:text="5 min"
                     android:textSize="18sp" />
-
-                <LinearLayout
-                    android:id="@+id/repeatPicker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:background="@drawable/picker"
-                    android:orientation="horizontal"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp">
-
-                    <com.app.pico.StyledToggleButton
-                        android:id="@+id/sundayToggle"
-                        android:layout_width="39dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginLeft="7dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginStart="7dp"
-                        android:layout_weight="1"
-                        android:background="@android:color/transparent"
-                        android:textColor="@color/elementGrey"
-                        android:textOff="S"
-                        android:textOn="S"
-                        android:textSize="24sp" />
-
-                    <com.app.pico.StyledToggleButton
-                        android:id="@+id/mondayToggle"
-                        android:layout_width="39dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:background="@android:color/transparent"
-                        android:textColor="@color/elementGrey"
-                        android:textOff="M"
-                        android:textOn="M"
-                        android:textSize="24sp" />
-
-                    <com.app.pico.StyledToggleButton
-                        android:id="@+id/tuesdayToggle"
-                        android:layout_width="39dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:background="@android:color/transparent"
-                        android:textColor="@color/elementGrey"
-                        android:textOff="T"
-                        android:textOn="T"
-                        android:textSize="24sp" />
-
-                    <com.app.pico.StyledToggleButton
-                        android:id="@+id/wednesdayToggle"
-                        android:layout_width="39dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:background="@android:color/transparent"
-                        android:textColor="@color/elementGrey"
-                        android:textOff="W"
-                        android:textOn="W"
-                        android:textSize="24sp" />
-
-                    <com.app.pico.StyledToggleButton
-                        android:id="@+id/thursdayToggle"
-                        android:layout_width="39dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:background="@android:color/transparent"
-                        android:textColor="@color/elementGrey"
-                        android:textOff="T"
-                        android:textOn="T"
-                        android:textSize="24sp" />
-
-                    <com.app.pico.StyledToggleButton
-                        android:id="@+id/fridayToggle"
-                        android:layout_width="39dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:background="@android:color/transparent"
-                        android:textColor="@color/elementGrey"
-                        android:textOff="F"
-                        android:textOn="F"
-                        android:textSize="24sp" />
-
-                    <com.app.pico.StyledToggleButton
-                        android:id="@+id/saturdayToggle"
-                        android:layout_width="39dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:background="@android:color/transparent"
-                        android:textColor="@color/elementGrey"
-                        android:textOff="S"
-                        android:textOn="S"
-                        android:textSize="24sp" />
-                </LinearLayout>
-
             </RelativeLayout>
+
+
+            <LinearLayout
+                android:id="@+id/repeatPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/repeatRow"
+                android:background="@drawable/picker"
+                android:orientation="horizontal"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:clickable="true">
+
+                <com.app.pico.StyledToggleButton
+                    android:id="@+id/sundayToggle"
+                    android:layout_width="39dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="7dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/elementGrey"
+                    android:textOff="S"
+                    android:textOn="S"
+                    android:textSize="24sp" />
+
+                <com.app.pico.StyledToggleButton
+                    android:id="@+id/mondayToggle"
+                    android:layout_width="39dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/elementGrey"
+                    android:textOff="M"
+                    android:textOn="M"
+                    android:textSize="24sp" />
+
+                <com.app.pico.StyledToggleButton
+                    android:id="@+id/tuesdayToggle"
+                    android:layout_width="39dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/elementGrey"
+                    android:textOff="T"
+                    android:textOn="T"
+                    android:textSize="24sp" />
+
+                <com.app.pico.StyledToggleButton
+                    android:id="@+id/wednesdayToggle"
+                    android:layout_width="39dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/elementGrey"
+                    android:textOff="W"
+                    android:textOn="W"
+                    android:textSize="24sp" />
+
+                <com.app.pico.StyledToggleButton
+                    android:id="@+id/thursdayToggle"
+                    android:layout_width="39dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/elementGrey"
+                    android:textOff="T"
+                    android:textOn="T"
+                    android:textSize="24sp" />
+
+                <com.app.pico.StyledToggleButton
+                    android:id="@+id/fridayToggle"
+                    android:layout_width="39dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/elementGrey"
+                    android:textOff="F"
+                    android:textOn="F"
+                    android:textSize="24sp" />
+
+                <com.app.pico.StyledToggleButton
+                    android:id="@+id/saturdayToggle"
+                    android:layout_width="39dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/elementGrey"
+                    android:textOff="S"
+                    android:textOn="S"
+                    android:textSize="24sp" />
+            </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/sound_row"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:background="@drawable/list_bottom_border"
+                android:layout_below="@id/snoozeRow"
                 android:paddingEnd="20dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
@@ -431,63 +484,65 @@
                     android:layout_centerVertical="true"
                     android:text="Morning Sun"
                     android:textSize="18sp" />
+            </RelativeLayout>
 
-                <LinearLayout
-                    android:id="@+id/snoozePicker"
+            <LinearLayout
+                android:id="@+id/snoozePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/snoozeRow"
+                android:background="@drawable/picker"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:clickable="true">
+
+                <Button
+                    android:id="@+id/btnLeftSnoozeTime"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="22dp"
+                    android:layout_height="39dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="-3dp"
+                    android:background="@drawable/pico_symbols_left_arrow" />
+
+                <com.app.pico.StyledTextView
+                    android:id="@+id/txtSnoozeTimePicker"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:background="@drawable/picker"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:text="0:05"
+                    android:textSize="24sp" />
 
-                    <Button
-                        android:id="@+id/btnLeftSnoozeTime"
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="22dp"
-                        android:layout_height="39dp"
-                        android:layout_marginEnd="15dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginTop="-3dp"
-                        android:background="@drawable/pico_symbols_left_arrow" />
+                <Button
+                    android:id="@+id/btnRightSnoozeTime"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="22dp"
+                    android:layout_height="39dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="-3dp"
+                    android:background="@drawable/pico_symbols_right_arrow" />
 
-                    <com.app.pico.StyledTextView
-                        android:id="@+id/txtSnoozeTimePicker"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0:05"
-                        android:textSize="24sp" />
+            </LinearLayout>
 
-                    <Button
-                        android:id="@+id/btnRightSnoozeTime"
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="22dp"
-                        android:layout_height="39dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="-3dp"
-                        android:background="@drawable/pico_symbols_right_arrow" />
-
-                </LinearLayout>
-
-            </RelativeLayout>
 
             <com.app.pico.StyledButton
                 android:id="@+id/saveAlarm"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_gravity="center"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:layout_below="@id/sound_row"
                 android:background="@drawable/pico_symbols_submit"
                 android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionMode.Title"
                 android:textColor="@color/primaryWhite"
                 android:textSize="18sp" />
 
-        </LinearLayout>
+        </RelativeLayout>
     </ScrollView>
 
     <ImageView
