@@ -57,10 +57,8 @@ public class Alarm implements Serializable{
         return prepTimeString;
     }
 
-    public Calendar getArrivalTime() { return arrivalTime; }
-
     public String getArrivalTimeAsString() {
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a");
         return formatter.format(arrivalTime.getTime());
     }
 
@@ -93,12 +91,8 @@ public class Alarm implements Serializable{
         this.prepTime = prepTime;
     }
 
-    public void setArrivalTime(Calendar arrivalTime) {
-        this.arrivalTime = arrivalTime;
-    }
-
     public void setArrivalTime(String arrivalTime) {
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a");
         Date date = null;
         try {
             date = formatter.parse(arrivalTime);

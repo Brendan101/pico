@@ -156,8 +156,6 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
             myHandler.post(new AlarmActivity.PrepTimePickerRunnable(prepTime));
             myHandler.post(new AlarmActivity.PrepTimeTextRunnable(prepTime));
 
-            setStartLocView.setText(alarm.getStartLocation());
-            setEndLocView.setText(alarm.getEndLocation());
             setArrivalTimeView.setText(alarm.getArrivalTimeAsString());
             editAlarmName.setText(alarm.getEventName());
 
@@ -198,7 +196,7 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
             alarm = null;
             alarmHeader.setText("New Alarm");
             // Set default Alarm date to current date/time + a day
-            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+            SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a");
             Calendar currentDate = Calendar.getInstance();
             currentDate.add(Calendar.DATE, 1);
             String defaultArrivalTime = formatter.format(currentDate.getTime());
