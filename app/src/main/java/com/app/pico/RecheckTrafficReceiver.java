@@ -1,11 +1,18 @@
 package com.app.pico;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
+import android.support.v4.content.WakefulBroadcastReceiver;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.PowerManager;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 
-public class RecheckTrafficReceiver extends BroadcastReceiver {
+public class RecheckTrafficReceiver extends WakefulBroadcastReceiver {
 
     public RecheckTrafficReceiver() {}
 
@@ -21,4 +28,6 @@ public class RecheckTrafficReceiver extends BroadcastReceiver {
             context.startService(setAlarm);
         }
     }
+
+
 }

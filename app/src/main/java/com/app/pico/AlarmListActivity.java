@@ -1,6 +1,8 @@
 package com.app.pico;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +18,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class AlarmListActivity extends AppCompatActivity implements AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener {
+
+    final int BROADCAST = 100;
 
     ArrayList<Alarm> alarms;
     DBOperationsClass db;
@@ -98,8 +102,18 @@ public class AlarmListActivity extends AppCompatActivity implements AdapterView.
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Alarm alarm = alarms.get(i);
-        Intent alarmInt = new Intent(AlarmListActivity.this, AlarmActivity.class);
-        alarmInt.putExtra("alarm", alarm);
-        startActivity(alarmInt);
+        //Intent alarmInt = new Intent(AlarmListActivity.this, AlarmActivity.class);
+        //alarmInt.putExtra("alarm", alarm);
+        //startActivity(alarmInt);
+        int interval = 10;
+        // Create an Intent to send to the AlarmManager
+        // Want to call Receiver class
+        Intent myIntent = new Intent(this, AlarmReceiver.class);
+        myIntent.putExtra("alarm", alarm);
+        PendingIntent myP = PendingIntent.getBroadcast(getApplicationContext(), BROADCAST, myIntent, 0);
+        // get alarm service
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+interval*1000, myP);
+        Toast.makeText(getApplicationContext(), "Alarm set to "+interval+"seconds", Toast.LENGTH_LONG).show();
     }
 }

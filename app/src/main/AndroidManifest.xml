@@ -49,7 +49,7 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.NOTIFY"></action>
+                <action android:name="android.intent.action.NOTIFY" />
             </intent-filter>
         </receiver>
     </application>
