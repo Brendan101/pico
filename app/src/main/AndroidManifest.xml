@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.app.pico">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -27,7 +30,28 @@
         <activity android:name=".AlarmListActivity" />
         <activity android:name=".AlarmActivity" />
         <activity android:name=".LocationListActivity" />
-        <activity android:name=".ArrivalActivity"></activity>
+        <activity android:name=".ArrivalActivity" />
+
+        <service
+            android:name=".TrafficService"
+            android:exported="false" />
+
+        <receiver
+            android:name=".RecheckTrafficReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.NOTIFY"></action>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".AlarmReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.NOTIFY"></action>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

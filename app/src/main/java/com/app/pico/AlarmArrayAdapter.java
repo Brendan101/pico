@@ -1,7 +1,9 @@
 package com.app.pico;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +33,7 @@ public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View row = convertView;
 
         AlarmHolder alarmholder = null;
@@ -49,10 +51,20 @@ public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
                 AlarmHolder holder = (AlarmHolder) view.getTag();
                 Alarm alarm = holder.alarm;
                 if(alarm.isActive()) {
+                    //cancel alarm
                     alarm.setActive(false);
+                    Intent setAlarm = new Intent(context, TrafficService.class);
+                    setAlarm.putExtra("command", "cancel");
+                    setAlarm.putExtra("alarm", alarmList.get(position));
+                    context.startService(setAlarm);
                 }
                 else {
+                    //set alarm
                     alarm.setActive(true);
+                    Intent setAlarm = new Intent(context, TrafficService.class);
+                    setAlarm.putExtra("command", "initial");
+                    setAlarm.putExtra("alarm", alarmList.get(position));
+                    context.startService(setAlarm);
                 }
                 db.updateAlarm(alarm);
             }
