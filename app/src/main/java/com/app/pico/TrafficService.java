@@ -75,6 +75,8 @@ public class TrafficService extends IntentService {
         }
     }
 
+
+
     private void setAlarm(String model_type, Alarm alarm, String wake_type){
         float startLat = db.getLocationByID(alarm.getStartLocationID()).getLatitude();
         float startLong = db.getLocationByID(alarm.getStartLocationID()).getLongitude();
@@ -146,11 +148,18 @@ public class TrafficService extends IntentService {
 
         // check if we should alert the user to leave
         if (initDepartTime.getTimeInMillis() + CHECK_INTERVAL >= Calendar.getInstance().getTimeInMillis()){
-            // TODO the calculated departure time is very close to the current time; wake the user
-            // Might be able to do this by sending a broadcast with a specific id, which will tell our
-            // receiver to execute the alert activity/service
+            //set the alarm off
+            Intent startAlarm = new Intent(getApplicationContext(), AlarmReceiver.class);
+            startAlarm.putExtra("alarm", alarm);
+            startAlarm.putExtra("command", "alarm");
+            PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getID(), startAlarm, 0);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), alarmIntent);
+
         } else {
-            Intent setAlarm = new Intent(getApplicationContext(), TempAlarmReceiver.class);
+            //TODO double check this. Above sets off the alarm. This part rechecks traffic until
+            //alarm should go off, so this part should call this traffic service after some amount
+            //of time again, right? RecheckTrafficReceiver is just renamed TempAlarmReceiver
+            Intent setAlarm = new Intent(getApplicationContext(), RecheckTrafficReceiver.class);
             setAlarm.putExtra("alarm", alarm);
             setAlarm.putExtra("command", "alarm");
             PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getID(), setAlarm, 0);
@@ -167,6 +176,16 @@ public class TrafficService extends IntentService {
 
 
     }
+
+    /* CODE FOR TESTING THE ALARM
+    private void setAlarm(String model_type, Alarm alarm, String wake_type){
+        Intent startAlarm = new Intent(getApplicationContext(), AlarmReceiver.class);
+        startAlarm.putExtra("alarm", alarm);
+        startAlarm.putExtra("command", "alarm");
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getID(), startAlarm, 0);
+        //alarm pops up after 10 seconds
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, alarmIntent);
+    }*/
 
     private String getDuration(float startLat, float startLong, float endLat, float endLong){
         String requestURL = API_URL + "?" +

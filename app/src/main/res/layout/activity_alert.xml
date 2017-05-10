@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_alert"
     android:layout_width="match_parent"
@@ -12,39 +13,41 @@
     android:background="@color/primaryBlue">
 
     <com.app.pico.StyledTextHeader
-        android:text="Wake Up!"
+        android:id="@+id/wakeupTxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
-        android:id="@+id/wakeupTxt"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-        android:textAlignment="center"
-        android:textSize="50sp"
-        android:textColor="@color/primaryWhite"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/wakeUpImage"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="22dp"
+        android:text="Wake Up!"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:textColor="@color/primaryWhite"
+        android:textSize="50sp" />
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="256dp"
-        android:layout_below="@id/wakeupTxt"
-        android:layout_marginBottom="48dp"
-        android:id="@+id/logoImage"/>
+        app:srcCompat="@drawable/pico_symbols_bird_hat_500x601"
+        android:id="@+id/wakeUpImage"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
     <LinearLayout
         android:orientation="vertical"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/logoImage"
+        android:layout_below="@+id/wakeUpImage"
+        android:layout_marginTop="22dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
         <com.app.pico.StyledButton
             android:text="Snooze"
             android:layout_width="128dp"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:id="@+id/btnSnooze"
             android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionMode.Title"
             style="@style/Widget.AppCompat.Button.Borderless"
@@ -55,7 +58,7 @@
         <com.app.pico.StyledButton
             android:text="Turn Off"
             android:layout_width="128dp"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_marginTop="22dp"
             android:id="@+id/btnOff"
             android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionMode.Title"
