@@ -23,11 +23,10 @@
             android:name=".SettingsActivity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".AlertActivity" />
-        <activity android:name=".PlacesActivity" />
+        <activity android:name=".PlacesActivity" android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".AlarmListActivity" />
-        <activity android:name=".AlarmActivity" />
+        <activity android:name=".AlarmActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".LocationListActivity" />
-        <activity android:name=".ArrivalActivity"></activity>
     </application>
 
 </manifest>

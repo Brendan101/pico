@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnAlarms = (StyledButton) findViewById(R.id.btnAlarm);
         btnLocations = (StyledButton) findViewById(R.id.btnLocations);
-        btnSettings = (StyledButton) findViewById(R.id.btnSettings);
+       // btnSettings = (StyledButton) findViewById(R.id.btnSettings);
 
     }
 
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         btnAlarms.setOnClickListener(this);
         btnLocations.setOnClickListener(this);
-        btnSettings.setOnClickListener(this);
+        //btnSettings.setOnClickListener(this);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onPause();
         btnAlarms.setOnClickListener(null);
         btnLocations.setOnClickListener(null);
-        btnSettings.setOnClickListener(null);
+        //btnSettings.setOnClickListener(null);
     }
 
     @Override
@@ -59,10 +59,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(locationListInt);
                 break;
 
-            case R.id.btnSettings:
+            /*case R.id.btnSettings:
                 Intent settingsIntent = new Intent(this, SettingsActivity.class);
                 startActivity(settingsIntent);
                 break;
+                */
 
         }
     }

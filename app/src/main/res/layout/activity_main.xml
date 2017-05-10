@@ -50,18 +50,6 @@
             style="@style/Widget.AppCompat.Button.Borderless"
             android:textSize="18sp" />
 
-        <com.app.pico.StyledButton
-            android:text="@string/btn_settings"
-            android:layout_width="250dp"
-            android:layout_height="40dp"
-            android:id="@+id/btnSettings"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_marginTop="20dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
-            android:background="@drawable/rounded_button"
-            android:textColor="@color/elementGrey"
-            android:textSize="18sp" />
-
     </LinearLayout>
 
 </RelativeLayout>
