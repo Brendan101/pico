@@ -7,9 +7,12 @@ import android.content.Intent;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.os.ResultReceiver;
+import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,22 +23,19 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.cert.Certificate;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class TrafficService extends IntentService {
-    private static final int STATUS_RUNNING = 1;
-    private static final int STATUS_FINISHED = 2;
-    private static final int STATUS_ERROR = -1;
-    private static final int SLEEP_TIME = 5;
-    private static final int INTERVAL_IN_MILLIS = 1000 * 60 * 5;
-
     private final String API_BASE_URL = "https://maps.googleapis.com/maps/api/directions/";
     private final String RETURN_TYPE = "json";
     private final String API_URL = API_BASE_URL + RETURN_TYPE;
     private final String MODE = "driving";
-    private final String MODEL_TYPE = "pessimistic";
+    private final int INITIAL_WAKE_THRESHOLD_MILLIS = 1000 * 60 * 30;
+    private final int CHECK_INTERVAL = 1000 * 60 * 5;
 
     ApplicationInfo ai;
     private String apiKey;
@@ -63,63 +63,109 @@ public class TrafficService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        final ResultReceiver receiver = intent.getParcelableExtra("receiver");
-        String command = intent.getStringExtra("command");
-        Alarm alarm = (Alarm) intent.getSerializableExtra("alarm");
-        Bundle b = new Bundle();
-        if(command.equals("query")) {
-            receiver.send(STATUS_RUNNING, Bundle.EMPTY);
-            float startLat = db.getLocationByID(alarm.getStartLocationID()).getLatitude();
-            float startLong = db.getLocationByID(alarm.getStartLocationID()).getLongitude();
-            float endLat = db.getLocationByID(alarm.getEndLocationID()).getLatitude();
-            float endLong = db.getLocationByID(alarm.getEndLocationID()).getLongitude();
+        String command = intent.getStringExtra("command");;
+        if(command.equals("initial")) {
+            Alarm alarm = (Alarm) intent.getSerializableExtra("alarm");
+            setAlarm("pessimistic", alarm, command);
 
-            String[] tmp = getDuration(startLat, startLong, endLat, endLong).split(" ");
-            int hourTime = 0;
-            int minTime = 0;
-
-            if (tmp.length > 2) {
-                hourTime = Integer.parseInt(tmp[0]);
-                minTime = Integer.parseInt(tmp[2]);
-            } else {
-                minTime = Integer.parseInt(tmp[0]);
-            }
-
-            Calendar initDepartTime = Calendar.getInstance();
-            initDepartTime.add(Calendar.HOUR, -hourTime);
-            initDepartTime.add(Calendar.MINUTE, -minTime);
-
-            String[] trafficTime = getTraffic(initDepartTime, startLat, startLong, endLat, endLong).split(" ");
-
-            int hourTraffic = 0;
-            int minTraffic = 0;
-
-            if (tmp.length > 2) {
-                hourTraffic = Integer.parseInt(trafficTime[0]);
-                minTraffic = Integer.parseInt(trafficTime[2]);
-            } else {
-                minTraffic = Integer.parseInt(trafficTime[0]);
-            }
-
-            initDepartTime.add(Calendar.HOUR, -(hourTraffic-hourTime));
-            initDepartTime.add(Calendar.MINUTE, -(minTraffic-minTime));
-
-            //TODO return initDepartTime
-            b.putInt("alarmID", alarm.getID());
-            b.putSerializable("departTime", initDepartTime);
-            receiver.send(STATUS_FINISHED, b);
-
-            /*Calendar currTime = Calendar.getInstance();
-            long diff = currTime.getTimeInMillis() - initDepartTime.getTimeInMillis();
-
-
-            if (diff > INTERVAL_IN_MILLIS){
-                // we're done, sound the alarm
-            } else {
-                // set an alarm for INTERVAL_IN_MILLIS later to recheck
-            }*/
+        } else if (command.equals("check")){
+            Alarm alarm = (Alarm) intent.getSerializableExtra("alarm");
+            setAlarm("best_guess", alarm, command);
 
         }
+    }
+
+    private void setAlarm(String model_type, Alarm alarm, String wake_type){
+        float startLat = db.getLocationByID(alarm.getStartLocationID()).getLatitude();
+        float startLong = db.getLocationByID(alarm.getStartLocationID()).getLongitude();
+        float endLat = db.getLocationByID(alarm.getEndLocationID()).getLatitude();
+        float endLong = db.getLocationByID(alarm.getEndLocationID()).getLongitude();
+
+        String[] tmp = getDuration(startLat, startLong, endLat, endLong).split(" ");
+        int hourTime = 0;
+        int minTime = 0;
+
+        if (tmp.length > 2) {
+            hourTime = Integer.parseInt(tmp[0]);
+            minTime = Integer.parseInt(tmp[2]);
+        } else {
+            minTime = Integer.parseInt(tmp[0]);
+        }
+
+        Calendar initDepartTime = Calendar.getInstance();
+        initDepartTime.set(Calendar.SECOND, 0);
+
+        // we have to parse string data into a calendar object because we don't store MM/dd/yyyy
+        // which will default to unix epoch
+        String tmpArrivalTime = alarm.getArrivalTimeAsString();
+        String ampm = tmpArrivalTime.split(" ")[1];
+        String[] rawArrivalTime = tmpArrivalTime.split(" ")[0].split(":");
+
+        Calendar arrivalTime = Calendar.getInstance();
+        arrivalTime.set(Calendar.HOUR, Integer.parseInt(rawArrivalTime[0]));
+        arrivalTime.set(Calendar.MINUTE, Integer.parseInt(rawArrivalTime[1]));
+        arrivalTime.set(Calendar.SECOND, 0);
+
+        if (ampm.equalsIgnoreCase("am")) {
+            arrivalTime.set(Calendar.AM_PM, Calendar.AM);
+        } else {
+            arrivalTime.set(Calendar.AM_PM, Calendar.PM);
+        }
+
+        // if current time is already past the arrival time, set alarm for tomorrow (only on initial creation)
+        // TODO handle edge case where the user needed to depart in the past hit their desired arrival time in the future
+        if (arrivalTime.getTimeInMillis() < initDepartTime.getTimeInMillis() && wake_type.equals("initial")){
+            arrivalTime.add(Calendar.DAY_OF_MONTH, 1);
+        }
+
+        initDepartTime = (Calendar) arrivalTime.clone();
+
+        initDepartTime.add(Calendar.HOUR, -hourTime);
+        initDepartTime.add(Calendar.MINUTE, -minTime);
+
+        String[] trafficTime = getTraffic(initDepartTime, startLat, startLong, endLat, endLong, model_type).split(" ");
+
+        int hourTraffic = 0;
+        int minTraffic = 0;
+
+        if (tmp.length > 2) {
+            hourTraffic = Integer.parseInt(trafficTime[0]);
+            minTraffic = Integer.parseInt(trafficTime[2]);
+        } else {
+            minTraffic = Integer.parseInt(trafficTime[0]);
+        }
+
+        initDepartTime.add(Calendar.HOUR, -(hourTraffic-hourTime));
+        initDepartTime.add(Calendar.MINUTE, -(minTraffic-minTime));
+
+        int prepHour = alarm.getPrepTime()/60;
+        int prepMin = alarm.getPrepTime()%60;
+
+        initDepartTime.add(Calendar.HOUR, -prepHour);
+        initDepartTime.add(Calendar.MINUTE, -prepMin);
+
+        // check if we should alert the user to leave
+        if (initDepartTime.getTimeInMillis() + CHECK_INTERVAL >= Calendar.getInstance().getTimeInMillis()){
+            // TODO the calculated departure time is very close to the current time; wake the user
+            // Might be able to do this by sending a broadcast with a specific id, which will tell our
+            // receiver to execute the alert activity/service
+        } else {
+            Intent setAlarm = new Intent(getApplicationContext(), TempAlarmReceiver.class);
+            setAlarm.putExtra("alarm", alarm);
+            setAlarm.putExtra("command", "alarm");
+            PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getID(), setAlarm, 0);
+
+            if (wake_type.equals("initial")) {
+                // wake up 30 minutes before worst case traffic scenario (+prep time) as predicted by Google
+                alarmManager.set(AlarmManager.RTC_WAKEUP, initDepartTime.getTimeInMillis() + INITIAL_WAKE_THRESHOLD_MILLIS, alarmIntent);
+                Log.i("ALARMSET", initDepartTime.getTime().toString());
+            } else {
+                // wake up 5 minutes later to check traffic again
+                alarmManager.set(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + CHECK_INTERVAL, alarmIntent);
+            }
+        }
+
+
     }
 
     private String getDuration(float startLat, float startLong, float endLat, float endLong){
@@ -129,6 +175,7 @@ public class TrafficService extends IntentService {
                 "mode=" + MODE + "&" +
                 "key=" + apiKey;
 
+        Log.i("REQUEST", requestURL);
         HttpURLConnection conn = null;
         String response = "";
         String duration = "";
@@ -175,16 +222,17 @@ public class TrafficService extends IntentService {
         return duration;
     }
 
-    private String getTraffic(Calendar departTime, float startLat, float startLong, float endLat, float endLong){
+    private String getTraffic(Calendar departTime, float startLat, float startLong, float endLat, float endLong, String model_type){
 
         String requestURL = API_URL + "?" +
                 "origin=" + startLat + "," + startLong + "&" +
                 "destination=" + endLat + "," + endLong + "&" +
                 "departure_time=" + departTime.getTimeInMillis() + "&" +
                 "mode=" + MODE + "&" +
-                "traffic_model=" + MODEL_TYPE + "&" +
+                "traffic_model=" + model_type + "&" +
                 "key=" + apiKey;
 
+        Log.i("REQUEST", requestURL);
 
         HttpURLConnection conn = null;
         String response = "";

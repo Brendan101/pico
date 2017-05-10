@@ -297,7 +297,6 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
-
     @Override
     public void onClick(View view) {
         switch(view.getId()) {
@@ -321,11 +320,13 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
                     alarm.setPrepTime(prepTime);
                     alarm.setArrivalTime(arrivalTime);
 
+                    // TODO: fix these defaults
                     if (startLoc != null) {
                         alarm.setStartLocationID(startLoc.getID());
                     } else{
                         alarm.setStartLocationID(USE_CURRENT_LOC);
                     }
+
                     if (endLoc != null) {
                         alarm.setEndLocationID(endLoc.getID());
                     } else {
@@ -346,6 +347,7 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
                     alarm.setActive(true);
                     alarm.setPrepTime(prepTime);
                     alarm.setArrivalTime(arrivalTime);
+                    // TODO: fix these defaults
                     if (startLoc != null) {
                         alarm.setStartLocationID(startLoc.getID());
                     } else{
@@ -360,6 +362,14 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
                     alarm.setSnoozeTime(snoozeTime);
                     alarm.setSound(sound);
                     db.addAlarm(alarm);
+
+                    // start service to enable alarm
+                    // TODO: check functionality
+                    Intent setAlarm = new Intent(getApplicationContext(), TrafficService.class);
+                    setAlarm.putExtra("command", "initial");
+                    setAlarm.putExtra("alarm", alarm);
+                    getApplicationContext().startService(setAlarm);
+
                     // Route back to Alarm List Activity
                     this.finish();
                 }
