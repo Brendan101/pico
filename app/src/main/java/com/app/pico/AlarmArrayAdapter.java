@@ -1,6 +1,7 @@
 package com.app.pico;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -50,9 +51,15 @@ public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
                 AlarmHolder holder = (AlarmHolder) view.getTag();
                 Alarm alarm = holder.alarm;
                 if(alarm.isActive()) {
+                    //cancel alarm
                     alarm.setActive(false);
+                    Intent setAlarm = new Intent(context, TrafficService.class);
+                    setAlarm.putExtra("command", "cancel");
+                    setAlarm.putExtra("alarm", alarmList.get(position));
+                    context.startService(setAlarm);
                 }
                 else {
+                    //set alarm
                     alarm.setActive(true);
                     Intent setAlarm = new Intent(context, TrafficService.class);
                     setAlarm.putExtra("command", "initial");

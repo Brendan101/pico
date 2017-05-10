@@ -27,7 +27,7 @@
         android:textSize="50sp" />
 
     <ImageView
-        app:srcCompat="@drawable/pico_symbols_bird_hat_500x601"
+        app:srcCompat="@drawable/pico_symbols_bird_sun207x232"
         android:id="@+id/wakeUpImage"
         android:layout_width="125dp"
         android:layout_height="125dp"

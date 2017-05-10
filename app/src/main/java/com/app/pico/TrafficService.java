@@ -72,9 +72,15 @@ public class TrafficService extends IntentService {
             Alarm alarm = (Alarm) intent.getSerializableExtra("alarm");
             setAlarm("best_guess", alarm, command);
 
+        } else if (command.equals("cancel")){
+            Alarm alarm = (Alarm) intent.getSerializableExtra("alarm");
+            Intent startAlarm = new Intent(getApplicationContext(), AlarmReceiver.class);
+            startAlarm.putExtra("alarm", alarm);
+            startAlarm.putExtra("command", "alarm");
+            PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getID(), startAlarm, 0);
+            alarmManager.cancel(alarmIntent);
         }
     }
-
 
 
     private void setAlarm(String model_type, Alarm alarm, String wake_type){

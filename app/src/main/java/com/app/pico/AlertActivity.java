@@ -11,6 +11,7 @@ import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -41,6 +42,7 @@ public class AlertActivity extends AppCompatActivity implements View.OnClickList
 
     PowerManager powerManager;
     PowerManager.WakeLock wakeLock;
+    Window window;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,6 @@ public class AlertActivity extends AppCompatActivity implements View.OnClickList
         snoozeButton = (Button) findViewById(R.id.btnSnooze);
         offButton = (Button) findViewById(R.id.btnOff);
 
-        //TODO get a scaled wakeup image, use it in XML instead of bird_hat
         logoView = (ImageView) findViewById(R.id.wakeUpImage);
 
         intent = getIntent();
@@ -58,11 +59,11 @@ public class AlertActivity extends AppCompatActivity implements View.OnClickList
 
         played = false;
 
-        //so we can wake the phoen up
+        //so we can wake the phone up
         powerManager = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
         wakeLock = powerManager.newWakeLock((PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "AlertActivity");
         //and ignore lock screen
-        Window window = getWindow();
+        window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 
     }
@@ -76,16 +77,10 @@ public class AlertActivity extends AppCompatActivity implements View.OnClickList
         //wake up
         wakeLock.acquire();
 
-        //TODO figure out why sound doesn't play on wakeup
-
         //only play alarm when this activity is created
         if(!played) {
-            //TODO do something like this to get the user-chosen sound
-            //Uri ringURI = alarm.getSound();
-            //for now use default
-            Uri ringURI = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-            ringtone = RingtoneManager.getRingtone(getApplicationContext(), ringURI);
-            ringtone.play();
+            SoundTask makeSound = new SoundTask();
+            makeSound.execute();
             played = true;
         }
     }
@@ -95,7 +90,7 @@ public class AlertActivity extends AppCompatActivity implements View.OnClickList
         super.onPause();
         snoozeButton.setOnClickListener(null);
         offButton.setOnClickListener(null);
-        if(ringtone.isPlaying()){
+        if(!(ringtone == null) && ringtone.isPlaying()){
             ringtone.stop();
         }
     }
@@ -106,6 +101,27 @@ public class AlertActivity extends AppCompatActivity implements View.OnClickList
         wakeLock.release();
     }
 
+    private class SoundTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            //wait for it to be active
+            while (!window.isActive()) {}
+            playSound();
+            return null;
+        }
+
+    }
+
+    private void playSound(){
+        //TODO do something like this to get the user-chosen sound
+        //Uri ringURI = alarm.getSound();
+        //for now use default
+        Uri ringURI = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        ringtone = RingtoneManager.getRingtone(getApplicationContext(), ringURI);
+        ringtone.play();
+    }
+
     @Override
     public void onClick(View v) {
 
@@ -113,7 +129,7 @@ public class AlertActivity extends AppCompatActivity implements View.OnClickList
 
             case R.id.btnSnooze:
 
-                if(ringtone.isPlaying()){
+                if(!(ringtone == null) && ringtone.isPlaying()){
                     ringtone.stop();
                 }
 
@@ -131,7 +147,7 @@ public class AlertActivity extends AppCompatActivity implements View.OnClickList
 
             case R.id.btnOff:
 
-                if(ringtone.isPlaying()){
+                if(!(ringtone == null) && ringtone.isPlaying()){
                     ringtone.stop();
                 }
 
