@@ -610,7 +610,9 @@
                     android:layout_centerVertical="true"
                     android:text="Default"
                     android:textSize="18sp"
-                    android:color="@color/elementGrey" />
+                    android:color="@color/elementGrey"
+                    android:popupBackground="@drawable/dropdown"
+                    android:textAlignment="textEnd" />
             </RelativeLayout>
 
             <LinearLayout
