@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primaryBlue">
@@ -108,7 +109,9 @@
                 android:layout_below="@id/prepTimeRow"
                 android:orientation="horizontal"
                 android:padding="10dp"
-                android:clickable="true">
+                android:clickable="true"
+                android:focusableInTouchMode="true"
+                android:focusable="true">
 
                 <Button
                     android:id="@+id/btnLeftPrepTime"
@@ -225,6 +228,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:text="Alarm Name"
+                    android:textColorHint="@color/elementFadedGrey"
                     android:textSize="18sp" />
 
                 <EditText
@@ -235,8 +239,11 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:background="#00000000"
-                    android:hint="Custom Alarm"
-                    android:textSize="18sp" />
+                    android:hint="New Alarm"
+                    android:textSize="18sp"
+                    android:textAlignment="textEnd"
+                    android:layout_gravity="end"
+                    android:textColor="@color/elementGrey" />
             </RelativeLayout>
 
             <LinearLayout
@@ -249,7 +256,9 @@
                 android:background="@drawable/picker"
                 android:orientation="horizontal"
                 android:padding="10dp"
-                android:clickable="true">
+                android:clickable="true"
+                android:focusableInTouchMode="true"
+                android:focusable="true">
 
                 <Button
                     android:id="@+id/btnLeftTime"
@@ -358,7 +367,9 @@
                 android:orientation="horizontal"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:clickable="true">
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
 
                 <com.app.pico.StyledToggleButton
                     android:id="@+id/sundayToggle"
@@ -475,15 +486,16 @@
                     android:text="Sound"
                     android:textSize="18sp" />
 
-                <com.app.pico.StyledTextView
+                <Spinner
                     android:id="@+id/txtSoundName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:text="Morning Sun"
-                    android:textSize="18sp" />
+                    android:text="Default"
+                    android:textSize="18sp"
+                    android:color="@color/elementGrey" />
             </RelativeLayout>
 
             <LinearLayout
@@ -496,7 +508,9 @@
                 android:background="@drawable/picker"
                 android:orientation="horizontal"
                 android:padding="10dp"
-                android:clickable="true">
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
 
                 <Button
                     android:id="@+id/btnLeftSnoozeTime"
@@ -531,16 +545,18 @@
             <com.app.pico.StyledButton
                 android:id="@+id/saveAlarm"
                 style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_below="@id/sound_row"
                 android:background="@drawable/pico_symbols_submit"
                 android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionMode.Title"
                 android:textColor="@color/primaryWhite"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                />
 
         </RelativeLayout>
     </ScrollView>

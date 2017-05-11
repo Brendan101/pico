@@ -5,27 +5,29 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 
-public class AlarmActivity extends AppCompatActivity implements View.OnClickListener {
+public class AlarmActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private final int START_LOCATION_REQUEST_CODE = 20;
     private final int END_LOCATION_REQUEST_CODE = 21;
     private final int timeIncrement = 5;
     private final int onColor = Color.parseColor("#FDBE69");
     private final int offColor = Color.parseColor("#95999a");
+    private final String DEFAULT_SOUND = "Default";
 
     // TODO decide how to handle default start location
     // default end location should be loaded from global settings?
@@ -42,9 +44,11 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
 
     EditText editAlarmName;
     Button saveBtn, btnLeftPrepTime, btnRightPrepTime, btnLeftSnoozeTime, btnRightSnoozeTime;
-    StyledTextView setPrepTimeView, txtPrepTimePicker, txtRepeatDays, txtSnoozeTime, txtSnoozeTimePicker, txtSoundName, txtArrivalTimePicker, setArrivalTimeView, setStartLocView, setEndLocView;
+    StyledTextView setPrepTimeView, txtPrepTimePicker, txtRepeatDays, txtSnoozeTime, txtSnoozeTimePicker, txtArrivalTimePicker, setArrivalTimeView, setStartLocView, setEndLocView;
     RelativeLayout startLocRow, arrivalTimeRow, endLocRow, prepTimeRow, repeatRow, snoozeRow;
     LinearLayout prepTimePicker, repeatPicker, snoozePicker;
+    Spinner txtSoundName;
+    ArrayAdapter<CharSequence> spinAdapter;
 
     StyledToggleButton suTog, moTog, tuTog, weTog, thTog, frTog, saTog;
     StyledToggleButton[] togArray;
@@ -59,6 +63,7 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
     int prepTime, currPrepTimeVis, currRepeatVis, snoozeTime, currSnoozeTimeVis, currArrivalVis;
     boolean[] daysSelected;
     String[] daysOrdered;
+    String sound;
 
     Handler myHandler = new Handler();
 
@@ -78,7 +83,6 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
         endLocRow = (RelativeLayout) findViewById(R.id.endLocRow);
         setStartLocView = (StyledTextView) findViewById(R.id.setStartLocationView);
         setEndLocView = (StyledTextView) findViewById(R.id.setEndLocationView);
-        txtSoundName = (StyledTextView) findViewById(R.id.txtSoundName);
 
         // Prep Time Row and picker
         prepTimeRow = (RelativeLayout) findViewById(R.id.prepTimeRow);
@@ -102,6 +106,15 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
         thTog = (StyledToggleButton) findViewById(R.id.thursdayToggle);
         frTog = (StyledToggleButton) findViewById(R.id.fridayToggle);
         saTog = (StyledToggleButton) findViewById(R.id.saturdayToggle);
+
+        txtSoundName = (Spinner) findViewById(R.id.txtSoundName);
+        spinAdapter = ArrayAdapter.createFromResource(this,
+                R.array.sounds_array, android.R.layout.simple_spinner_item);
+        spinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        txtSoundName.setAdapter(spinAdapter);
+        txtSoundName.setOnItemSelectedListener(this);
+
+        sound = DEFAULT_SOUND;
 
         // we do this to ensure our days remain in order in the UI
         daysSelected = new boolean[]{false, false, false, false, false, false, false};
@@ -223,7 +236,8 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
             myHandler.post(new AlarmActivity.SnoozeTimePickerRunnable(snoozeTime));
             myHandler.post(new AlarmActivity.SnoozeTextRunnable(snoozeTime));
 
-            txtSoundName.setText(alarm.getSound());
+            int spinnerPosition = spinAdapter.getPosition(alarm.getSound());
+            txtSoundName.setSelection(spinnerPosition);
         }
         else {
             alarm = null;
@@ -297,14 +311,12 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
-
     @Override
     public void onClick(View view) {
         switch(view.getId()) {
             case R.id.saveAlarm:
                 String eventName = editAlarmName.getText().toString();
                 String repeat = Arrays.toString(daysSelected);
-                String sound = txtSoundName.getText().toString();
 
                 Calendar currentDate = Calendar.getInstance();
                 currentDate.set(Calendar.HOUR, arrivalHour);
@@ -321,11 +333,13 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
                     alarm.setPrepTime(prepTime);
                     alarm.setArrivalTime(arrivalTime);
 
+                    // TODO: fix these defaults
                     if (startLoc != null) {
                         alarm.setStartLocationID(startLoc.getID());
                     } else{
                         alarm.setStartLocationID(USE_CURRENT_LOC);
                     }
+
                     if (endLoc != null) {
                         alarm.setEndLocationID(endLoc.getID());
                     } else {
@@ -346,6 +360,7 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
                     alarm.setActive(true);
                     alarm.setPrepTime(prepTime);
                     alarm.setArrivalTime(arrivalTime);
+                    // TODO: fix these defaults
                     if (startLoc != null) {
                         alarm.setStartLocationID(startLoc.getID());
                     } else{
@@ -360,6 +375,14 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
                     alarm.setSnoozeTime(snoozeTime);
                     alarm.setSound(sound);
                     db.addAlarm(alarm);
+
+                    // start service to enable alarm
+                    // TODO: check functionality
+                    Intent setAlarm = new Intent(getApplicationContext(), TrafficService.class);
+                    setAlarm.putExtra("command", "initial");
+                    setAlarm.putExtra("alarm", alarm);
+                    getApplicationContext().startService(setAlarm);
+
                     // Route back to Alarm List Activity
                     this.finish();
                 }
@@ -453,6 +476,17 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
             }
         }
     }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        sound = parent.getItemAtPosition(position).toString();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        sound = DEFAULT_SOUND;
+    }
+
     private class VisibilityRunnable implements Runnable {
         private int _visibility;
         private View _view;

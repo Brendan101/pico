@@ -18,13 +18,13 @@
 
     <ImageButton
         android:id="@+id/addLocationBtn"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="40dp"
         android:scaleType="fitCenter"
         android:background="@android:color/transparent"
         android:src="@drawable/pico_symbols_add"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_height="40dp" />
 
 </RelativeLayout>

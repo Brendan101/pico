@@ -1,6 +1,8 @@
 package com.app.pico;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +18,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class AlarmListActivity extends AppCompatActivity implements AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener {
+
+    final int BROADCAST = 100;
 
     ArrayList<Alarm> alarms;
     DBOperationsClass db;
