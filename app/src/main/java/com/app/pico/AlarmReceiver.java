@@ -53,6 +53,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
                         .setVisibility(Notification.VISIBILITY_PUBLIC);
         // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(context, AlertActivity.class);
+        resultIntent.putExtra("alarm", alarm);
 
         // The stack builder object will contain an artificial back stack for the
         // started Activity.

@@ -108,10 +108,16 @@ public class TrafficService extends IntentService {
         String tmpArrivalTime = alarm.getArrivalTimeAsString();
         String ampm = tmpArrivalTime.split(" ")[1];
         String[] rawArrivalTime = tmpArrivalTime.split(" ")[0].split(":");
+        String tmpHour = rawArrivalTime[0];
+        String tmpMin = rawArrivalTime[1];
+
+        if (tmpMin.length() < 2){
+            tmpMin = "0" + tmpMin;
+        }
 
         Calendar arrivalTime = Calendar.getInstance();
-        arrivalTime.set(Calendar.HOUR, Integer.parseInt(rawArrivalTime[0]));
-        arrivalTime.set(Calendar.MINUTE, Integer.parseInt(rawArrivalTime[1]));
+        arrivalTime.set(Calendar.HOUR, Integer.parseInt(tmpHour));
+        arrivalTime.set(Calendar.MINUTE, Integer.parseInt(tmpMin));
         arrivalTime.set(Calendar.SECOND, 0);
 
         if (ampm.equalsIgnoreCase("am")) {
@@ -152,8 +158,11 @@ public class TrafficService extends IntentService {
         initDepartTime.add(Calendar.HOUR, -prepHour);
         initDepartTime.add(Calendar.MINUTE, -prepMin);
 
+        int arrivalHour = initDepartTime.get(Calendar.HOUR);
+        int arrivalMinute = initDepartTime.get(Calendar.MINUTE);
+
         // check if we should alert the user to leave
-        if (initDepartTime.getTimeInMillis() + CHECK_INTERVAL >= Calendar.getInstance().getTimeInMillis()){
+        if (Calendar.getInstance().getTimeInMillis() + CHECK_INTERVAL >= initDepartTime.getTimeInMillis()){
             //set the alarm off
             Intent startAlarm = new Intent(getApplicationContext(), AlarmReceiver.class);
             startAlarm.putExtra("alarm", alarm);
@@ -172,8 +181,14 @@ public class TrafficService extends IntentService {
 
             if (wake_type.equals("initial")) {
                 // wake up 30 minutes before worst case traffic scenario (+prep time) as predicted by Google
-                alarmManager.set(AlarmManager.RTC_WAKEUP, initDepartTime.getTimeInMillis() + INITIAL_WAKE_THRESHOLD_MILLIS, alarmIntent);
-                Log.i("ALARMSET", initDepartTime.getTime().toString());
+                // or immediately start checking if the condition is already true
+
+                long nextWakeUp = initDepartTime.getTimeInMillis() - INITIAL_WAKE_THRESHOLD_MILLIS;
+                if (nextWakeUp <= Calendar.getInstance().getTimeInMillis()){
+                    nextWakeUp = Calendar.getInstance().getTimeInMillis();
+                }
+
+                alarmManager.set(AlarmManager.RTC_WAKEUP, nextWakeUp, alarmIntent);
             } else {
                 // wake up 5 minutes later to check traffic again
                 alarmManager.set(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + CHECK_INTERVAL, alarmIntent);
