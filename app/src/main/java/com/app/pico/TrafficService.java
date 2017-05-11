@@ -33,7 +33,10 @@ public class TrafficService extends IntentService {
     private final String RETURN_TYPE = "json";
     private final String API_URL = API_BASE_URL + RETURN_TYPE;
     private final String MODE = "driving";
-    private final int INITIAL_WAKE_THRESHOLD_MILLIS = 1000 * 60 * 30;
+    //private final int INITIAL_WAKE_THRESHOLD_MILLIS = 1000 * 60 * 30;
+    //private final int CHECK_INTERVAL = 1000 * 30;
+
+    private final int INITIAL_WAKE_THRESHOLD_MILLIS = 1000 * 60;
     private final int CHECK_INTERVAL = 1000 * 30;
 
     ApplicationInfo ai;
@@ -138,6 +141,10 @@ public class TrafficService extends IntentService {
 
         Log.e("ARRIVALTIME", String.valueOf(initDepartTime.get(Calendar.HOUR) + ":" + String.valueOf(initDepartTime.get(Calendar.MINUTE))));
 
+        int initHour = initDepartTime.get(Calendar.HOUR);
+
+
+
         initDepartTime.add(Calendar.HOUR, -hourTime);
         initDepartTime.add(Calendar.MINUTE, -minTime);
 
@@ -162,6 +169,14 @@ public class TrafficService extends IntentService {
         initDepartTime.add(Calendar.HOUR, -prepHour);
         initDepartTime.add(Calendar.MINUTE, -prepMin);
 
+        if (initHour == 12 || initHour == 0 && initDepartTime.get(Calendar.HOUR) < 12){
+            if (initDepartTime.get(Calendar.AM_PM) == Calendar.PM) {
+                initDepartTime.set(Calendar.AM_PM, Calendar.AM);
+            } else {
+                initDepartTime.set(Calendar.AM_PM, Calendar.PM);
+            }
+        }
+
         Log.e("DEPARTTIME", String.valueOf(initDepartTime.get(Calendar.HOUR) + ":" + String.valueOf(initDepartTime.get(Calendar.MINUTE))));
 
         // check if we should alert the user to leave
@@ -173,6 +188,7 @@ public class TrafficService extends IntentService {
             PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getID(), startAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.cancel(alarmIntent);
             alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), alarmIntent);
+            Log.e("LOG", "alarmoff");
 
         } else {
             //TODO double check this. Above sets off the alarm. This part rechecks traffic until
@@ -194,9 +210,11 @@ public class TrafficService extends IntentService {
                 }
 
                 alarmManager.set(AlarmManager.RTC_WAKEUP, nextWakeUp, alarmIntent);
+                Log.e("LOG", String.valueOf(nextWakeUp));
             } else {
                 // wake up 5 minutes later to check traffic again
                 alarmManager.set(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + CHECK_INTERVAL, alarmIntent);
+                Log.e("LOG", "alarmset");
             }
         }
 

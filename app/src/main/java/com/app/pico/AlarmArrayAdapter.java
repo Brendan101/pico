@@ -83,7 +83,7 @@ public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
     private void setupItem(AlarmHolder alarmHolder)
     {
         alarmHolder.name.setText(alarmHolder.alarm.getEventName());
-        alarmHolder.readyTime.setText(alarmHolder.alarm.getPrepTimeForDisplay());
+        alarmHolder.readyTime.setText(alarmHolder.alarm.getArrivalTimeAsString());
         alarmHolder.active.setChecked(alarmHolder.alarm.isActive());
     }
 
