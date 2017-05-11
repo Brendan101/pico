@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.os.ResultReceiver;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -77,7 +76,7 @@ public class TrafficService extends IntentService {
             Intent startAlarm = new Intent(getApplicationContext(), AlarmReceiver.class);
             startAlarm.putExtra("alarm", alarm);
             startAlarm.putExtra("command", "alarm");
-            PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getID(), startAlarm, 0);
+            PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getID(), startAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.cancel(alarmIntent);
         }
     }
@@ -158,7 +157,7 @@ public class TrafficService extends IntentService {
             Intent startAlarm = new Intent(getApplicationContext(), AlarmReceiver.class);
             startAlarm.putExtra("alarm", alarm);
             startAlarm.putExtra("command", "alarm");
-            PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getID(), startAlarm, 0);
+            PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getID(), startAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), alarmIntent);
 
         } else {
@@ -168,7 +167,7 @@ public class TrafficService extends IntentService {
             Intent setAlarm = new Intent(getApplicationContext(), RecheckTrafficReceiver.class);
             setAlarm.putExtra("alarm", alarm);
             setAlarm.putExtra("command", "alarm");
-            PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getID(), setAlarm, 0);
+            PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getID(), setAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
 
             if (wake_type.equals("initial")) {
                 // wake up 30 minutes before worst case traffic scenario (+prep time) as predicted by Google
@@ -188,7 +187,7 @@ public class TrafficService extends IntentService {
         Intent startAlarm = new Intent(getApplicationContext(), AlarmReceiver.class);
         startAlarm.putExtra("alarm", alarm);
         startAlarm.putExtra("command", "alarm");
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getID(), startAlarm, 0);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getID(), startAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
         //alarm pops up after 10 seconds
         alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, alarmIntent);
     }*/

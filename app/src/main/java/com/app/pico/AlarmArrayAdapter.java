@@ -53,10 +53,10 @@ public class AlarmArrayAdapter extends ArrayAdapter<Alarm> {
                 if(alarm.isActive()) {
                     //cancel alarm
                     alarm.setActive(false);
-                    Intent setAlarm = new Intent(context, TrafficService.class);
-                    setAlarm.putExtra("command", "cancel");
-                    setAlarm.putExtra("alarm", alarmList.get(position));
-                    context.startService(setAlarm);
+                    Intent cancelAlarm = new Intent(context, TrafficService.class);
+                    cancelAlarm.putExtra("command", "cancel");
+                    cancelAlarm.putExtra("alarm", alarmList.get(position));
+                    context.startService(cancelAlarm);
                 }
                 else {
                     //set alarm

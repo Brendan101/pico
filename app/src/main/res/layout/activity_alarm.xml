@@ -475,15 +475,16 @@
                     android:text="Sound"
                     android:textSize="18sp" />
 
-                <com.app.pico.StyledTextView
+                <Spinner
                     android:id="@+id/txtSoundName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:text="Morning Sun"
-                    android:textSize="18sp" />
+                    android:text="Default"
+                    android:textSize="18sp"
+                    android:color="@color/elementGrey" />
             </RelativeLayout>
 
             <LinearLayout
