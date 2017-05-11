@@ -35,7 +35,7 @@ public class TrafficService extends IntentService {
     private final String API_URL = API_BASE_URL + RETURN_TYPE;
     private final String MODE = "driving";
     private final int INITIAL_WAKE_THRESHOLD_MILLIS = 1000 * 60 * 30;
-    private final int CHECK_INTERVAL = 1000 * 60 * 5;
+    private final int CHECK_INTERVAL = 1000 * 30;
 
     ApplicationInfo ai;
     private String apiKey;
@@ -129,10 +129,15 @@ public class TrafficService extends IntentService {
         // if current time is already past the arrival time, set alarm for tomorrow (only on initial creation)
         // TODO handle edge case where the user needed to depart in the past hit their desired arrival time in the future
         if (arrivalTime.getTimeInMillis() < initDepartTime.getTimeInMillis() && wake_type.equals("initial")){
+            Log.e("EXTRADAY", "additional day");
             arrivalTime.add(Calendar.DAY_OF_MONTH, 1);
         }
 
         initDepartTime = (Calendar) arrivalTime.clone();
+
+        Log.e("ALARMID", String.valueOf(alarm.getID()));
+
+        Log.e("ARRIVALTIME", String.valueOf(initDepartTime.get(Calendar.HOUR) + ":" + String.valueOf(initDepartTime.get(Calendar.MINUTE))));
 
         initDepartTime.add(Calendar.HOUR, -hourTime);
         initDepartTime.add(Calendar.MINUTE, -minTime);
@@ -158,13 +163,16 @@ public class TrafficService extends IntentService {
         initDepartTime.add(Calendar.HOUR, -prepHour);
         initDepartTime.add(Calendar.MINUTE, -prepMin);
 
+        Log.e("DEPARTTIME", String.valueOf(initDepartTime.get(Calendar.HOUR) + ":" + String.valueOf(initDepartTime.get(Calendar.MINUTE))));
+
         // check if we should alert the user to leave
         if (Calendar.getInstance().getTimeInMillis() + CHECK_INTERVAL >= initDepartTime.getTimeInMillis()){
             //set the alarm off
             Intent startAlarm = new Intent(getApplicationContext(), AlarmReceiver.class);
             startAlarm.putExtra("alarm", alarm);
             startAlarm.putExtra("command", "alarm");
-            PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getID(), startAlarm, 0);
+            PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getID(), startAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
+            alarmManager.cancel(alarmIntent);
             alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), alarmIntent);
 
         } else {
@@ -174,7 +182,8 @@ public class TrafficService extends IntentService {
             Intent setAlarm = new Intent(getApplicationContext(), RecheckTrafficReceiver.class);
             setAlarm.putExtra("alarm", alarm);
             setAlarm.putExtra("command", "alarm");
-            PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getID(), setAlarm, 0);
+            PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getID(), setAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
+            alarmManager.cancel(alarmIntent);
 
             if (wake_type.equals("initial")) {
                 // wake up 30 minutes before worst case traffic scenario (+prep time) as predicted by Google
