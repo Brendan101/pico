@@ -21,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="100dp"
+        android:fillViewport="true"
         android:layout_marginTop="80dp">
 
         <RelativeLayout
@@ -291,7 +292,8 @@
                 android:layout_below="@id/arrivalTimeRow"
                 android:background="@drawable/picker"
                 android:orientation="horizontal"
-                android:padding="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:gravity="center"
                 android:clickable="true"
                 android:focusableInTouchMode="true"
@@ -333,12 +335,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:id="@+id/layoutHour"
-                    android:padding="10dp">
+                    android:id="@+id/layoutHour">
 
                     <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         app:srcCompat="@drawable/pico_symbols_up_arrow"
                         android:id="@+id/btnHourUp"
                         android:background="@android:color/transparent" />
@@ -354,8 +355,8 @@
                         android:text="12" />
 
                     <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         app:srcCompat="@drawable/pico_symbols_down_arrow"
                         android:id="@+id/btnHourDown"
                         android:background="@android:color/transparent"/>
@@ -375,12 +376,11 @@
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:padding="10dp">
+                    android:layout_centerHorizontal="true">
 
                     <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         app:srcCompat="@drawable/pico_symbols_up_arrow"
                         android:id="@+id/btnMinuteUp"
                         android:background="@android:color/transparent" />
@@ -396,8 +396,8 @@
                         android:text="00" />
 
                     <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         app:srcCompat="@drawable/pico_symbols_down_arrow"
                         android:id="@+id/btnMinuteDown"
                         android:background="@android:color/transparent" />
@@ -407,12 +407,11 @@
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:padding="10dp">
+                    android:layout_alignParentRight="true">
 
                     <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         app:srcCompat="@drawable/pico_symbols_up_arrow"
                         android:id="@+id/btnAMPMUp"
                         android:background="@android:color/transparent" />
@@ -429,8 +428,8 @@
                         android:text="AM" />
 
                     <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         app:srcCompat="@drawable/pico_symbols_down_arrow"
                         android:id="@+id/btnAMPMDown"
                         android:background="@android:color/transparent" />
