@@ -27,9 +27,10 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
         if (command.equals("alarm")) {
 
+            Alarm alarm = (Alarm) intent.getExtras().getSerializable("alarm");
             Intent alarmIntent = new Intent(context, AlertActivity.class);
             alarmIntent.putExtra("command", "check");
-            alarmIntent.putExtra("alarm", intent.getExtras().getSerializable("alarm"));
+            alarmIntent.putExtra("alarm", alarm);
             alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             displayNotification(context, alarm);
             context.startActivity(alarmIntent);
