@@ -1,20 +1,26 @@
 package com.app.pico;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -44,7 +50,9 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
 
     EditText editAlarmName;
     Button saveBtn, btnLeftPrepTime, btnRightPrepTime, btnLeftSnoozeTime, btnRightSnoozeTime;
-    StyledTextView setPrepTimeView, txtPrepTimePicker, txtRepeatDays, txtSnoozeTime, txtSnoozeTimePicker, txtArrivalTimePicker, setArrivalTimeView, setStartLocView, setEndLocView;
+    StyledTextView setPrepTimeView, txtPrepTimePicker, txtRepeatDays, txtSnoozeTime, txtSnoozeTimePicker;
+    StyledTextView txtArrivalTimePicker, setArrivalTimeView, setStartLocView, setEndLocView;
+    StyledTextView txtHour, txtMin, txtAMPM;
     RelativeLayout startLocRow, arrivalTimeRow, endLocRow, prepTimeRow, repeatRow, snoozeRow;
     LinearLayout prepTimePicker, repeatPicker, snoozePicker;
     Spinner txtSoundName;
@@ -54,7 +62,8 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
     StyledToggleButton[] togArray;
 
     LinearLayout arrivePicker;
-    Button btnLeftTimeDec, btnRightTimeInc;
+    ImageButton btnHourUp, btnHourDown, btnMinUp, btnMinDown, btnAMPMUp, btnAMPMDown;
+    Calendar arrivalTimeCal = Calendar.getInstance();
 
     Alarm alarm;
 
@@ -75,7 +84,10 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
 
         alarmHeader = (StyledTextHeader) findViewById(R.id.singleAlarmHeader);
         setArrivalTimeView = (StyledTextView) findViewById(R.id.setArrivalTimeView);
-        txtArrivalTimePicker = (StyledTextView) findViewById(R.id.txtArrivalTimePicker);
+        //txtArrivalTimePicker = (StyledTextView) findViewById(R.id.txtArrivalTimePicker);
+        txtHour = (StyledTextView) findViewById(R.id.txtHour);
+        txtMin = (StyledTextView) findViewById(R.id.txtMinute);
+        txtAMPM = (StyledTextView) findViewById(R.id.txtAMPM);
 
         editAlarmName = (EditText) findViewById(R.id.editAlarmName);
         saveBtn = (Button) findViewById(R.id.saveAlarm);
@@ -132,8 +144,14 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
         currSnoozeTimeVis = View.GONE;
         snoozeTime = 5;
 
-        btnLeftTimeDec = (Button) findViewById(R.id.btnLeftTime);
-        btnRightTimeInc = (Button) findViewById(R.id.btnRightTime);
+        btnHourUp = (ImageButton) findViewById(R.id.btnHourUp);
+        btnHourDown = (ImageButton) findViewById(R.id.btnHourDown);
+        btnMinUp = (ImageButton) findViewById(R.id.btnMinuteUp);
+        btnMinDown = (ImageButton) findViewById(R.id.btnMinuteDown);
+        btnAMPMUp = (ImageButton) findViewById(R.id.btnAMPMUp);
+        btnAMPMDown = (ImageButton) findViewById(R.id.btnAMPMDown);
+        currArrivalVis = View.GONE;
+        arrivalTimeCal = Calendar.getInstance();
         arrivalTimeRow = (RelativeLayout) findViewById(R.id.arrivalTimeRow);
 
         arrivePicker = (LinearLayout) findViewById(R.id.arrivePicker);
@@ -174,7 +192,6 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
         myHandler.post(new AlarmActivity.VisibilityRunnable(View.GONE, snoozePicker));
         myHandler.post(new AlarmActivity.VisibilityRunnable(View.GONE, arrivePicker));
 
-        currArrivalVis = View.GONE;
 
         Bundle intentData = getIntent().getExtras();
 
@@ -188,7 +205,6 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
             myHandler.post(new AlarmActivity.PrepTimePickerRunnable(prepTime));
             myHandler.post(new AlarmActivity.PrepTimeTextRunnable(prepTime));
 
-            setArrivalTimeView.setText(alarm.getArrivalTimeAsString());
             editAlarmName.setText(alarm.getEventName());
 
             if (alarm.getStartLocationID() > 0){
@@ -218,15 +234,15 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
             }
             myHandler.post(new AlarmActivity.RepeatRunnable(daysSelected));
 
-            Calendar cal = Calendar.getInstance();
             SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a");
             try {
-                cal.setTime(formatter.parse(alarm.getArrivalTimeAsString()));
-                arrivalHour = cal.get(Calendar.HOUR);
-                arrivalMinute = cal.get(Calendar.MINUTE);
-                bm = cal.get(Calendar.AM_PM);
+                arrivalTimeCal.setTime(formatter.parse(alarm.getArrivalTimeAsString()));
+                arrivalHour = arrivalTimeCal.get(Calendar.HOUR);
+                arrivalMinute = arrivalTimeCal.get(Calendar.MINUTE);
+                bm = arrivalTimeCal.get(Calendar.AM_PM);
 
-                myHandler.post(new ArrivalPickerRunnable(arrivalHour, arrivalMinute));
+                myHandler.post(new ArrivalPickerRunnable(arrivalHour, arrivalMinute, bm));
+                myHandler.post(new ArrivalTextRunnable(arrivalHour, arrivalMinute, bm));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -247,6 +263,7 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
 
             Calendar currentDate = Calendar.getInstance();
             currentDate.add(Calendar.DATE, 1);
+            myHandler.post(new ArrivalPickerRunnable(currentDate.get(Calendar.HOUR), currentDate.get(Calendar.MINUTE), currentDate.get(Calendar.AM_PM)));
             String defaultArrivalTime = formatter.format(currentDate.getTime());
             setArrivalTimeView.setText(defaultArrivalTime);
 
@@ -255,6 +272,15 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
             bm = currentDate.get(Calendar.AM_PM);
 
         }
+
+
+        // onclick listeners for time dropdown
+        btnHourUp.setOnClickListener(this);
+        btnHourDown.setOnClickListener(this);
+        btnMinUp.setOnClickListener(this);
+        btnMinDown.setOnClickListener(this);
+        btnAMPMUp.setOnClickListener(this);
+        btnAMPMDown.setOnClickListener(this);
 
         arrivalTimeRow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -265,50 +291,12 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
                 } else {
                     myHandler.post(new VisibilityRunnable(View.GONE, arrivePicker));
                     currArrivalVis = View.GONE;
-                    myHandler.post(new ArrivalTextRunnable(arrivalHour, arrivalMinute));
                 }
 
             }
         });
 
-        btnLeftTimeDec.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                if (arrivalMinute > 0) {
-                    arrivalMinute -= 1;
-                    }
-                else {
-                    if(arrivalHour > 0){arrivalHour -= 1;}
-                    else {
-                        arrivalHour = 11;
-                        if (bm == Calendar.AM){bm = Calendar.PM;}
-                        else {bm = Calendar.AM;}
-                        }
-                    arrivalMinute = 59;
-                }
-                myHandler.post(new ArrivalPickerRunnable(arrivalHour, arrivalMinute));
 
-            }
-        });
-
-        btnRightTimeInc.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                if (arrivalMinute < 59) {
-                    arrivalMinute += 1;
-                }
-                else {
-                    if(arrivalHour < 11){arrivalHour += 1;}
-                    else {arrivalHour = 0;
-                        if (bm == Calendar.AM){bm = Calendar.PM;}
-                        else {bm = Calendar.AM;}
-                    }
-                    arrivalMinute = 0;
-                }
-                myHandler.post(new ArrivalPickerRunnable( arrivalHour, arrivalMinute));
-
-            }
-        });
     }
 
     @Override
@@ -318,12 +306,8 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
                 String eventName = editAlarmName.getText().toString();
                 String repeat = Arrays.toString(daysSelected);
 
-                Calendar currentDate = Calendar.getInstance();
-                currentDate.set(Calendar.HOUR, arrivalHour);
-                currentDate.set(Calendar.MINUTE, arrivalMinute);
-                currentDate.set(Calendar.AM_PM, bm);
                 SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a");
-                String arrivalTime = formatter.format(currentDate.getTime());
+                String arrivalTime = formatter.format(arrivalTimeCal.getTime());
 
                 // TODO: Pop up if there's no Alarm Name
                 if(alarm != null) {
@@ -336,21 +320,36 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
                     // TODO: fix these defaults
                     if (startLoc != null) {
                         alarm.setStartLocationID(startLoc.getID());
-                    } else{
-                        alarm.setStartLocationID(USE_CURRENT_LOC);
                     }
 
                     if (endLoc != null) {
                         alarm.setEndLocationID(endLoc.getID());
-                    } else {
-                        alarm.setEndLocationID(USE_DEFAULT_LOC);
                     }
+
                     alarm.setRepeat(repeat);
                     alarm.setSnoozeTime(snoozeTime);
                     alarm.setSound(sound);
-                    db.updateAlarm(alarm);
-                    // Route back to Alarm List Activity
-                    this.finish();
+
+                    // Route back to Alarm List Activity if all values properly filled out
+                    if (startLoc == null){
+                        myHandler.post(new ToastRunnable("You must enter a start location!"));
+                    } else if (endLoc == null){
+                        myHandler.post(new ToastRunnable("You must enter an end location!"));
+                    } else if (eventName.isEmpty()){
+                        myHandler.post((new ToastRunnable("You must enter an alarm name!")));
+                        editAlarmName.requestFocus();
+                    } else {
+                        if (alarm.isActive()){
+                            // start service to enable alarm
+                            Intent setAlarm = new Intent(getApplicationContext(), TrafficService.class);
+                            setAlarm.putExtra("command", "initial");
+                            setAlarm.putExtra("alarm", alarm);
+                            getApplicationContext().startService(setAlarm);
+                        }
+
+                        db.updateAlarm(alarm);
+                        this.finish();
+                    }
                 }
                 else {
                     // Create a new alarm and store to db
@@ -363,28 +362,36 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
                     // TODO: fix these defaults
                     if (startLoc != null) {
                         alarm.setStartLocationID(startLoc.getID());
-                    } else{
-                        alarm.setStartLocationID(USE_CURRENT_LOC);
                     }
                     if (endLoc != null) {
                         alarm.setEndLocationID(endLoc.getID());
-                    } else {
-                        alarm.setEndLocationID(USE_DEFAULT_LOC);
                     }
                     alarm.setRepeat(repeat);
                     alarm.setSnoozeTime(snoozeTime);
                     alarm.setSound(sound);
-                    db.addAlarm(alarm);
-
-                    // start service to enable alarm
-                    // TODO: check functionality
-                    Intent setAlarm = new Intent(getApplicationContext(), TrafficService.class);
-                    setAlarm.putExtra("command", "initial");
-                    setAlarm.putExtra("alarm", alarm);
-                    getApplicationContext().startService(setAlarm);
 
                     // Route back to Alarm List Activity
-                    this.finish();
+                    if (startLoc == null){
+                        myHandler.post(new ToastRunnable("You must enter a start location!"));
+                        alarm = null;
+                    } else if (endLoc == null){
+                        myHandler.post(new ToastRunnable("You must enter an end location!"));
+                        alarm = null;
+                    } else if (eventName.isEmpty()){
+                        myHandler.post((new ToastRunnable("You must enter an alarm name!")));
+                        editAlarmName.requestFocus();
+                        alarm = null;
+                    } else {
+                        // start service to enable alarm
+                        Intent setAlarm = new Intent(getApplicationContext(), TrafficService.class);
+                        setAlarm.putExtra("command", "initial");
+                        setAlarm.putExtra("alarm", alarm);
+                        getApplicationContext().startService(setAlarm);
+
+                        db.addAlarm(alarm);
+                        this.finish();
+                    }
+
                 }
                 break;
             case R.id.startLocRow:
@@ -451,6 +458,45 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
                 myHandler.post(new AlarmActivity.SnoozeTimePickerRunnable(snoozeTime));
                 myHandler.post(new AlarmActivity.SnoozeTextRunnable(snoozeTime));
                 break;
+            case R.id.btnHourUp:
+                arrivalTimeCal.add(Calendar.HOUR, 1);
+                myHandler.post(new ArrivalPickerRunnable(arrivalTimeCal.get(Calendar.HOUR), arrivalTimeCal.get(Calendar.MINUTE), arrivalTimeCal.get(Calendar.AM_PM)));
+                myHandler.post(new ArrivalTextRunnable(arrivalTimeCal.get(Calendar.HOUR), arrivalTimeCal.get(Calendar.MINUTE), arrivalTimeCal.get(Calendar.AM_PM)));
+                break;
+            case R.id.btnHourDown:
+                arrivalTimeCal.add(Calendar.HOUR, -1);
+                myHandler.post(new ArrivalPickerRunnable(arrivalTimeCal.get(Calendar.HOUR), arrivalTimeCal.get(Calendar.MINUTE), arrivalTimeCal.get(Calendar.AM_PM)));
+                myHandler.post(new ArrivalTextRunnable(arrivalTimeCal.get(Calendar.HOUR), arrivalTimeCal.get(Calendar.MINUTE), arrivalTimeCal.get(Calendar.AM_PM)));
+                break;
+            case R.id.btnMinuteUp:
+                arrivalTimeCal.add(Calendar.MINUTE, 1);
+                myHandler.post(new ArrivalPickerRunnable(arrivalTimeCal.get(Calendar.HOUR), arrivalTimeCal.get(Calendar.MINUTE), arrivalTimeCal.get(Calendar.AM_PM)));
+                myHandler.post(new ArrivalTextRunnable(arrivalTimeCal.get(Calendar.HOUR), arrivalTimeCal.get(Calendar.MINUTE), arrivalTimeCal.get(Calendar.AM_PM)));
+                break;
+            case R.id.btnMinuteDown:
+                arrivalTimeCal.add(Calendar.MINUTE, -1);
+                myHandler.post(new ArrivalPickerRunnable(arrivalTimeCal.get(Calendar.HOUR), arrivalTimeCal.get(Calendar.MINUTE), arrivalTimeCal.get(Calendar.AM_PM)));
+                myHandler.post(new ArrivalTextRunnable(arrivalTimeCal.get(Calendar.HOUR), arrivalTimeCal.get(Calendar.MINUTE), arrivalTimeCal.get(Calendar.AM_PM)));
+                break;
+            case R.id.btnAMPMUp:
+                if (arrivalTimeCal.get(Calendar.AM_PM) == Calendar.AM){
+                    arrivalTimeCal.set(Calendar.AM_PM, Calendar.PM);
+                } else {
+                    arrivalTimeCal.set(Calendar.AM_PM, Calendar.AM);
+                }
+                myHandler.post(new ArrivalPickerRunnable(arrivalTimeCal.get(Calendar.HOUR), arrivalTimeCal.get(Calendar.MINUTE), arrivalTimeCal.get(Calendar.AM_PM)));
+                myHandler.post(new ArrivalTextRunnable(arrivalTimeCal.get(Calendar.HOUR), arrivalTimeCal.get(Calendar.MINUTE), arrivalTimeCal.get(Calendar.AM_PM)));
+                break;
+            case R.id.btnAMPMDown:
+                if (arrivalTimeCal.get(Calendar.AM_PM) == Calendar.AM){
+                    arrivalTimeCal.set(Calendar.AM_PM, Calendar.PM);
+                } else {
+                    arrivalTimeCal.set(Calendar.AM_PM, Calendar.AM);
+                }
+                myHandler.post(new ArrivalPickerRunnable(arrivalTimeCal.get(Calendar.HOUR), arrivalTimeCal.get(Calendar.MINUTE), arrivalTimeCal.get(Calendar.AM_PM)));
+                myHandler.post(new ArrivalTextRunnable(arrivalTimeCal.get(Calendar.HOUR), arrivalTimeCal.get(Calendar.MINUTE), arrivalTimeCal.get(Calendar.AM_PM)));
+                break;
+
         }
     }
 
@@ -505,7 +551,7 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
     private class UpdateLocationRunnable implements Runnable{
         private String _newLoc;
         private TextView _view;
-        
+
         public UpdateLocationRunnable(String newLoc, TextView view){
             this._newLoc = newLoc;
             this._view = view;
@@ -520,11 +566,13 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
     private class ArrivalPickerRunnable implements Runnable{
         private int _arrivalHour;
         private int _arrivalMinute;
+        private int _bm;
 
-        public ArrivalPickerRunnable(int arrivalHour, int arrivalMinute){
+        public ArrivalPickerRunnable(int arrivalHour, int arrivalMinute, int bm){
 
             this._arrivalHour = arrivalHour;
             this._arrivalMinute = arrivalMinute;
+            this._bm = bm;
             if(this._arrivalHour == 0){this._arrivalHour  = 12;}
         }
 
@@ -537,18 +585,22 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
                 minutes = "0" + minutes;
             }
 
-            txtArrivalTimePicker.setText(hours + ":"+ minutes +" "+ ampm[bm]);
+            txtHour.setText(hours);
+            txtMin.setText(minutes);
+            txtAMPM.setText(ampm[this._bm]);
         }
     }
 
     private class ArrivalTextRunnable implements Runnable{
         private int _arrivalHour;
         private int _arrivalMinute;
+        private int _bm;
 
 
-        public ArrivalTextRunnable(int arrivalHour, int arrivalMinute){
+        public ArrivalTextRunnable(int arrivalHour, int arrivalMinute, int bm){
             this._arrivalHour = arrivalHour;
             this._arrivalMinute = arrivalMinute;
+            this._bm = bm;
             if(this._arrivalHour == 0){this._arrivalHour  = 12;}
 
         }
@@ -562,7 +614,7 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
                 minutes = "0" + minutes;
             }
 
-            setArrivalTimeView.setText(hours + ":"+ minutes +" "+ ampm[bm]);}
+            setArrivalTimeView.setText(hours + ":"+ minutes +" "+ ampm[this._bm]);}
     }
 
     private class PrepTimePickerRunnable implements Runnable{
@@ -674,6 +726,19 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
             }
 
             txtSnoozeTimePicker.setText(hours+":"+minutes);
+        }
+    }
+
+    private class ToastRunnable implements Runnable {
+        private String _toast_text;
+
+        public ToastRunnable(String toast_text){
+            this._toast_text = toast_text;
+        }
+
+        @Override
+        public void run() {
+            Toast.makeText(getApplicationContext(), this._toast_text, Toast.LENGTH_SHORT).show();
         }
     }
 

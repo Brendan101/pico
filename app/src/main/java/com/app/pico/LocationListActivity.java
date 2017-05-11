@@ -79,7 +79,7 @@ public class LocationListActivity extends AppCompatActivity implements AdapterVi
 
     private void populateLocationList() {
         locations = db.getAllLocations();
-        if (parentIntName.equals("alarm") && locationType.equals("start")){
+        /*if (parentIntName.equals("alarm") && locationType.equals("start")){
             //TODO temp to simulate current loc loaded from db
             Location tmpDefault = new Location();
             tmpDefault.setID(-1);
@@ -95,7 +95,7 @@ public class LocationListActivity extends AppCompatActivity implements AdapterVi
             tmpDefault.setLongitude(0);
             tmpDefault.setLocationName("Default Location");
             locations.add(0, tmpDefault);
-        }
+        }*/
         adapter = new LocationArrayAdapter(LocationListActivity.this, locations);
         locationListView.setAdapter(adapter);
     }
