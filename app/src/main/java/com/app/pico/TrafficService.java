@@ -158,9 +158,6 @@ public class TrafficService extends IntentService {
         initDepartTime.add(Calendar.HOUR, -prepHour);
         initDepartTime.add(Calendar.MINUTE, -prepMin);
 
-        int arrivalHour = initDepartTime.get(Calendar.HOUR);
-        int arrivalMinute = initDepartTime.get(Calendar.MINUTE);
-
         // check if we should alert the user to leave
         if (Calendar.getInstance().getTimeInMillis() + CHECK_INTERVAL >= initDepartTime.getTimeInMillis()){
             //set the alarm off
