@@ -4,30 +4,27 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.PowerManager;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import java.io.File;
-
 public class AlertActivity extends AppCompatActivity implements View.OnClickListener{
 
-    public static final long MIN_IN_MILLIS = 60000;
+    public static final long MIN_IN_MILLIS = 60 * 1000;
+    public static final String BUZZER = "Buzzer";
+    public static final String CHURCH_CHIME = "Church Chime";
+    public static final String MEADOWLARK = "Meadowlark";
+    public static final String POLICE_SIREN = "Police Siren";
 
     Button snoozeButton;
     Button offButton;
@@ -37,7 +34,7 @@ public class AlertActivity extends AppCompatActivity implements View.OnClickList
     Intent intent;
     Alarm alarm;
 
-    Ringtone ringtone;
+    MediaPlayer mPlayer;
     boolean played;
 
     PowerManager powerManager;
@@ -90,8 +87,8 @@ public class AlertActivity extends AppCompatActivity implements View.OnClickList
         super.onPause();
         snoozeButton.setOnClickListener(null);
         offButton.setOnClickListener(null);
-        if(!(ringtone == null) && ringtone.isPlaying()){
-            ringtone.stop();
+        if(!(mPlayer == null) && mPlayer.isPlaying()){
+            mPlayer.stop();
         }
     }
 
@@ -114,12 +111,33 @@ public class AlertActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void playSound(){
-        //TODO do something like this to get the user-chosen sound
-        //Uri ringURI = alarm.getSound();
-        //for now use default
-        Uri ringURI = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        ringtone = RingtoneManager.getRingtone(getApplicationContext(), ringURI);
-        ringtone.play();
+
+        String sound = alarm.getSound();
+
+        //play default alarm if no sound was chosen
+        Uri defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        mPlayer = MediaPlayer.create(getApplicationContext(), defaultSound);
+
+        switch(sound){
+
+            case BUZZER:
+                mPlayer = MediaPlayer.create(getApplicationContext(), R.raw.buzzer);
+                break;
+
+            case CHURCH_CHIME:
+                mPlayer = MediaPlayer.create(getApplicationContext(), R.raw.church_chime);
+                break;
+
+            case MEADOWLARK:
+                mPlayer = MediaPlayer.create(getApplicationContext(), R.raw.meadowlark);
+                break;
+
+            case POLICE_SIREN:
+                mPlayer = MediaPlayer.create(getApplicationContext(), R.raw.police_siren);
+                break;
+        }
+
+        mPlayer.start();
     }
 
     @Override
@@ -129,8 +147,8 @@ public class AlertActivity extends AppCompatActivity implements View.OnClickList
 
             case R.id.btnSnooze:
 
-                if(!(ringtone == null) && ringtone.isPlaying()){
-                    ringtone.stop();
+                if(!(mPlayer == null) && mPlayer.isPlaying()){
+                    mPlayer.stop();
                 }
 
                 //Make intent to the broadcast receiver again after snooze time has passed
@@ -139,7 +157,6 @@ public class AlertActivity extends AppCompatActivity implements View.OnClickList
                 setAlarm.putExtra("command", "alarm");
                 PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), alarm.getID(), setAlarm, 0);
                 AlarmManager myAlarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-                Log.d("Snooze", Integer.toString(alarm.getSnoozeTime()));
                 myAlarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + alarm.getSnoozeTime() * MIN_IN_MILLIS, alarmIntent);
 
                 finish();
@@ -147,9 +164,13 @@ public class AlertActivity extends AppCompatActivity implements View.OnClickList
 
             case R.id.btnOff:
 
-                if(!(ringtone == null) && ringtone.isPlaying()){
-                    ringtone.stop();
+                if(!(mPlayer == null) && mPlayer.isPlaying()){
+                    mPlayer.stop();
                 }
+
+
+                //TODO set up repeat. Just add a number of days here and call traffic service with new time
+                //repeat is a array of bools Su-Sa (cast it from string)
 
                 finish();
                 break;

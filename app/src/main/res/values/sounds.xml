@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="sounds_array">
-        <item>Morning Flower</item>
-        <item>Paper Guitar</item>
-        <item>Soft Chimes</item>
-        <item>Warm Greetings</item>
+        <item>Default</item>
+        <item>Buzzer</item>
+        <item>Church Chime</item>
+        <item>Meadowlark</item>
+        <item>Police Siren</item>
     </string-array>
 </resources>
